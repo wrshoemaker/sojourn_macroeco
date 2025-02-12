@@ -1,0 +1,1391 @@
+﻿sample_name,mgrast_id,body_habitat,body_site,sex
+Unique name or id of the sample the library is derived from,,original body habitat where the sample was obtained from,name of body site where the sample was obtained fromhttp://bioportal.bioontology.org/visualize/44507,physical sex of the host
+L1S10,mge35697,UBERON:gut,UBERON:feces,female
+L1S101,mge35093,UBERON:gut,UBERON:feces,female
+L1S102,mge35249,UBERON:gut,UBERON:feces,female
+L1S103,mge36041,UBERON:gut,UBERON:feces,female
+L1S104,mge36247,UBERON:gut,UBERON:feces,female
+L1S106,mge35454,UBERON:gut,UBERON:feces,female
+L1S107,mge35305,UBERON:gut,UBERON:feces,female
+L1S109,mge35782,UBERON:gut,UBERON:feces,female
+L1S11,mge35375,UBERON:gut,UBERON:feces,female
+L1S113,mge35669,UBERON:gut,UBERON:feces,female
+L1S116,mge35689,UBERON:gut,UBERON:feces,female
+L1S117,mge35364,UBERON:gut,UBERON:feces,female
+L1S118,mge36923,UBERON:gut,UBERON:feces,female
+L1S119,mge35339,UBERON:gut,UBERON:feces,female
+L1S12,mge35742,UBERON:gut,UBERON:feces,female
+L1S120,mge35574,UBERON:gut,UBERON:feces,female
+L1S122,mge35726,UBERON:gut,UBERON:feces,female
+L1S123,mge36248,UBERON:gut,UBERON:feces,female
+L1S124,mge36106,UBERON:gut,UBERON:feces,female
+L1S125,mge34892,UBERON:gut,UBERON:feces,female
+L1S126,mge36286,UBERON:gut,UBERON:feces,female
+L1S127,mge35577,UBERON:gut,UBERON:feces,female
+L1S129,mge36141,UBERON:gut,UBERON:feces,female
+L1S13,mge35890,UBERON:gut,UBERON:feces,female
+L1S131,mge36376,UBERON:gut,UBERON:feces,female
+L1S132,mge34866,UBERON:gut,UBERON:feces,female
+L1S133,mge36501,UBERON:gut,UBERON:feces,male
+L1S136,mge36463,UBERON:gut,UBERON:feces,male
+L1S137,mge35354,UBERON:gut,UBERON:feces,male
+L1S139,mge36518,UBERON:gut,UBERON:feces,male
+L1S14,mge35754,UBERON:gut,UBERON:feces,female
+L1S140,mge35181,UBERON:gut,UBERON:feces,male
+L1S141,mge35405,UBERON:gut,UBERON:feces,male
+L1S142,mge35790,UBERON:gut,UBERON:feces,male
+L1S143,mge35811,UBERON:gut,UBERON:feces,male
+L1S144,mge36045,UBERON:gut,UBERON:feces,male
+L1S145,mge36545,UBERON:gut,UBERON:feces,male
+L1S146,mge35588,UBERON:gut,UBERON:feces,male
+L1S147,mge36278,UBERON:gut,UBERON:feces,male
+L1S148,mge35736,UBERON:gut,UBERON:feces,male
+L1S149,mge34879,UBERON:gut,UBERON:feces,male
+L1S150,mge35240,UBERON:gut,UBERON:feces,male
+L1S151,mge35764,UBERON:gut,UBERON:feces,male
+L1S152,mge35842,UBERON:gut,UBERON:feces,male
+L1S153,mge35307,UBERON:gut,UBERON:feces,male
+L1S154,mge36061,UBERON:gut,UBERON:feces,male
+L1S155,mge34921,UBERON:gut,UBERON:feces,male
+L1S156,mge35410,UBERON:gut,UBERON:feces,male
+L1S158,mge35889,UBERON:gut,UBERON:feces,male
+L1S159,mge36244,UBERON:gut,UBERON:feces,male
+L1S160,mge34919,UBERON:gut,UBERON:feces,male
+L1S161,mge35090,UBERON:gut,UBERON:feces,male
+L1S162,mge36739,UBERON:gut,UBERON:feces,male
+L1S163,mge36781,UBERON:gut,UBERON:feces,male
+L1S164,mge35453,UBERON:gut,UBERON:feces,male
+L1S166,mge35862,UBERON:gut,UBERON:feces,male
+L1S168,mge36262,UBERON:gut,UBERON:feces,male
+L1S169,mge36561,UBERON:gut,UBERON:feces,male
+L1S17,mge35250,UBERON:gut,UBERON:feces,female
+L1S171,mge35195,UBERON:gut,UBERON:feces,male
+L1S173,mge35035,UBERON:gut,UBERON:feces,male
+L1S174,mge36905,UBERON:gut,UBERON:feces,male
+L1S175,mge36898,UBERON:gut,UBERON:feces,male
+L1S176,mge35051,UBERON:gut,UBERON:feces,male
+L1S177,mge36260,UBERON:gut,UBERON:feces,male
+L1S179,mge35412,UBERON:gut,UBERON:feces,male
+L1S18,mge34994,UBERON:gut,UBERON:feces,female
+L1S181,mge36761,UBERON:gut,UBERON:feces,male
+L1S183,mge35677,UBERON:gut,UBERON:feces,male
+L1S184,mge34946,UBERON:gut,UBERON:feces,male
+L1S186,mge36267,UBERON:gut,UBERON:feces,male
+L1S188,mge35846,UBERON:gut,UBERON:feces,male
+L1S190,mge36750,UBERON:gut,UBERON:feces,male
+L1S191,mge36371,UBERON:gut,UBERON:feces,male
+L1S193,mge35740,UBERON:gut,UBERON:feces,male
+L1S195,mge35611,UBERON:gut,UBERON:feces,male
+L1S197,mge35601,UBERON:gut,UBERON:feces,male
+L1S200,mge35019,UBERON:gut,UBERON:feces,male
+L1S201,mge35683,UBERON:gut,UBERON:feces,male
+L1S202,mge34944,UBERON:gut,UBERON:feces,male
+L1S203,mge34895,UBERON:gut,UBERON:feces,male
+L1S204,mge36548,UBERON:gut,UBERON:feces,male
+L1S205,mge35436,UBERON:gut,UBERON:feces,male
+L1S207,mge36292,UBERON:gut,UBERON:feces,male
+L1S208,mge35571,UBERON:gut,UBERON:feces,male
+L1S21,mge36320,UBERON:gut,UBERON:feces,female
+L1S210,mge36192,UBERON:gut,UBERON:feces,male
+L1S212,mge35877,UBERON:gut,UBERON:feces,male
+L1S213,mge34872,UBERON:gut,UBERON:feces,male
+L1S214,mge36914,UBERON:gut,UBERON:feces,male
+L1S216,mge36525,UBERON:gut,UBERON:feces,male
+L1S218,mge34873,UBERON:gut,UBERON:feces,male
+L1S219,mge36205,UBERON:gut,UBERON:feces,male
+L1S22,mge35211,UBERON:gut,UBERON:feces,female
+L1S220,mge35154,UBERON:gut,UBERON:feces,male
+L1S221,mge35321,UBERON:gut,UBERON:feces,male
+L1S222,mge36120,UBERON:gut,UBERON:feces,male
+L1S223,mge36316,UBERON:gut,UBERON:feces,male
+L1S224,mge35573,UBERON:gut,UBERON:feces,male
+L1S229,mge36766,UBERON:gut,UBERON:feces,male
+L1S23,mge36328,UBERON:gut,UBERON:feces,female
+L1S231,mge36828,UBERON:gut,UBERON:feces,male
+L1S232,mge35345,UBERON:gut,UBERON:feces,male
+L1S234,mge35397,UBERON:gut,UBERON:feces,male
+L1S235,mge35772,UBERON:gut,UBERON:feces,male
+L1S236,mge36756,UBERON:gut,UBERON:feces,male
+L1S237,mge34982,UBERON:gut,UBERON:feces,male
+L1S239,mge35878,UBERON:gut,UBERON:feces,male
+L1S24,mge35824,UBERON:gut,UBERON:feces,female
+L1S240,mge35380,UBERON:gut,UBERON:feces,male
+L1S241,mge35185,UBERON:gut,UBERON:feces,male
+L1S242,mge36568,UBERON:gut,UBERON:feces,male
+L1S244,mge35812,UBERON:gut,UBERON:feces,male
+L1S245,mge35457,UBERON:gut,UBERON:feces,male
+L1S246,mge36221,UBERON:gut,UBERON:feces,male
+L1S247,mge35661,UBERON:gut,UBERON:feces,male
+L1S250,mge35084,UBERON:gut,UBERON:feces,male
+L1S251,mge35414,UBERON:gut,UBERON:feces,male
+L1S252,mge36902,UBERON:gut,UBERON:feces,male
+L1S255,mge35047,UBERON:gut,UBERON:feces,male
+L1S257,mge35783,UBERON:gut,UBERON:feces,male
+L1S258,mge35464,UBERON:gut,UBERON:feces,male
+L1S259,mge36560,UBERON:gut,UBERON:feces,male
+L1S260,mge35474,UBERON:gut,UBERON:feces,male
+L1S261,mge35765,UBERON:gut,UBERON:feces,male
+L1S263,mge35210,UBERON:gut,UBERON:feces,male
+L1S266,mge35714,UBERON:gut,UBERON:feces,male
+L1S268,mge35127,UBERON:gut,UBERON:feces,male
+L1S270,mge35177,UBERON:gut,UBERON:feces,male
+L1S271,mge34962,UBERON:gut,UBERON:feces,male
+L1S272,mge35705,UBERON:gut,UBERON:feces,male
+L1S273,mge36514,UBERON:gut,UBERON:feces,male
+L1S274,mge35225,UBERON:gut,UBERON:feces,male
+L1S275,mge35579,UBERON:gut,UBERON:feces,male
+L1S277,mge35343,UBERON:gut,UBERON:feces,male
+L1S279,mge34913,UBERON:gut,UBERON:feces,male
+L1S28,mge36242,UBERON:gut,UBERON:feces,female
+L1S280,mge36293,UBERON:gut,UBERON:feces,male
+L1S281,mge36173,UBERON:gut,UBERON:feces,male
+L1S282,mge34932,UBERON:gut,UBERON:feces,male
+L1S283,mge36926,UBERON:gut,UBERON:feces,male
+L1S284,mge35598,UBERON:gut,UBERON:feces,male
+L1S285,mge35357,UBERON:gut,UBERON:feces,male
+L1S286,mge34902,UBERON:gut,UBERON:feces,male
+L1S287,mge35311,UBERON:gut,UBERON:feces,male
+L1S29,mge36284,UBERON:gut,UBERON:feces,female
+L1S291,mge36380,UBERON:gut,UBERON:feces,male
+L1S292,mge35068,UBERON:gut,UBERON:feces,male
+L1S296,mge36188,UBERON:gut,UBERON:feces,male
+L1S297,mge34897,UBERON:gut,UBERON:feces,male
+L1S298,mge36183,UBERON:gut,UBERON:feces,male
+L1S30,mge36218,UBERON:gut,UBERON:feces,female
+L1S300,mge35112,UBERON:gut,UBERON:feces,male
+L1S301,mge34893,UBERON:gut,UBERON:feces,male
+L1S303,mge34986,UBERON:gut,UBERON:feces,male
+L1S304,mge35333,UBERON:gut,UBERON:feces,male
+L1S305,mge35631,UBERON:gut,UBERON:feces,male
+L1S307,mge36743,UBERON:gut,UBERON:feces,male
+L1S308,mge35371,UBERON:gut,UBERON:feces,male
+L1S309,mge35838,UBERON:gut,UBERON:feces,male
+L1S31,mge35774,UBERON:gut,UBERON:feces,female
+L1S310,mge36744,UBERON:gut,UBERON:feces,male
+L1S313,mge35440,UBERON:gut,UBERON:feces,male
+L1S314,mge35152,UBERON:gut,UBERON:feces,male
+L1S315,mge36194,UBERON:gut,UBERON:feces,male
+L1S316,mge36770,UBERON:gut,UBERON:feces,male
+L1S318,mge35608,UBERON:gut,UBERON:feces,male
+L1S319,mge36530,UBERON:gut,UBERON:feces,male
+L1S32,mge35156,UBERON:gut,UBERON:feces,female
+L1S320,mge36519,UBERON:gut,UBERON:feces,male
+L1S322,mge36311,UBERON:gut,UBERON:feces,male
+L1S323,mge36487,UBERON:gut,UBERON:feces,male
+L1S324,mge35620,UBERON:gut,UBERON:feces,male
+L1S325,mge35202,UBERON:gut,UBERON:feces,male
+L1S326,mge35858,UBERON:gut,UBERON:feces,male
+L1S328,mge36468,UBERON:gut,UBERON:feces,male
+L1S329,mge35124,UBERON:gut,UBERON:feces,male
+L1S33,mge36227,UBERON:gut,UBERON:feces,female
+L1S330,mge35902,UBERON:gut,UBERON:feces,male
+L1S331,mge36540,UBERON:gut,UBERON:feces,male
+L1S332,mge35741,UBERON:gut,UBERON:feces,male
+L1S333,mge34934,UBERON:gut,UBERON:feces,male
+L1S334,mge36831,UBERON:gut,UBERON:feces,male
+L1S335,mge35072,UBERON:gut,UBERON:feces,male
+L1S336,mge35420,UBERON:gut,UBERON:feces,male
+L1S337,mge35694,UBERON:gut,UBERON:feces,male
+L1S338,mge36097,UBERON:gut,UBERON:feces,male
+L1S339,mge36164,UBERON:gut,UBERON:feces,male
+L1S34,mge35039,UBERON:gut,UBERON:feces,female
+L1S340,mge35913,UBERON:gut,UBERON:feces,male
+L1S343,mge36553,UBERON:gut,UBERON:feces,male
+L1S344,mge36918,UBERON:gut,UBERON:feces,male
+L1S345,mge35848,UBERON:gut,UBERON:feces,male
+L1S346,mge35419,UBERON:gut,UBERON:feces,male
+L1S347,mge36118,UBERON:gut,UBERON:feces,male
+L1S348,mge34867,UBERON:gut,UBERON:feces,male
+L1S349,mge34918,UBERON:gut,UBERON:feces,male
+L1S35,mge35394,UBERON:gut,UBERON:feces,female
+L1S350,mge36891,UBERON:gut,UBERON:feces,male
+L1S351,mge35206,UBERON:gut,UBERON:feces,male
+L1S353,mge35785,UBERON:gut,UBERON:feces,male
+L1S354,mge35000,UBERON:gut,UBERON:feces,male
+L1S357,mge36486,UBERON:gut,UBERON:feces,male
+L1S359,mge35744,UBERON:gut,UBERON:feces,male
+L1S36,mge36442,UBERON:gut,UBERON:feces,female
+L1S360,mge36319,UBERON:gut,UBERON:feces,male
+L1S362,mge35186,UBERON:gut,UBERON:feces,male
+L1S363,mge35908,UBERON:gut,UBERON:feces,male
+L1S364,mge36217,UBERON:gut,UBERON:feces,male
+L1S365,mge35845,UBERON:gut,UBERON:feces,male
+L1S366,mge36080,UBERON:gut,UBERON:feces,male
+L1S367,mge34975,UBERON:gut,UBERON:feces,male
+L1S368,mge35711,UBERON:gut,UBERON:feces,male
+L1S369,mge35404,UBERON:gut,UBERON:feces,male
+L1S37,mge35346,UBERON:gut,UBERON:feces,female
+L1S371,mge35796,UBERON:gut,UBERON:feces,male
+L1S372,mge36263,UBERON:gut,UBERON:feces,male
+L1S374,mge36078,UBERON:gut,UBERON:feces,male
+L1S376,mge36121,UBERON:gut,UBERON:feces,male
+L1S378,mge36256,UBERON:gut,UBERON:feces,male
+L1S379,mge35340,UBERON:gut,UBERON:feces,male
+L1S380,mge35701,UBERON:gut,UBERON:feces,male
+L1S381,mge35398,UBERON:gut,UBERON:feces,male
+L1S382,mge36075,UBERON:gut,UBERON:feces,male
+L1S383,mge36538,UBERON:gut,UBERON:feces,male
+L1S39,mge35128,UBERON:gut,UBERON:feces,female
+L1S4,mge35172,UBERON:gut,UBERON:feces,female
+L1S40,mge35738,UBERON:gut,UBERON:feces,female
+L1S43,mge36876,UBERON:gut,UBERON:feces,female
+L1S44,mge35176,UBERON:gut,UBERON:feces,female
+L1S45,mge35901,UBERON:gut,UBERON:feces,female
+L1S46,mge35065,UBERON:gut,UBERON:feces,female
+L1S49,mge35335,UBERON:gut,UBERON:feces,female
+L1S5,mge35382,UBERON:gut,UBERON:feces,female
+L1S50,mge36498,UBERON:gut,UBERON:feces,female
+L1S53,mge36533,UBERON:gut,UBERON:feces,female
+L1S54,mge35797,UBERON:gut,UBERON:feces,female
+L1S55,mge35709,UBERON:gut,UBERON:feces,female
+L1S56,mge35759,UBERON:gut,UBERON:feces,female
+L1S57,mge35036,UBERON:gut,UBERON:feces,female
+L1S58,mge35668,UBERON:gut,UBERON:feces,female
+L1S59,mge35823,UBERON:gut,UBERON:feces,female
+L1S6,mge35439,UBERON:gut,UBERON:feces,female
+L1S60,mge34914,UBERON:gut,UBERON:feces,female
+L1S61,mge35605,UBERON:gut,UBERON:feces,female
+L1S62,mge36461,UBERON:gut,UBERON:feces,female
+L1S63,mge36490,UBERON:gut,UBERON:feces,female
+L1S64,mge36375,UBERON:gut,UBERON:feces,female
+L1S65,mge36112,UBERON:gut,UBERON:feces,female
+L1S67,mge35840,UBERON:gut,UBERON:feces,female
+L1S68,mge34939,UBERON:gut,UBERON:feces,female
+L1S69,mge35690,UBERON:gut,UBERON:feces,female
+L1S71,mge36539,UBERON:gut,UBERON:feces,female
+L1S73,mge35077,UBERON:gut,UBERON:feces,female
+L1S74,mge36166,UBERON:gut,UBERON:feces,female
+L1S77,mge36304,UBERON:gut,UBERON:feces,female
+L1S78,mge36479,UBERON:gut,UBERON:feces,female
+L1S79,mge36513,UBERON:gut,UBERON:feces,female
+L1S80,mge35854,UBERON:gut,UBERON:feces,female
+L1S82,mge35614,UBERON:gut,UBERON:feces,female
+L1S83,mge35196,UBERON:gut,UBERON:feces,female
+L1S86,mge35431,UBERON:gut,UBERON:feces,female
+L1S89,mge35094,UBERON:gut,UBERON:feces,female
+L1S9,mge35919,UBERON:gut,UBERON:feces,female
+L1S90,mge35594,UBERON:gut,UBERON:feces,female
+L1S91,mge36184,UBERON:gut,UBERON:feces,female
+L1S92,mge35411,UBERON:gut,UBERON:feces,female
+L1S95,mge35368,UBERON:gut,UBERON:feces,female
+L1S97,mge35831,UBERON:gut,UBERON:feces,female
+L1S98,mge36344,UBERON:gut,UBERON:feces,female
+L2S1,mge35227,UBERON:gut,UBERON:feces,male
+L2S10,mge35623,UBERON:gut,UBERON:feces,male
+L2S100,mge35233,UBERON:skin,UBERON:zone of skin of hand,female
+L2S101,mge34979,UBERON:skin,UBERON:zone of skin of hand,female
+L2S102,mge36243,UBERON:skin,UBERON:zone of skin of hand,female
+L2S103,mge35699,UBERON:skin,UBERON:zone of skin of hand,female
+L2S105,mge36214,UBERON:skin,UBERON:zone of skin of hand,female
+L2S106,mge35043,UBERON:skin,UBERON:zone of skin of hand,female
+L2S108,mge36182,UBERON:skin,UBERON:zone of skin of hand,female
+L2S109,mge34890,UBERON:skin,UBERON:zone of skin of hand,female
+L2S11,mge36742,UBERON:gut,UBERON:feces,male
+L2S110,mge36225,UBERON:skin,UBERON:zone of skin of hand,female
+L2S111,mge35880,UBERON:skin,UBERON:zone of skin of hand,female
+L2S112,mge35091,UBERON:skin,UBERON:zone of skin of hand,female
+L2S113,mge35393,UBERON:skin,UBERON:zone of skin of hand,female
+L2S114,mge35304,UBERON:skin,UBERON:zone of skin of hand,female
+L2S116,mge35687,UBERON:skin,UBERON:zone of skin of hand,female
+L2S118,mge36374,UBERON:skin,UBERON:zone of skin of hand,female
+L2S119,mge36100,UBERON:skin,UBERON:zone of skin of hand,female
+L2S12,mge36277,UBERON:gut,UBERON:feces,male
+L2S121,mge36932,UBERON:skin,UBERON:zone of skin of hand,female
+L2S122,mge36684,UBERON:skin,UBERON:zone of skin of hand,female
+L2S123,mge35433,UBERON:skin,UBERON:zone of skin of hand,female
+L2S124,mge35659,UBERON:skin,UBERON:zone of skin of hand,female
+L2S125,mge34906,UBERON:skin,UBERON:zone of skin of hand,female
+L2S126,mge36137,UBERON:skin,UBERON:zone of skin of hand,female
+L2S127,mge35048,UBERON:skin,UBERON:zone of skin of hand,female
+L2S128,mge36569,UBERON:skin,UBERON:zone of skin of hand,female
+L2S129,mge36497,UBERON:skin,UBERON:zone of skin of hand,female
+L2S13,mge35859,UBERON:gut,UBERON:feces,male
+L2S130,mge35438,UBERON:skin,UBERON:zone of skin of hand,female
+L2S131,mge34999,UBERON:skin,UBERON:zone of skin of hand,female
+L2S132,mge36149,UBERON:skin,UBERON:zone of skin of hand,female
+L2S133,mge36115,UBERON:skin,UBERON:zone of skin of hand,female
+L2S139,mge34965,UBERON:skin,UBERON:zone of skin of hand,female
+L2S14,mge36099,UBERON:gut,UBERON:feces,male
+L2S140,mge36162,UBERON:skin,UBERON:zone of skin of hand,female
+L2S141,mge36154,UBERON:skin,UBERON:zone of skin of hand,female
+L2S143,mge35887,UBERON:skin,UBERON:zone of skin of hand,female
+L2S144,mge35067,UBERON:skin,UBERON:zone of skin of hand,female
+L2S147,mge35386,UBERON:skin,UBERON:zone of skin of hand,female
+L2S148,mge36524,UBERON:skin,UBERON:zone of skin of hand,female
+L2S149,mge35904,UBERON:skin,UBERON:zone of skin of hand,female
+L2S150,mge34937,UBERON:skin,UBERON:zone of skin of hand,female
+L2S153,mge36896,UBERON:skin,UBERON:zone of skin of hand,female
+L2S155,mge36197,UBERON:skin,UBERON:zone of skin of hand,female
+L2S156,mge36111,UBERON:skin,UBERON:zone of skin of hand,female
+L2S157,mge36335,UBERON:skin,UBERON:zone of skin of hand,female
+L2S16,mge35306,UBERON:gut,UBERON:feces,male
+L2S160,mge36228,UBERON:skin,UBERON:zone of skin of hand,female
+L2S161,mge36079,UBERON:skin,UBERON:zone of skin of hand,female
+L2S162,mge36496,UBERON:skin,UBERON:zone of skin of hand,female
+L2S163,mge36046,UBERON:skin,UBERON:zone of skin of hand,female
+L2S164,mge35358,UBERON:skin,UBERON:zone of skin of hand,female
+L2S165,mge35672,UBERON:skin,UBERON:zone of skin of hand,female
+L2S167,mge35696,UBERON:skin,UBERON:zone of skin of hand,female
+L2S168,mge36448,UBERON:skin,UBERON:zone of skin of hand,female
+L2S17,mge36069,UBERON:gut,UBERON:feces,male
+L2S170,mge35370,UBERON:skin,UBERON:zone of skin of hand,female
+L2S171,mge35399,UBERON:skin,UBERON:zone of skin of hand,female
+L2S174,mge34891,UBERON:skin,UBERON:zone of skin of hand,female
+L2S176,mge35879,UBERON:skin,UBERON:zone of skin of hand,female
+L2S178,mge35055,UBERON:skin,UBERON:zone of skin of hand,female
+L2S179,mge35327,UBERON:skin,UBERON:zone of skin of hand,female
+L2S18,mge36165,UBERON:gut,UBERON:feces,male
+L2S180,mge36347,UBERON:skin,UBERON:zone of skin of hand,female
+L2S181,mge35418,UBERON:skin,UBERON:zone of skin of hand,female
+L2S182,mge35786,UBERON:skin,UBERON:zone of skin of hand,female
+L2S183,mge35638,UBERON:skin,UBERON:zone of skin of hand,female
+L2S184,mge35706,UBERON:skin,UBERON:zone of skin of hand,female
+L2S186,mge35170,UBERON:skin,UBERON:zone of skin of hand,female
+L2S187,mge36757,UBERON:skin,UBERON:zone of skin of hand,female
+L2S188,mge35819,UBERON:skin,UBERON:zone of skin of hand,female
+L2S189,mge35167,UBERON:skin,UBERON:zone of skin of hand,female
+L2S19,mge35575,UBERON:gut,UBERON:feces,male
+L2S191,mge36272,UBERON:skin,UBERON:zone of skin of hand,female
+L2S195,mge35778,UBERON:skin,UBERON:zone of skin of hand,female
+L2S196,mge35066,UBERON:skin,UBERON:zone of skin of hand,female
+L2S197,mge36773,UBERON:skin,UBERON:zone of skin of hand,female
+L2S199,mge36302,UBERON:skin,UBERON:zone of skin of hand,female
+L2S20,mge35652,UBERON:gut,UBERON:feces,male
+L2S201,mge34954,UBERON:skin,UBERON:zone of skin of hand,female
+L2S202,mge36198,UBERON:skin,UBERON:zone of skin of hand,female
+L2S203,mge36299,UBERON:skin,UBERON:zone of skin of hand,female
+L2S204,mge36759,UBERON:skin,UBERON:zone of skin of hand,female
+L2S206,mge35383,UBERON:skin,UBERON:zone of skin of hand,female
+L2S207,mge36253,UBERON:skin,UBERON:zone of skin of hand,female
+L2S208,mge35613,UBERON:skin,UBERON:zone of skin of hand,female
+L2S209,mge35437,UBERON:skin,UBERON:zone of skin of hand,female
+L2S21,mge34966,UBERON:gut,UBERON:feces,male
+L2S210,mge34876,UBERON:skin,UBERON:zone of skin of hand,female
+L2S212,mge35615,UBERON:skin,UBERON:zone of skin of hand,female
+L2S214,mge35050,UBERON:skin,UBERON:zone of skin of hand,female
+L2S219,mge35194,UBERON:skin,UBERON:zone of skin of hand,female
+L2S22,mge36087,UBERON:gut,UBERON:feces,male
+L2S220,mge35037,UBERON:skin,UBERON:zone of skin of hand,female
+L2S221,mge35401,UBERON:skin,UBERON:zone of skin of hand,female
+L2S222,mge36168,UBERON:skin,UBERON:zone of skin of hand,female
+L2S223,mge36830,UBERON:skin,UBERON:zone of skin of hand,female
+L2S224,mge35472,UBERON:skin,UBERON:zone of skin of hand,female
+L2S227,mge35071,UBERON:skin,UBERON:zone of skin of hand,female
+L2S228,mge35214,UBERON:skin,UBERON:zone of skin of hand,female
+L2S229,mge35115,UBERON:skin,UBERON:zone of skin of hand,female
+L2S230,mge35041,UBERON:skin,UBERON:zone of skin of hand,female
+L2S232,mge36564,UBERON:skin,UBERON:zone of skin of hand,female
+L2S234,mge35080,UBERON:skin,UBERON:zone of skin of hand,male
+L2S235,mge36934,UBERON:skin,UBERON:zone of skin of hand,male
+L2S236,mge36135,UBERON:skin,UBERON:zone of skin of hand,male
+L2S237,mge34960,UBERON:skin,UBERON:zone of skin of hand,male
+L2S24,mge36747,UBERON:gut,UBERON:feces,male
+L2S242,mge36074,UBERON:skin,UBERON:zone of skin of hand,male
+L2S243,mge36117,UBERON:skin,UBERON:zone of skin of hand,male
+L2S244,mge36920,UBERON:skin,UBERON:zone of skin of hand,male
+L2S245,mge35875,UBERON:skin,UBERON:zone of skin of hand,male
+L2S247,mge36522,UBERON:skin,UBERON:zone of skin of hand,male
+L2S248,mge34880,UBERON:skin,UBERON:zone of skin of hand,male
+L2S249,mge36195,UBERON:skin,UBERON:zone of skin of hand,male
+L2S25,mge34938,UBERON:gut,UBERON:feces,male
+L2S251,mge36105,UBERON:skin,UBERON:zone of skin of hand,male
+L2S253,mge36534,UBERON:skin,UBERON:zone of skin of hand,male
+L2S254,mge35390,UBERON:skin,UBERON:zone of skin of hand,male
+L2S256,mge34882,UBERON:skin,UBERON:zone of skin of hand,male
+L2S257,mge35776,UBERON:skin,UBERON:zone of skin of hand,male
+L2S259,mge35258,UBERON:skin,UBERON:zone of skin of hand,male
+L2S260,mge35057,UBERON:skin,UBERON:zone of skin of hand,male
+L2S261,mge36542,UBERON:skin,UBERON:zone of skin of hand,male
+L2S262,mge35198,UBERON:skin,UBERON:zone of skin of hand,male
+L2S263,mge36062,UBERON:skin,UBERON:zone of skin of hand,male
+L2S264,mge36082,UBERON:skin,UBERON:zone of skin of hand,male
+L2S265,mge35040,UBERON:skin,UBERON:zone of skin of hand,male
+L2S268,mge36440,UBERON:skin,UBERON:zone of skin of hand,male
+L2S269,mge35475,UBERON:skin,UBERON:zone of skin of hand,male
+L2S270,mge35756,UBERON:skin,UBERON:zone of skin of hand,male
+L2S271,mge35892,UBERON:skin,UBERON:zone of skin of hand,male
+L2S272,mge34989,UBERON:skin,UBERON:zone of skin of hand,male
+L2S273,mge35599,UBERON:skin,UBERON:zone of skin of hand,male
+L2S275,mge35024,UBERON:skin,UBERON:zone of skin of hand,male
+L2S276,mge35729,UBERON:skin,UBERON:zone of skin of hand,male
+L2S277,mge36134,UBERON:skin,UBERON:zone of skin of hand,male
+L2S278,mge36450,UBERON:skin,UBERON:zone of skin of hand,male
+L2S279,mge36933,UBERON:skin,UBERON:zone of skin of hand,male
+L2S28,mge35344,UBERON:gut,UBERON:feces,male
+L2S280,mge36036,UBERON:skin,UBERON:zone of skin of hand,male
+L2S281,mge36187,UBERON:skin,UBERON:zone of skin of hand,male
+L2S283,mge36927,UBERON:skin,UBERON:zone of skin of hand,male
+L2S285,mge36762,UBERON:skin,UBERON:zone of skin of hand,male
+L2S286,mge35359,UBERON:skin,UBERON:zone of skin of hand,male
+L2S287,mge36090,UBERON:skin,UBERON:zone of skin of hand,male
+L2S289,mge34987,UBERON:skin,UBERON:zone of skin of hand,male
+L2S29,mge36032,UBERON:gut,UBERON:feces,male
+L2S290,mge35682,UBERON:skin,UBERON:zone of skin of hand,male
+L2S291,mge35111,UBERON:skin,UBERON:zone of skin of hand,male
+L2S292,mge35713,UBERON:skin,UBERON:zone of skin of hand,male
+L2S296,mge35131,UBERON:skin,UBERON:zone of skin of hand,male
+L2S297,mge35633,UBERON:skin,UBERON:zone of skin of hand,male
+L2S298,mge35917,UBERON:skin,UBERON:zone of skin of hand,male
+L2S299,mge36076,UBERON:skin,UBERON:zone of skin of hand,male
+L2S3,mge36745,UBERON:gut,UBERON:feces,male
+L2S30,mge35028,UBERON:gut,UBERON:feces,male
+L2S300,mge35718,UBERON:skin,UBERON:zone of skin of hand,male
+L2S301,mge35178,UBERON:skin,UBERON:zone of skin of hand,male
+L2S302,mge35238,UBERON:skin,UBERON:zone of skin of hand,male
+L2S303,mge34970,UBERON:skin,UBERON:zone of skin of hand,male
+L2S307,mge36140,UBERON:skin,UBERON:zone of skin of hand,male
+L2S309,mge34995,UBERON:skin,UBERON:zone of skin of hand,male
+L2S31,mge36841,UBERON:gut,UBERON:feces,male
+L2S311,mge35191,UBERON:skin,UBERON:zone of skin of hand,male
+L2S313,mge36326,UBERON:skin,UBERON:zone of skin of hand,male
+L2S314,mge36065,UBERON:skin,UBERON:zone of skin of hand,male
+L2S315,mge35745,UBERON:skin,UBERON:zone of skin of hand,male
+L2S318,mge34998,UBERON:skin,UBERON:zone of skin of hand,male
+L2S319,mge35209,UBERON:skin,UBERON:zone of skin of hand,male
+L2S32,mge35748,UBERON:gut,UBERON:feces,male
+L2S321,mge36040,UBERON:skin,UBERON:zone of skin of hand,male
+L2S322,mge35325,UBERON:skin,UBERON:zone of skin of hand,male
+L2S325,mge36298,UBERON:skin,UBERON:zone of skin of hand,male
+L2S326,mge36683,UBERON:skin,UBERON:zone of skin of hand,male
+L2S327,mge35818,UBERON:skin,UBERON:zone of skin of hand,male
+L2S328,mge35117,UBERON:skin,UBERON:zone of skin of hand,male
+L2S329,mge35830,UBERON:skin,UBERON:zone of skin of hand,male
+L2S33,mge35061,UBERON:gut,UBERON:feces,male
+L2S330,mge36464,UBERON:skin,UBERON:zone of skin of hand,male
+L2S331,mge35789,UBERON:skin,UBERON:zone of skin of hand,male
+L2S332,mge34903,UBERON:skin,UBERON:zone of skin of hand,male
+L2S333,mge35189,UBERON:skin,UBERON:zone of skin of hand,male
+L2S334,mge35799,UBERON:skin,UBERON:zone of skin of hand,male
+L2S335,mge35213,UBERON:skin,UBERON:zone of skin of hand,male
+L2S338,mge35593,UBERON:skin,UBERON:zone of skin of hand,male
+L2S34,mge35798,UBERON:gut,UBERON:feces,male
+L2S340,mge35589,UBERON:skin,UBERON:zone of skin of hand,male
+L2S343,mge35851,UBERON:skin,UBERON:zone of skin of hand,male
+L2S344,mge36755,UBERON:skin,UBERON:zone of skin of hand,male
+L2S348,mge36447,UBERON:skin,UBERON:zone of skin of hand,male
+L2S349,mge35688,UBERON:skin,UBERON:zone of skin of hand,male
+L2S350,mge36239,UBERON:skin,UBERON:zone of skin of hand,male
+L2S351,mge35032,UBERON:skin,UBERON:zone of skin of hand,male
+L2S352,mge35644,UBERON:skin,UBERON:zone of skin of hand,male
+L2S353,mge35217,UBERON:skin,UBERON:zone of skin of hand,male
+L2S354,mge34941,UBERON:skin,UBERON:zone of skin of hand,male
+L2S356,mge36116,UBERON:skin,UBERON:zone of skin of hand,male
+L2S357,mge36758,UBERON:skin,UBERON:zone of skin of hand,male
+L2S358,mge35118,UBERON:skin,UBERON:zone of skin of hand,male
+L2S359,mge36348,UBERON:skin,UBERON:zone of skin of hand,male
+L2S36,mge35367,UBERON:gut,UBERON:feces,male
+L2S360,mge34940,UBERON:skin,UBERON:zone of skin of hand,male
+L2S361,mge36190,UBERON:skin,UBERON:zone of skin of hand,male
+L2S362,mge35896,UBERON:skin,UBERON:zone of skin of hand,male
+L2S363,mge36768,UBERON:skin,UBERON:zone of skin of hand,male
+L2S364,mge35455,UBERON:skin,UBERON:zone of skin of hand,male
+L2S365,mge34904,UBERON:skin,UBERON:zone of skin of hand,male
+L2S366,mge35572,UBERON:skin,UBERON:zone of skin of hand,male
+L2S368,mge35338,UBERON:skin,UBERON:zone of skin of hand,male
+L2S370,mge36313,UBERON:skin,UBERON:zone of skin of hand,male
+L2S371,mge35753,UBERON:skin,UBERON:zone of skin of hand,male
+L2S372,mge35021,UBERON:skin,UBERON:zone of skin of hand,male
+L2S373,mge35716,UBERON:skin,UBERON:zone of skin of hand,male
+L2S374,mge35207,UBERON:skin,UBERON:zone of skin of hand,male
+L2S378,mge36746,UBERON:skin,UBERON:zone of skin of hand,male
+L2S38,mge35208,UBERON:gut,UBERON:feces,male
+L2S380,mge34894,UBERON:skin,UBERON:zone of skin of hand,male
+L2S381,mge36751,UBERON:skin,UBERON:zone of skin of hand,male
+L2S382,mge34977,UBERON:skin,UBERON:zone of skin of hand,male
+L2S383,mge35801,UBERON:skin,UBERON:zone of skin of hand,male
+L2S39,mge35356,UBERON:gut,UBERON:feces,male
+L2S4,mge35171,UBERON:gut,UBERON:feces,male
+L2S40,mge35400,UBERON:gut,UBERON:feces,male
+L2S41,mge35232,UBERON:gut,UBERON:feces,male
+L2S43,mge35585,UBERON:gut,UBERON:feces,male
+L2S44,mge36929,UBERON:gut,UBERON:feces,male
+L2S45,mge36310,UBERON:gut,UBERON:feces,male
+L2S46,mge35456,UBERON:gut,UBERON:feces,male
+L2S47,mge36925,UBERON:gut,UBERON:feces,male
+L2S48,mge35031,UBERON:gut,UBERON:feces,male
+L2S49,mge36044,UBERON:gut,UBERON:feces,male
+L2S5,mge35915,UBERON:gut,UBERON:feces,male
+L2S50,mge35113,UBERON:gut,UBERON:feces,male
+L2S51,mge36077,UBERON:gut,UBERON:feces,male
+L2S52,mge35385,UBERON:gut,UBERON:feces,male
+L2S53,mge36769,UBERON:gut,UBERON:feces,male
+L2S54,mge35095,UBERON:gut,UBERON:feces,male
+L2S57,mge35857,UBERON:gut,UBERON:feces,male
+L2S58,mge36836,UBERON:gut,UBERON:feces,male
+L2S59,mge36211,UBERON:gut,UBERON:feces,male
+L2S6,mge35205,UBERON:gut,UBERON:feces,male
+L2S60,mge35821,UBERON:gut,UBERON:feces,male
+L2S61,mge35058,UBERON:gut,UBERON:feces,male
+L2S62,mge35649,UBERON:gut,UBERON:feces,male
+L2S63,mge35174,UBERON:gut,UBERON:feces,male
+L2S64,mge35681,UBERON:gut,UBERON:feces,male
+L2S66,mge35727,UBERON:gut,UBERON:feces,male
+L2S68,mge36451,UBERON:gut,UBERON:feces,male
+L2S70,mge35253,UBERON:gut,UBERON:feces,male
+L2S71,mge35900,UBERON:gut,UBERON:feces,male
+L2S72,mge35691,UBERON:gut,UBERON:feces,male
+L2S76,mge36196,UBERON:gut,UBERON:feces,male
+L2S77,mge35670,UBERON:gut,UBERON:feces,male
+L2S81,mge35231,UBERON:gut,UBERON:feces,male
+L2S83,mge35730,UBERON:gut,UBERON:feces,male
+L2S84,mge35086,UBERON:gut,UBERON:feces,male
+L2S87,mge35841,UBERON:gut,UBERON:feces,male
+L2S88,mge36547,UBERON:gut,UBERON:feces,male
+L2S89,mge34911,UBERON:gut,UBERON:feces,male
+L2S90,mge35409,UBERON:gut,UBERON:feces,male
+L2S91,mge36230,UBERON:gut,UBERON:feces,male
+L2S92,mge36337,UBERON:gut,UBERON:feces,male
+L2S93,mge36887,UBERON:gut,UBERON:feces,male
+L2S95,mge36283,UBERON:gut,UBERON:feces,male
+L2S98,mge35449,UBERON:skin,UBERON:zone of skin of hand,female
+L2S99,mge36107,UBERON:skin,UBERON:zone of skin of hand,female
+L3S100,mge35129,UBERON:skin,UBERON:zone of skin of hand,male
+L3S103,mge35319,UBERON:skin,UBERON:zone of skin of hand,male
+L3S104,mge35187,UBERON:skin,UBERON:zone of skin of hand,male
+L3S106,mge35921,UBERON:skin,UBERON:zone of skin of hand,male
+L3S107,mge35647,UBERON:skin,UBERON:zone of skin of hand,male
+L3S110,mge36060,UBERON:skin,UBERON:zone of skin of hand,male
+L3S112,mge34877,UBERON:skin,UBERON:zone of skin of hand,male
+L3S114,mge36558,UBERON:skin,UBERON:zone of skin of hand,male
+L3S115,mge35873,UBERON:skin,UBERON:zone of skin of hand,male
+L3S116,mge36163,UBERON:skin,UBERON:zone of skin of hand,male
+L3S117,mge35413,UBERON:skin,UBERON:zone of skin of hand,male
+L3S119,mge36930,UBERON:skin,UBERON:zone of skin of hand,male
+L3S12,mge36265,UBERON:skin,UBERON:zone of skin of hand,male
+L3S120,mge35779,UBERON:skin,UBERON:zone of skin of hand,male
+L3S121,mge35230,UBERON:skin,UBERON:zone of skin of hand,male
+L3S122,mge35629,UBERON:skin,UBERON:zone of skin of hand,male
+L3S124,mge34924,UBERON:skin,UBERON:zone of skin of hand,male
+L3S125,mge36294,UBERON:skin,UBERON:zone of skin of hand,male
+L3S126,mge35884,UBERON:skin,UBERON:zone of skin of hand,male
+L3S127,mge36254,UBERON:skin,UBERON:zone of skin of hand,male
+L3S129,mge36229,UBERON:skin,UBERON:zone of skin of hand,male
+L3S13,mge36155,UBERON:skin,UBERON:zone of skin of hand,male
+L3S130,mge35417,UBERON:skin,UBERON:zone of skin of hand,male
+L3S133,mge35770,UBERON:skin,UBERON:zone of skin of hand,male
+L3S134,mge34870,UBERON:skin,UBERON:zone of skin of hand,male
+L3S135,mge36131,UBERON:skin,UBERON:zone of skin of hand,male
+L3S136,mge35424,UBERON:skin,UBERON:zone of skin of hand,male
+L3S137,mge36296,UBERON:skin,UBERON:zone of skin of hand,male
+L3S139,mge35582,UBERON:skin,UBERON:zone of skin of hand,male
+L3S14,mge35728,UBERON:skin,UBERON:zone of skin of hand,male
+L3S140,mge36349,UBERON:skin,UBERON:zone of skin of hand,male
+L3S145,mge35768,UBERON:skin,UBERON:zone of skin of hand,male
+L3S146,mge34888,UBERON:skin,UBERON:zone of skin of hand,male
+L3S147,mge36492,UBERON:skin,UBERON:zone of skin of hand,male
+L3S148,mge35827,UBERON:skin,UBERON:zone of skin of hand,male
+L3S149,mge36563,UBERON:skin,UBERON:zone of skin of hand,male
+L3S15,mge36544,UBERON:skin,UBERON:zone of skin of hand,male
+L3S151,mge35815,UBERON:skin,UBERON:zone of skin of hand,male
+L3S158,mge35038,UBERON:skin,UBERON:zone of skin of hand,male
+L3S159,mge36381,UBERON:skin,UBERON:zone of skin of hand,male
+L3S16,mge35083,UBERON:skin,UBERON:zone of skin of hand,male
+L3S161,mge35639,UBERON:skin,UBERON:zone of skin of hand,male
+L3S162,mge35015,UBERON:skin,UBERON:zone of skin of hand,male
+L3S164,mge35616,UBERON:skin,UBERON:zone of skin of hand,male
+L3S166,mge35911,UBERON:skin,UBERON:zone of skin of hand,male
+L3S17,mge35749,UBERON:skin,UBERON:zone of skin of hand,male
+L3S171,mge35221,UBERON:skin,UBERON:zone of skin of hand,male
+L3S172,mge36031,UBERON:skin,UBERON:zone of skin of hand,male
+L3S173,mge35180,UBERON:skin,UBERON:zone of skin of hand,male
+L3S175,mge36879,UBERON:skin,UBERON:zone of skin of hand,male
+L3S176,mge36249,UBERON:skin,UBERON:zone of skin of hand,male
+L3S178,mge35641,UBERON:skin,UBERON:zone of skin of hand,male
+L3S179,mge35732,UBERON:skin,UBERON:zone of skin of hand,male
+L3S18,mge35079,UBERON:skin,UBERON:zone of skin of hand,male
+L3S185,mge36250,UBERON:skin,UBERON:zone of skin of hand,male
+L3S186,mge35590,UBERON:skin,UBERON:zone of skin of hand,male
+L3S187,mge36049,UBERON:skin,UBERON:zone of skin of hand,male
+L3S188,mge35426,UBERON:skin,UBERON:zone of skin of hand,male
+L3S19,mge34915,UBERON:skin,UBERON:zone of skin of hand,male
+L3S190,mge36177,UBERON:skin,UBERON:zone of skin of hand,male
+L3S193,mge36130,UBERON:skin,UBERON:zone of skin of hand,male
+L3S194,mge36760,UBERON:skin,UBERON:zone of skin of hand,male
+L3S195,mge36274,UBERON:skin,UBERON:zone of skin of hand,male
+L3S196,mge35617,UBERON:skin,UBERON:zone of skin of hand,male
+L3S197,mge35026,UBERON:skin,UBERON:zone of skin of hand,male
+L3S199,mge35592,UBERON:skin,UBERON:zone of skin of hand,male
+L3S20,mge36264,UBERON:skin,UBERON:zone of skin of hand,male
+L3S202,mge36160,UBERON:skin,UBERON:zone of skin of hand,male
+L3S205,mge35820,UBERON:skin,UBERON:zone of skin of hand,male
+L3S207,mge36291,UBERON:skin,UBERON:zone of skin of hand,male
+L3S209,mge35415,UBERON:skin,UBERON:zone of skin of hand,male
+L3S210,mge35252,UBERON:skin,UBERON:zone of skin of hand,male
+L3S212,mge35868,UBERON:skin,UBERON:zone of skin of hand,male
+L3S213,mge35109,UBERON:skin,UBERON:zone of skin of hand,male
+L3S215,mge36552,UBERON:skin,UBERON:zone of skin of hand,male
+L3S218,mge35832,UBERON:skin,UBERON:zone of skin of hand,male
+L3S219,mge35361,UBERON:skin,UBERON:zone of skin of hand,male
+L3S220,mge34933,UBERON:skin,UBERON:zone of skin of hand,male
+L3S221,mge36157,UBERON:skin,UBERON:zone of skin of hand,male
+L3S223,mge35467,UBERON:skin,UBERON:zone of skin of hand,male
+L3S224,mge35627,UBERON:skin,UBERON:zone of skin of hand,male
+L3S225,mge35347,UBERON:skin,UBERON:zone of skin of hand,male
+L3S226,mge36383,UBERON:skin,UBERON:zone of skin of hand,male
+L3S227,mge36839,UBERON:skin,UBERON:zone of skin of hand,male
+L3S23,mge36199,UBERON:skin,UBERON:zone of skin of hand,male
+L3S231,mge35328,UBERON:skin,UBERON:zone of skin of hand,male
+L3S232,mge35342,UBERON:skin,UBERON:zone of skin of hand,male
+L3S233,mge35163,UBERON:skin,UBERON:zone of skin of hand,male
+L3S234,mge35856,UBERON:skin,UBERON:zone of skin of hand,male
+L3S235,mge35606,UBERON:skin,UBERON:zone of skin of hand,female
+L3S237,mge36894,UBERON:skin,UBERON:zone of skin of hand,female
+L3S238,mge34990,UBERON:skin,UBERON:zone of skin of hand,female
+L3S24,mge36251,UBERON:skin,UBERON:zone of skin of hand,male
+L3S241,mge35075,UBERON:skin,UBERON:zone of skin of hand,female
+L3S245,mge34931,UBERON:skin,UBERON:zone of skin of hand,female
+L3S246,mge35717,UBERON:skin,UBERON:zone of skin of hand,female
+L3S247,mge36537,UBERON:skin,UBERON:zone of skin of hand,female
+L3S248,mge35248,UBERON:skin,UBERON:zone of skin of hand,female
+L3S249,mge36102,UBERON:skin,UBERON:zone of skin of hand,female
+L3S25,mge35224,UBERON:skin,UBERON:zone of skin of hand,male
+L3S250,mge36373,UBERON:skin,UBERON:zone of skin of hand,female
+L3S251,mge35719,UBERON:skin,UBERON:zone of skin of hand,female
+L3S252,mge36133,UBERON:skin,UBERON:zone of skin of hand,female
+L3S253,mge36838,UBERON:skin,UBERON:zone of skin of hand,female
+L3S255,mge35648,UBERON:skin,UBERON:zone of skin of hand,female
+L3S256,mge35388,UBERON:skin,UBERON:zone of skin of hand,female
+L3S259,mge35864,UBERON:skin,UBERON:zone of skin of hand,female
+L3S26,mge35384,UBERON:skin,UBERON:zone of skin of hand,male
+L3S260,mge36145,UBERON:skin,UBERON:zone of skin of hand,female
+L3S261,mge34927,UBERON:skin,UBERON:zone of skin of hand,female
+L3S263,mge35239,UBERON:skin,UBERON:zone of skin of hand,female
+L3S265,mge35578,UBERON:skin,UBERON:zone of skin of hand,female
+L3S266,mge36245,UBERON:skin,UBERON:zone of skin of hand,female
+L3S268,mge36091,UBERON:skin,UBERON:zone of skin of hand,female
+L3S269,mge35710,UBERON:skin,UBERON:zone of skin of hand,female
+L3S27,mge35603,UBERON:skin,UBERON:zone of skin of hand,male
+L3S271,mge36167,UBERON:skin,UBERON:zone of skin of hand,female
+L3S272,mge36379,UBERON:skin,UBERON:zone of skin of hand,female
+L3S275,mge36764,UBERON:skin,UBERON:zone of skin of hand,female
+L3S276,mge35247,UBERON:skin,UBERON:zone of skin of hand,female
+L3S277,mge36460,UBERON:skin,UBERON:zone of skin of hand,female
+L3S278,mge35059,UBERON:skin,UBERON:zone of skin of hand,female
+L3S280,mge35576,UBERON:skin,UBERON:zone of skin of hand,female
+L3S283,mge34936,UBERON:skin,UBERON:zone of skin of hand,female
+L3S284,mge36129,UBERON:skin,UBERON:zone of skin of hand,female
+L3S285,mge36868,UBERON:skin,UBERON:zone of skin of hand,female
+L3S287,mge35867,UBERON:skin,UBERON:zone of skin of hand,female
+L3S290,mge35025,UBERON:skin,UBERON:zone of skin of hand,female
+L3S292,mge34983,UBERON:skin,UBERON:zone of skin of hand,female
+L3S293,mge36226,UBERON:skin,UBERON:zone of skin of hand,female
+L3S294,mge36178,UBERON:skin,UBERON:zone of skin of hand,female
+L3S295,mge36916,UBERON:skin,UBERON:zone of skin of hand,female
+L3S298,mge36171,UBERON:skin,UBERON:zone of skin of hand,female
+L3S299,mge36189,UBERON:skin,UBERON:zone of skin of hand,female
+L3S301,mge35314,UBERON:skin,UBERON:zone of skin of hand,female
+L3S302,mge35584,UBERON:skin,UBERON:zone of skin of hand,female
+L3S303,mge35427,UBERON:skin,UBERON:zone of skin of hand,female
+L3S305,mge35351,UBERON:skin,UBERON:zone of skin of hand,female
+L3S306,mge35630,UBERON:skin,UBERON:zone of skin of hand,female
+L3S307,mge35229,UBERON:skin,UBERON:zone of skin of hand,female
+L3S308,mge36300,UBERON:skin,UBERON:zone of skin of hand,female
+L3S309,mge35767,UBERON:skin,UBERON:zone of skin of hand,female
+L3S31,mge36922,UBERON:skin,UBERON:zone of skin of hand,male
+L3S310,mge36454,UBERON:skin,UBERON:zone of skin of hand,female
+L3S311,mge36043,UBERON:skin,UBERON:zone of skin of hand,female
+L3S312,mge35376,UBERON:skin,UBERON:zone of skin of hand,female
+L3S313,mge36126,UBERON:skin,UBERON:zone of skin of hand,female
+L3S314,mge35407,UBERON:skin,UBERON:zone of skin of hand,female
+L3S315,mge36317,UBERON:skin,UBERON:zone of skin of hand,female
+L3S318,mge35794,UBERON:skin,UBERON:zone of skin of hand,female
+L3S32,mge35226,UBERON:skin,UBERON:zone of skin of hand,male
+L3S321,mge35372,UBERON:skin,UBERON:zone of skin of hand,female
+L3S323,mge35430,UBERON:skin,UBERON:zone of skin of hand,female
+L3S324,mge35646,UBERON:skin,UBERON:zone of skin of hand,female
+L3S325,mge36220,UBERON:skin,UBERON:zone of skin of hand,female
+L3S327,mge36566,UBERON:skin,UBERON:zone of skin of hand,female
+L3S329,mge36878,UBERON:skin,UBERON:zone of skin of hand,female
+L3S33,mge35587,UBERON:skin,UBERON:zone of skin of hand,male
+L3S330,mge35692,UBERON:skin,UBERON:zone of skin of hand,female
+L3S332,mge35054,UBERON:skin,UBERON:zone of skin of hand,female
+L3S333,mge35723,UBERON:skin,UBERON:zone of skin of hand,female
+L3S335,mge34950,UBERON:skin,UBERON:zone of skin of hand,female
+L3S336,mge34909,UBERON:skin,UBERON:zone of skin of hand,female
+L3S338,mge36826,UBERON:skin,UBERON:zone of skin of hand,female
+L3S34,mge36338,UBERON:skin,UBERON:zone of skin of hand,male
+L3S340,mge36203,UBERON:skin,UBERON:zone of skin of hand,female
+L3S341,mge36776,UBERON:skin,UBERON:zone of skin of hand,female
+L3S343,mge36485,UBERON:skin,UBERON:zone of skin of hand,female
+L3S345,mge35246,UBERON:skin,UBERON:zone of skin of hand,female
+L3S346,mge35843,UBERON:skin,UBERON:zone of skin of hand,female
+L3S347,mge35119,UBERON:skin,UBERON:zone of skin of hand,female
+L3S348,mge34905,UBERON:skin,UBERON:zone of skin of hand,female
+L3S349,mge35310,UBERON:skin,UBERON:zone of skin of hand,female
+L3S350,mge36152,UBERON:skin,UBERON:zone of skin of hand,female
+L3S351,mge34984,UBERON:skin,UBERON:zone of skin of hand,female
+L3S352,mge35685,UBERON:skin,UBERON:zone of skin of hand,female
+L3S354,mge35463,UBERON:skin,UBERON:zone of skin of hand,female
+L3S355,mge35686,UBERON:skin,UBERON:zone of skin of hand,female
+L3S357,mge36912,UBERON:skin,UBERON:zone of skin of hand,female
+L3S359,mge36288,UBERON:skin,UBERON:zone of skin of hand,female
+L3S36,mge35626,UBERON:skin,UBERON:zone of skin of hand,male
+L3S361,mge36907,UBERON:skin,UBERON:zone of skin of hand,female
+L3S362,mge35212,UBERON:skin,UBERON:zone of skin of hand,female
+L3S363,mge36900,UBERON:skin,UBERON:zone of skin of hand,female
+L3S364,mge35735,UBERON:skin,UBERON:zone of skin of hand,female
+L3S368,mge35444,UBERON:skin,UBERON:zone of skin of hand,female
+L3S369,mge34967,UBERON:skin,UBERON:zone of skin of hand,female
+L3S37,mge36515,UBERON:skin,UBERON:zone of skin of hand,male
+L3S370,mge35222,UBERON:skin,UBERON:zone of skin of hand,female
+L3S371,mge35803,UBERON:skin,UBERON:zone of skin of hand,male
+L3S372,mge35708,UBERON:skin,UBERON:zone of skin of hand,male
+L3S374,mge35133,UBERON:skin,UBERON:zone of skin of hand,male
+L3S377,mge35766,UBERON:skin,UBERON:zone of skin of hand,male
+L3S378,mge35175,UBERON:skin,UBERON:zone of skin of hand,male
+L3S379,mge36772,UBERON:skin,UBERON:zone of skin of hand,male
+L3S38,mge36330,UBERON:skin,UBERON:zone of skin of hand,male
+L3S380,mge35406,UBERON:skin,UBERON:zone of skin of hand,male
+L3S382,mge34945,UBERON:skin,UBERON:zone of skin of hand,male
+L3S41,mge35200,UBERON:skin,UBERON:zone of skin of hand,male
+L3S42,mge36526,UBERON:skin,UBERON:zone of skin of hand,male
+L3S43,mge35422,UBERON:skin,UBERON:zone of skin of hand,male
+L3S44,mge35805,UBERON:skin,UBERON:zone of skin of hand,male
+L3S46,mge34912,UBERON:skin,UBERON:zone of skin of hand,male
+L3S47,mge34864,UBERON:skin,UBERON:zone of skin of hand,male
+L3S48,mge36325,UBERON:skin,UBERON:zone of skin of hand,male
+L3S49,mge35657,UBERON:skin,UBERON:zone of skin of hand,male
+L3S50,mge35695,UBERON:skin,UBERON:zone of skin of hand,male
+L3S51,mge36124,UBERON:skin,UBERON:zone of skin of hand,male
+L3S52,mge35671,UBERON:skin,UBERON:zone of skin of hand,male
+L3S53,mge36377,UBERON:skin,UBERON:zone of skin of hand,male
+L3S55,mge36127,UBERON:skin,UBERON:zone of skin of hand,male
+L3S57,mge36901,UBERON:skin,UBERON:zone of skin of hand,male
+L3S58,mge35312,UBERON:skin,UBERON:zone of skin of hand,male
+L3S6,mge35899,UBERON:skin,UBERON:zone of skin of hand,male
+L3S60,mge36050,UBERON:skin,UBERON:zone of skin of hand,male
+L3S61,mge35082,UBERON:skin,UBERON:zone of skin of hand,male
+L3S62,mge35251,UBERON:skin,UBERON:zone of skin of hand,male
+L3S65,mge35813,UBERON:skin,UBERON:zone of skin of hand,male
+L3S66,mge35445,UBERON:skin,UBERON:zone of skin of hand,male
+L3S69,mge36551,UBERON:skin,UBERON:zone of skin of hand,male
+L3S7,mge35722,UBERON:skin,UBERON:zone of skin of hand,male
+L3S70,mge36478,UBERON:skin,UBERON:zone of skin of hand,male
+L3S71,mge36346,UBERON:skin,UBERON:zone of skin of hand,male
+L3S74,mge36101,UBERON:skin,UBERON:zone of skin of hand,male
+L3S76,mge35621,UBERON:skin,UBERON:zone of skin of hand,male
+L3S78,mge36877,UBERON:skin,UBERON:zone of skin of hand,male
+L3S79,mge34971,UBERON:skin,UBERON:zone of skin of hand,male
+L3S8,mge35602,UBERON:skin,UBERON:zone of skin of hand,male
+L3S80,mge34969,UBERON:skin,UBERON:zone of skin of hand,male
+L3S82,mge35379,UBERON:skin,UBERON:zone of skin of hand,male
+L3S83,mge36146,UBERON:skin,UBERON:zone of skin of hand,male
+L3S84,mge36321,UBERON:skin,UBERON:zone of skin of hand,male
+L3S85,mge35581,UBERON:skin,UBERON:zone of skin of hand,male
+L3S86,mge36765,UBERON:skin,UBERON:zone of skin of hand,male
+L3S87,mge35666,UBERON:skin,UBERON:zone of skin of hand,male
+L3S88,mge35387,UBERON:skin,UBERON:zone of skin of hand,male
+L3S9,mge35389,UBERON:skin,UBERON:zone of skin of hand,male
+L3S91,mge34974,UBERON:skin,UBERON:zone of skin of hand,male
+L3S93,mge36779,UBERON:skin,UBERON:zone of skin of hand,male
+L3S95,mge36332,UBERON:skin,UBERON:zone of skin of hand,male
+L3S97,mge35586,UBERON:skin,UBERON:zone of skin of hand,male
+L3S98,mge34972,UBERON:skin,UBERON:zone of skin of hand,male
+L3S99,mge35160,UBERON:skin,UBERON:zone of skin of hand,male
+L4S10,mge36886,UBERON:skin,UBERON:zone of skin of hand,male
+L4S101,mge35800,UBERON:skin,UBERON:zone of skin of hand,male
+L4S103,mge36109,UBERON:skin,UBERON:zone of skin of hand,male
+L4S106,mge35331,UBERON:skin,UBERON:zone of skin of hand,male
+L4S107,mge36052,UBERON:skin,UBERON:zone of skin of hand,male
+L4S109,mge36557,UBERON:skin,UBERON:zone of skin of hand,male
+L4S11,mge35450,UBERON:skin,UBERON:zone of skin of hand,male
+L4S112,mge35381,UBERON:skin,UBERON:zone of skin of hand,male
+L4S115,mge35761,UBERON:skin,UBERON:zone of skin of hand,male
+L4S116,mge35888,UBERON:skin,UBERON:zone of skin of hand,male
+L4S117,mge36132,UBERON:skin,UBERON:zone of skin of hand,male
+L4S119,mge35676,UBERON:skin,UBERON:zone of skin of hand,male
+L4S12,mge36382,UBERON:skin,UBERON:zone of skin of hand,male
+L4S121,mge35906,UBERON:skin,UBERON:zone of skin of hand,male
+L4S122,mge36056,UBERON:skin,UBERON:zone of skin of hand,male
+L4S123,mge35318,UBERON:skin,UBERON:zone of skin of hand,male
+L4S124,mge35834,UBERON:skin,UBERON:zone of skin of hand,male
+L4S125,mge35920,UBERON:skin,UBERON:zone of skin of hand,male
+L4S126,mge35466,UBERON:skin,UBERON:zone of skin of hand,male
+L4S127,mge34923,UBERON:skin,UBERON:zone of skin of hand,male
+L4S128,mge36457,UBERON:skin,UBERON:zone of skin of hand,male
+L4S129,mge35808,UBERON:skin,UBERON:zone of skin of hand,male
+L4S13,mge35662,UBERON:skin,UBERON:zone of skin of hand,male
+L4S130,mge36509,UBERON:skin,UBERON:zone of skin of hand,male
+L4S131,mge35792,UBERON:skin,UBERON:zone of skin of hand,male
+L4S132,mge36339,UBERON:skin,UBERON:zone of skin of hand,male
+L4S133,mge35653,UBERON:skin,UBERON:zone of skin of hand,male
+L4S134,mge34956,UBERON:skin,UBERON:zone of skin of hand,male
+L4S136,mge35664,UBERON:skin,UBERON:zone of skin of hand,male
+L4S137,mge35607,UBERON:skin,UBERON:zone of skin of hand,male
+L4S138,mge36209,UBERON:skin,UBERON:zone of skin of hand,male
+L4S139,mge35704,UBERON:skin,UBERON:zone of skin of hand,male
+L4S14,mge36748,UBERON:skin,UBERON:zone of skin of hand,male
+L4S140,mge36459,UBERON:skin,UBERON:zone of skin of hand,male
+L4S144,mge36494,UBERON:skin,UBERON:zone of skin of hand,male
+L4S147,mge36908,UBERON:skin,UBERON:zone of skin of hand,male
+L4S148,mge36295,UBERON:skin,UBERON:zone of skin of hand,male
+L4S149,mge35610,UBERON:skin,UBERON:zone of skin of hand,male
+L4S15,mge35771,UBERON:skin,UBERON:zone of skin of hand,male
+L4S150,mge35184,UBERON:skin,UBERON:zone of skin of hand,male
+L4S152,mge35348,UBERON:skin,UBERON:zone of skin of hand,male
+L4S153,mge35218,UBERON:skin,UBERON:zone of skin of hand,male
+L4S154,mge35855,UBERON:skin,UBERON:zone of skin of hand,male
+L4S155,mge35473,UBERON:skin,UBERON:zone of skin of hand,male
+L4S156,mge36911,UBERON:skin,UBERON:zone of skin of hand,male
+L4S157,mge35017,UBERON:skin,UBERON:zone of skin of hand,male
+L4S159,mge35739,UBERON:skin,UBERON:zone of skin of hand,male
+L4S160,mge36495,UBERON:skin,UBERON:zone of skin of hand,male
+L4S163,mge35468,UBERON:skin,UBERON:zone of skin of hand,male
+L4S164,mge34988,UBERON:skin,UBERON:zone of skin of hand,male
+L4S165,mge35909,UBERON:skin,UBERON:zone of skin of hand,male
+L4S166,mge36919,UBERON:skin,UBERON:zone of skin of hand,male
+L4S168,mge36285,UBERON:skin,UBERON:zone of skin of hand,male
+L4S17,mge36255,UBERON:skin,UBERON:zone of skin of hand,male
+L4S171,mge35804,UBERON:skin,UBERON:zone of skin of hand,male
+L4S172,mge35316,UBERON:skin,UBERON:zone of skin of hand,male
+L4S173,mge35853,UBERON:skin,UBERON:zone of skin of hand,male
+L4S174,mge36528,UBERON:skin,UBERON:zone of skin of hand,male
+L4S176,mge35254,UBERON:skin,UBERON:zone of skin of hand,male
+L4S177,mge36892,UBERON:skin,UBERON:zone of skin of hand,male
+L4S178,mge36749,UBERON:skin,UBERON:zone of skin of hand,male
+L4S18,mge35029,UBERON:skin,UBERON:zone of skin of hand,male
+L4S180,mge36159,UBERON:skin,UBERON:zone of skin of hand,male
+L4S181,mge34942,UBERON:skin,UBERON:zone of skin of hand,male
+L4S182,mge35829,UBERON:skin,UBERON:zone of skin of hand,male
+L4S183,mge35637,UBERON:skin,UBERON:zone of skin of hand,male
+L4S184,mge35076,UBERON:skin,UBERON:zone of skin of hand,male
+L4S187,mge35791,UBERON:skin,UBERON:zone of skin of hand,male
+L4S188,mge36143,UBERON:skin,UBERON:zone of skin of hand,male
+L4S189,mge35642,UBERON:skin,UBERON:zone of skin of hand,male
+L4S19,mge36740,UBERON:skin,UBERON:zone of skin of hand,male
+L4S190,mge35046,UBERON:skin,UBERON:zone of skin of hand,male
+L4S193,mge35763,UBERON:skin,UBERON:zone of skin of hand,male
+L4S194,mge35881,UBERON:skin,UBERON:zone of skin of hand,male
+L4S195,mge35244,UBERON:skin,UBERON:zone of skin of hand,male
+L4S196,mge34871,UBERON:skin,UBERON:zone of skin of hand,male
+L4S198,mge36889,UBERON:skin,UBERON:zone of skin of hand,male
+L4S199,mge34887,UBERON:skin,UBERON:zone of skin of hand,male
+L4S20,mge34868,UBERON:skin,UBERON:zone of skin of hand,male
+L4S202,mge36128,UBERON:skin,UBERON:zone of skin of hand,male
+L4S203,mge35241,UBERON:skin,UBERON:zone of skin of hand,male
+L4S204,mge35802,UBERON:skin,UBERON:zone of skin of hand,male
+L4S206,mge36151,UBERON:skin,UBERON:zone of skin of hand,male
+L4S207,mge36517,UBERON:skin,UBERON:zone of skin of hand,male
+L4S208,mge35161,UBERON:skin,UBERON:zone of skin of hand,male
+L4S209,mge35707,UBERON:skin,UBERON:zone of skin of hand,male
+L4S21,mge35135,UBERON:skin,UBERON:zone of skin of hand,male
+L4S210,mge35807,UBERON:skin,UBERON:zone of skin of hand,male
+L4S211,mge36185,UBERON:skin,UBERON:zone of skin of hand,male
+L4S212,mge35583,UBERON:skin,UBERON:zone of skin of hand,male
+L4S214,mge35063,UBERON:skin,UBERON:zone of skin of hand,male
+L4S215,mge36055,UBERON:skin,UBERON:zone of skin of hand,male
+L4S217,mge35350,UBERON:skin,UBERON:zone of skin of hand,male
+L4S220,mge36372,UBERON:skin,UBERON:zone of skin of hand,male
+L4S225,mge36179,UBERON:skin,UBERON:zone of skin of hand,male
+L4S226,mge35432,UBERON:skin,UBERON:zone of skin of hand,male
+L4S227,mge36236,UBERON:skin,UBERON:zone of skin of hand,male
+L4S228,mge36238,UBERON:skin,UBERON:zone of skin of hand,male
+L4S229,mge35600,UBERON:skin,UBERON:zone of skin of hand,male
+L4S23,mge36753,UBERON:skin,UBERON:zone of skin of hand,male
+L4S230,mge36469,UBERON:skin,UBERON:zone of skin of hand,male
+L4S231,mge35110,UBERON:skin,UBERON:zone of skin of hand,male
+L4S234,mge35870,UBERON:skin,UBERON:zone of skin of hand,male
+L4S235,mge35116,UBERON:skin,UBERON:zone of skin of hand,male
+L4S236,mge35886,UBERON:skin,UBERON:zone of skin of hand,male
+L4S242,mge36780,UBERON:skin,UBERON:zone of skin of hand,male
+L4S245,mge34996,UBERON:skin,UBERON:zone of skin of hand,male
+L4S247,mge35849,UBERON:skin,UBERON:zone of skin of hand,male
+L4S248,mge36161,UBERON:skin,UBERON:zone of skin of hand,male
+L4S25,mge35871,UBERON:skin,UBERON:zone of skin of hand,male
+L4S250,mge34957,UBERON:skin,UBERON:zone of skin of hand,male
+L4S252,mge35693,UBERON:skin,UBERON:zone of skin of hand,male
+L4S254,mge36237,UBERON:skin,UBERON:zone of skin of hand,male
+L4S255,mge35645,UBERON:skin,UBERON:zone of skin of hand,male
+L4S256,mge35441,UBERON:skin,UBERON:zone of skin of hand,male
+L4S257,mge35060,UBERON:skin,UBERON:zone of skin of hand,male
+L4S259,mge35193,UBERON:skin,UBERON:zone of skin of hand,male
+L4S26,mge35243,UBERON:skin,UBERON:zone of skin of hand,male
+L4S261,mge35188,UBERON:skin,UBERON:zone of skin of hand,male
+L4S262,mge35703,UBERON:skin,UBERON:zone of skin of hand,male
+L4S266,mge35329,UBERON:skin,UBERON:zone of skin of hand,male
+L4S27,mge36709,UBERON:skin,UBERON:zone of skin of hand,male
+L4S270,mge35023,UBERON:skin,UBERON:zone of skin of hand,male
+L4S274,mge36915,UBERON:skin,UBERON:zone of skin of hand,male
+L4S278,mge36489,UBERON:skin,UBERON:zone of skin of hand,male
+L4S279,mge35173,UBERON:skin,UBERON:zone of skin of hand,male
+L4S28,mge36453,UBERON:skin,UBERON:zone of skin of hand,male
+L4S283,mge36493,UBERON:skin,UBERON:zone of skin of hand,male
+L4S284,mge35018,UBERON:skin,UBERON:zone of skin of hand,male
+L4S285,mge36315,UBERON:skin,UBERON:zone of skin of hand,male
+L4S286,mge35157,UBERON:skin,UBERON:zone of skin of hand,male
+L4S287,mge36110,UBERON:skin,UBERON:zone of skin of hand,male
+L4S29,mge36516,UBERON:skin,UBERON:zone of skin of hand,male
+L4S3,mge36138,UBERON:skin,UBERON:zone of skin of hand,male
+L4S30,mge35580,UBERON:skin,UBERON:zone of skin of hand,male
+L4S31,mge35034,UBERON:skin,UBERON:zone of skin of hand,male
+L4S32,mge35743,UBERON:skin,UBERON:zone of skin of hand,male
+L4S33,mge35624,UBERON:skin,UBERON:zone of skin of hand,male
+L4S34,mge36216,UBERON:skin,UBERON:zone of skin of hand,male
+L4S35,mge34935,UBERON:skin,UBERON:zone of skin of hand,male
+L4S36,mge35159,UBERON:skin,UBERON:zone of skin of hand,male
+L4S37,mge36222,UBERON:skin,UBERON:zone of skin of hand,male
+L4S38,mge35020,UBERON:skin,UBERON:zone of skin of hand,male
+L4S39,mge36085,UBERON:skin,UBERON:zone of skin of hand,male
+L4S4,mge35651,UBERON:skin,UBERON:zone of skin of hand,male
+L4S40,mge34884,UBERON:skin,UBERON:zone of skin of hand,male
+L4S41,mge36833,UBERON:skin,UBERON:zone of skin of hand,male
+L4S42,mge35826,UBERON:skin,UBERON:zone of skin of hand,male
+L4S43,mge35242,UBERON:skin,UBERON:zone of skin of hand,male
+L4S45,mge34968,UBERON:skin,UBERON:zone of skin of hand,male
+L4S47,mge34898,UBERON:skin,UBERON:zone of skin of hand,male
+L4S48,mge36153,UBERON:skin,UBERON:zone of skin of hand,male
+L4S50,mge35179,UBERON:skin,UBERON:zone of skin of hand,male
+L4S55,mge36343,UBERON:skin,UBERON:zone of skin of hand,male
+L4S56,mge35737,UBERON:skin,UBERON:zone of skin of hand,male
+L4S57,mge36931,UBERON:skin,UBERON:zone of skin of hand,male
+L4S58,mge35257,UBERON:skin,UBERON:zone of skin of hand,male
+L4S59,mge34953,UBERON:skin,UBERON:zone of skin of hand,male
+L4S60,mge35044,UBERON:skin,UBERON:zone of skin of hand,male
+L4S61,mge34930,UBERON:skin,UBERON:zone of skin of hand,male
+L4S62,mge35814,UBERON:skin,UBERON:zone of skin of hand,male
+L4S63,mge36910,UBERON:skin,UBERON:zone of skin of hand,male
+L4S64,mge34961,UBERON:skin,UBERON:zone of skin of hand,male
+L4S65,mge36186,UBERON:skin,UBERON:zone of skin of hand,male
+L4S66,mge35667,UBERON:skin,UBERON:zone of skin of hand,male
+L4S67,mge36511,UBERON:skin,UBERON:zone of skin of hand,male
+L4S7,mge35595,UBERON:skin,UBERON:zone of skin of hand,male
+L4S70,mge34973,UBERON:skin,UBERON:zone of skin of hand,male
+L4S71,mge36035,UBERON:skin,UBERON:zone of skin of hand,male
+L4S72,mge36832,UBERON:skin,UBERON:zone of skin of hand,male
+L4S73,mge35673,UBERON:skin,UBERON:zone of skin of hand,male
+L4S74,mge35891,UBERON:skin,UBERON:zone of skin of hand,male
+L4S75,mge36458,UBERON:skin,UBERON:zone of skin of hand,male
+L4S76,mge36096,UBERON:skin,UBERON:zone of skin of hand,male
+L4S77,mge36201,UBERON:skin,UBERON:zone of skin of hand,male
+L4S78,mge36276,UBERON:skin,UBERON:zone of skin of hand,male
+L4S79,mge36529,UBERON:skin,UBERON:zone of skin of hand,male
+L4S8,mge36555,UBERON:skin,UBERON:zone of skin of hand,male
+L4S80,mge35326,UBERON:skin,UBERON:zone of skin of hand,male
+L4S81,mge35866,UBERON:skin,UBERON:zone of skin of hand,male
+L4S82,mge35070,UBERON:skin,UBERON:zone of skin of hand,male
+L4S83,mge36341,UBERON:skin,UBERON:zone of skin of hand,male
+L4S86,mge35322,UBERON:skin,UBERON:zone of skin of hand,male
+L4S88,mge35918,UBERON:skin,UBERON:zone of skin of hand,male
+L4S89,mge35469,UBERON:skin,UBERON:zone of skin of hand,male
+L4S9,mge35895,UBERON:skin,UBERON:zone of skin of hand,male
+L4S91,mge36287,UBERON:skin,UBERON:zone of skin of hand,male
+L4S92,mge36870,UBERON:skin,UBERON:zone of skin of hand,male
+L4S94,mge35775,UBERON:skin,UBERON:zone of skin of hand,male
+L4S95,mge35731,UBERON:skin,UBERON:zone of skin of hand,male
+L4S97,mge36449,UBERON:skin,UBERON:zone of skin of hand,male
+L4S98,mge35680,UBERON:skin,UBERON:zone of skin of hand,male
+L5S1,mge35844,UBERON:skin,UBERON:zone of skin of hand,male
+L5S10,mge36921,UBERON:skin,UBERON:zone of skin of hand,male
+L5S101,mge35223,UBERON:oral cavity,UBERON:tongue,female
+L5S103,mge35165,UBERON:oral cavity,UBERON:tongue,female
+L5S104,mge34875,UBERON:oral cavity,UBERON:tongue,female
+L5S105,mge35869,UBERON:oral cavity,UBERON:tongue,female
+L5S106,mge36508,UBERON:oral cavity,UBERON:tongue,female
+L5S107,mge35619,UBERON:oral cavity,UBERON:tongue,female
+L5S109,mge34928,UBERON:oral cavity,UBERON:tongue,female
+L5S110,mge36104,UBERON:oral cavity,UBERON:tongue,female
+L5S111,mge34908,UBERON:oral cavity,UBERON:tongue,female
+L5S115,mge35448,UBERON:oral cavity,UBERON:tongue,female
+L5S118,mge35724,UBERON:oral cavity,UBERON:tongue,female
+L5S12,mge36875,UBERON:skin,UBERON:zone of skin of hand,male
+L5S120,mge36439,UBERON:oral cavity,UBERON:tongue,female
+L5S122,mge35679,UBERON:oral cavity,UBERON:tongue,female
+L5S123,mge36258,UBERON:oral cavity,UBERON:tongue,female
+L5S124,mge35836,UBERON:oral cavity,UBERON:tongue,female
+L5S127,mge35126,UBERON:oral cavity,UBERON:tongue,female
+L5S128,mge35363,UBERON:oral cavity,UBERON:tongue,female
+L5S129,mge36042,UBERON:oral cavity,UBERON:tongue,female
+L5S130,mge36259,UBERON:oral cavity,UBERON:tongue,female
+L5S131,mge35062,UBERON:oral cavity,UBERON:tongue,female
+L5S132,mge35078,UBERON:oral cavity,UBERON:tongue,female
+L5S133,mge35235,UBERON:oral cavity,UBERON:tongue,female
+L5S134,mge35373,UBERON:oral cavity,UBERON:tongue,female
+L5S135,mge36067,UBERON:oral cavity,UBERON:tongue,female
+L5S138,mge36271,UBERON:oral cavity,UBERON:tongue,female
+L5S139,mge35720,UBERON:oral cavity,UBERON:tongue,female
+L5S14,mge36893,UBERON:skin,UBERON:zone of skin of hand,male
+L5S140,mge35122,UBERON:oral cavity,UBERON:tongue,female
+L5S141,mge35169,UBERON:oral cavity,UBERON:tongue,female
+L5S142,mge36071,UBERON:oral cavity,UBERON:tongue,female
+L5S144,mge36208,UBERON:oral cavity,UBERON:tongue,female
+L5S145,mge35833,UBERON:oral cavity,UBERON:tongue,female
+L5S146,mge36491,UBERON:oral cavity,UBERON:tongue,female
+L5S147,mge35330,UBERON:oral cavity,UBERON:tongue,female
+L5S149,mge36148,UBERON:oral cavity,UBERON:tongue,female
+L5S150,mge36327,UBERON:oral cavity,UBERON:tongue,female
+L5S152,mge36869,UBERON:oral cavity,UBERON:tongue,female
+L5S153,mge34883,UBERON:oral cavity,UBERON:tongue,female
+L5S154,mge35865,UBERON:oral cavity,UBERON:tongue,female
+L5S155,mge35168,UBERON:oral cavity,UBERON:tongue,female
+L5S156,mge35349,UBERON:oral cavity,UBERON:tongue,female
+L5S157,mge36871,UBERON:oral cavity,UBERON:tongue,female
+L5S158,mge34896,UBERON:oral cavity,UBERON:tongue,female
+L5S159,mge36904,UBERON:oral cavity,UBERON:tongue,female
+L5S160,mge36210,UBERON:oral cavity,UBERON:tongue,female
+L5S161,mge34881,UBERON:oral cavity,UBERON:tongue,female
+L5S162,mge36207,UBERON:oral cavity,UBERON:tongue,female
+L5S163,mge36825,UBERON:oral cavity,UBERON:tongue,female
+L5S165,mge35392,UBERON:oral cavity,UBERON:tongue,female
+L5S166,mge35596,UBERON:oral cavity,UBERON:tongue,female
+L5S167,mge36123,UBERON:oral cavity,UBERON:tongue,female
+L5S169,mge35166,UBERON:oral cavity,UBERON:tongue,female
+L5S173,mge36827,UBERON:oral cavity,UBERON:tongue,female
+L5S174,mge34916,UBERON:oral cavity,UBERON:tongue,female
+L5S175,mge36777,UBERON:oral cavity,UBERON:tongue,female
+L5S176,mge35121,UBERON:oral cavity,UBERON:tongue,female
+L5S177,mge36282,UBERON:oral cavity,UBERON:tongue,female
+L5S179,mge36314,UBERON:oral cavity,UBERON:tongue,female
+L5S18,mge35408,UBERON:skin,UBERON:zone of skin of hand,male
+L5S180,mge35755,UBERON:oral cavity,UBERON:tongue,female
+L5S182,mge35255,UBERON:oral cavity,UBERON:tongue,female
+L5S183,mge36550,UBERON:oral cavity,UBERON:tongue,female
+L5S184,mge36340,UBERON:oral cavity,UBERON:tongue,female
+L5S186,mge35903,UBERON:oral cavity,UBERON:tongue,female
+L5S188,mge36057,UBERON:oral cavity,UBERON:tongue,female
+L5S189,mge35049,UBERON:oral cavity,UBERON:tongue,female
+L5S190,mge35609,UBERON:oral cavity,UBERON:tongue,female
+L5S193,mge35863,UBERON:oral cavity,UBERON:tongue,female
+L5S194,mge36170,UBERON:oral cavity,UBERON:tongue,female
+L5S195,mge34947,UBERON:oral cavity,UBERON:tongue,female
+L5S197,mge35750,UBERON:oral cavity,UBERON:tongue,female
+L5S199,mge36445,UBERON:oral cavity,UBERON:tongue,female
+L5S20,mge35052,UBERON:skin,UBERON:zone of skin of hand,male
+L5S200,mge36095,UBERON:oral cavity,UBERON:tongue,female
+L5S201,mge36139,UBERON:oral cavity,UBERON:tongue,female
+L5S202,mge35033,UBERON:oral cavity,UBERON:tongue,female
+L5S203,mge35604,UBERON:oral cavity,UBERON:tongue,female
+L5S204,mge34925,UBERON:oral cavity,UBERON:tongue,female
+L5S205,mge35747,UBERON:oral cavity,UBERON:tongue,female
+L5S206,mge34955,UBERON:oral cavity,UBERON:tongue,female
+L5S207,mge35228,UBERON:oral cavity,UBERON:tongue,female
+L5S208,mge34922,UBERON:oral cavity,UBERON:tongue,female
+L5S209,mge36913,UBERON:oral cavity,UBERON:tongue,female
+L5S21,mge36053,UBERON:skin,UBERON:zone of skin of hand,male
+L5S210,mge34865,UBERON:oral cavity,UBERON:tongue,female
+L5S211,mge35199,UBERON:oral cavity,UBERON:tongue,female
+L5S212,mge35663,UBERON:oral cavity,UBERON:tongue,female
+L5S213,mge35377,UBERON:oral cavity,UBERON:tongue,female
+L5S214,mge35197,UBERON:oral cavity,UBERON:tongue,female
+L5S216,mge35092,UBERON:oral cavity,UBERON:tongue,female
+L5S217,mge36303,UBERON:oral cavity,UBERON:tongue,female
+L5S219,mge35428,UBERON:oral cavity,UBERON:tongue,female
+L5S22,mge35403,UBERON:skin,UBERON:zone of skin of hand,male
+L5S221,mge35847,UBERON:oral cavity,UBERON:tongue,female
+L5S223,mge35733,UBERON:oral cavity,UBERON:tongue,female
+L5S226,mge35443,UBERON:oral cavity,UBERON:tongue,female
+L5S227,mge35027,UBERON:oral cavity,UBERON:tongue,female
+L5S228,mge35429,UBERON:oral cavity,UBERON:tongue,female
+L5S23,mge36384,UBERON:skin,UBERON:zone of skin of hand,male
+L5S230,mge35130,UBERON:oral cavity,UBERON:tongue,female
+L5S231,mge35183,UBERON:oral cavity,UBERON:tongue,female
+L5S232,mge35108,UBERON:oral cavity,UBERON:tongue,female
+L5S234,mge35341,UBERON:oral cavity,UBERON:tongue,male
+L5S235,mge35435,UBERON:oral cavity,UBERON:tongue,male
+L5S236,mge36738,UBERON:oral cavity,UBERON:tongue,male
+L5S238,mge35334,UBERON:oral cavity,UBERON:tongue,male
+L5S239,mge35234,UBERON:oral cavity,UBERON:tongue,male
+L5S240,mge36559,UBERON:oral cavity,UBERON:tongue,male
+L5S241,mge35634,UBERON:oral cavity,UBERON:tongue,male
+L5S242,mge36475,UBERON:oral cavity,UBERON:tongue,male
+L5S243,mge35323,UBERON:oral cavity,UBERON:tongue,male
+L5S246,mge35123,UBERON:oral cavity,UBERON:tongue,male
+L5S247,mge36034,UBERON:oral cavity,UBERON:tongue,male
+L5S249,mge35874,UBERON:oral cavity,UBERON:tongue,male
+L5S25,mge35655,UBERON:skin,UBERON:zone of skin of hand,male
+L5S252,mge36480,UBERON:oral cavity,UBERON:tongue,male
+L5S253,mge36546,UBERON:oral cavity,UBERON:tongue,male
+L5S254,mge34978,UBERON:oral cavity,UBERON:tongue,male
+L5S255,mge36175,UBERON:oral cavity,UBERON:tongue,male
+L5S256,mge36778,UBERON:oral cavity,UBERON:tongue,male
+L5S257,mge35360,UBERON:oral cavity,UBERON:tongue,male
+L5S258,mge36523,UBERON:oral cavity,UBERON:tongue,male
+L5S259,mge35056,UBERON:oral cavity,UBERON:tongue,male
+L5S26,mge35336,UBERON:skin,UBERON:zone of skin of hand,male
+L5S261,mge35203,UBERON:oral cavity,UBERON:tongue,male
+L5S264,mge36038,UBERON:oral cavity,UBERON:tongue,male
+L5S265,mge36322,UBERON:oral cavity,UBERON:tongue,male
+L5S268,mge35353,UBERON:oral cavity,UBERON:tongue,male
+L5S271,mge36072,UBERON:oral cavity,UBERON:tongue,male
+L5S272,mge35402,UBERON:oral cavity,UBERON:tongue,male
+L5S273,mge36232,UBERON:oral cavity,UBERON:tongue,male
+L5S276,mge35088,UBERON:oral cavity,UBERON:tongue,male
+L5S277,mge36297,UBERON:oral cavity,UBERON:tongue,male
+L5S278,mge36252,UBERON:oral cavity,UBERON:tongue,male
+L5S279,mge36512,UBERON:oral cavity,UBERON:tongue,male
+L5S28,mge35462,UBERON:skin,UBERON:zone of skin of hand,male
+L5S281,mge35125,UBERON:oral cavity,UBERON:tongue,male
+L5S283,mge35074,UBERON:oral cavity,UBERON:tongue,male
+L5S284,mge35702,UBERON:oral cavity,UBERON:tongue,male
+L5S285,mge36054,UBERON:oral cavity,UBERON:tongue,male
+L5S286,mge35416,UBERON:oral cavity,UBERON:tongue,male
+L5S29,mge35860,UBERON:skin,UBERON:zone of skin of hand,male
+L5S3,mge36234,UBERON:skin,UBERON:zone of skin of hand,male
+L5S32,mge35452,UBERON:skin,UBERON:zone of skin of hand,male
+L5S34,mge35366,UBERON:skin,UBERON:zone of skin of hand,male
+L5S35,mge36066,UBERON:skin,UBERON:zone of skin of hand,male
+L5S36,mge35219,UBERON:skin,UBERON:zone of skin of hand,male
+L5S37,mge35391,UBERON:skin,UBERON:zone of skin of hand,male
+L5S38,mge35016,UBERON:skin,UBERON:zone of skin of hand,male
+L5S39,mge36500,UBERON:skin,UBERON:zone of skin of hand,male
+L5S4,mge35042,UBERON:skin,UBERON:zone of skin of hand,male
+L5S40,mge35734,UBERON:skin,UBERON:zone of skin of hand,male
+L5S44,mge35760,UBERON:skin,UBERON:zone of skin of hand,male
+L5S45,mge36206,UBERON:skin,UBERON:zone of skin of hand,male
+L5S47,mge35622,UBERON:skin,UBERON:zone of skin of hand,male
+L5S51,mge34929,UBERON:skin,UBERON:zone of skin of hand,male
+L5S53,mge36507,UBERON:skin,UBERON:zone of skin of hand,male
+L5S54,mge35447,UBERON:skin,UBERON:zone of skin of hand,male
+L5S55,mge35064,UBERON:skin,UBERON:zone of skin of hand,male
+L5S56,mge36174,UBERON:skin,UBERON:zone of skin of hand,male
+L5S57,mge36280,UBERON:skin,UBERON:zone of skin of hand,male
+L5S58,mge36150,UBERON:skin,UBERON:zone of skin of hand,male
+L5S59,mge35320,UBERON:skin,UBERON:zone of skin of hand,male
+L5S6,mge36073,UBERON:skin,UBERON:zone of skin of hand,male
+L5S60,mge36324,UBERON:skin,UBERON:zone of skin of hand,male
+L5S62,mge35030,UBERON:skin,UBERON:zone of skin of hand,male
+L5S66,mge36874,UBERON:skin,UBERON:zone of skin of hand,male
+L5S67,mge36113,UBERON:skin,UBERON:zone of skin of hand,male
+L5S68,mge34885,UBERON:skin,UBERON:zone of skin of hand,male
+L5S7,mge36172,UBERON:skin,UBERON:zone of skin of hand,male
+L5S70,mge35434,UBERON:skin,UBERON:zone of skin of hand,male
+L5S71,mge36331,UBERON:skin,UBERON:zone of skin of hand,male
+L5S72,mge36541,UBERON:skin,UBERON:zone of skin of hand,male
+L5S73,mge36333,UBERON:skin,UBERON:zone of skin of hand,male
+L5S74,mge35656,UBERON:skin,UBERON:zone of skin of hand,male
+L5S75,mge35245,UBERON:skin,UBERON:zone of skin of hand,male
+L5S76,mge36108,UBERON:skin,UBERON:zone of skin of hand,male
+L5S79,mge35396,UBERON:skin,UBERON:zone of skin of hand,male
+L5S9,mge35569,UBERON:skin,UBERON:zone of skin of hand,male
+L5S98,mge35337,UBERON:oral cavity,UBERON:tongue,female
+L6S10,mge36266,UBERON:oral cavity,UBERON:tongue,male
+L6S100,mge35885,UBERON:oral cavity,UBERON:tongue,male
+L6S101,mge36269,UBERON:oral cavity,UBERON:tongue,male
+L6S102,mge36119,UBERON:oral cavity,UBERON:tongue,male
+L6S103,mge34901,UBERON:oral cavity,UBERON:tongue,male
+L6S104,mge35632,UBERON:oral cavity,UBERON:tongue,male
+L6S109,mge36273,UBERON:oral cavity,UBERON:tongue,male
+L6S110,mge35374,UBERON:oral cavity,UBERON:tongue,male
+L6S113,mge36289,UBERON:oral cavity,UBERON:tongue,male
+L6S114,mge36193,UBERON:oral cavity,UBERON:tongue,male
+L6S115,mge34926,UBERON:oral cavity,UBERON:tongue,male
+L6S116,mge36767,UBERON:oral cavity,UBERON:tongue,male
+L6S117,mge36204,UBERON:oral cavity,UBERON:tongue,male
+L6S118,mge35423,UBERON:oral cavity,UBERON:tongue,male
+L6S119,mge35612,UBERON:oral cavity,UBERON:tongue,male
+L6S120,mge35153,UBERON:oral cavity,UBERON:tongue,male
+L6S121,mge35788,UBERON:oral cavity,UBERON:tongue,male
+L6S123,mge35660,UBERON:oral cavity,UBERON:tongue,male
+L6S124,mge35628,UBERON:oral cavity,UBERON:tongue,male
+L6S127,mge35650,UBERON:oral cavity,UBERON:tongue,male
+L6S128,mge36443,UBERON:oral cavity,UBERON:tongue,male
+L6S129,mge35162,UBERON:oral cavity,UBERON:tongue,male
+L6S131,mge36467,UBERON:oral cavity,UBERON:tongue,male
+L6S132,mge35684,UBERON:oral cavity,UBERON:tongue,male
+L6S133,mge35898,UBERON:oral cavity,UBERON:tongue,male
+L6S135,mge36063,UBERON:oral cavity,UBERON:tongue,male
+L6S136,mge34869,UBERON:oral cavity,UBERON:tongue,male
+L6S138,mge35215,UBERON:oral cavity,UBERON:tongue,male
+L6S139,mge36474,UBERON:oral cavity,UBERON:tongue,male
+L6S14,mge34907,UBERON:oral cavity,UBERON:tongue,male
+L6S141,mge36200,UBERON:oral cavity,UBERON:tongue,male
+L6S142,mge34878,UBERON:oral cavity,UBERON:tongue,male
+L6S143,mge36909,UBERON:oral cavity,UBERON:tongue,male
+L6S145,mge34997,UBERON:oral cavity,UBERON:tongue,male
+L6S147,mge35458,UBERON:oral cavity,UBERON:tongue,male
+L6S148,mge35120,UBERON:oral cavity,UBERON:tongue,male
+L6S150,mge35365,UBERON:oral cavity,UBERON:tongue,male
+L6S151,mge35721,UBERON:oral cavity,UBERON:tongue,male
+L6S152,mge36181,UBERON:oral cavity,UBERON:tongue,male
+L6S154,mge35810,UBERON:oral cavity,UBERON:tongue,male
+L6S156,mge34920,UBERON:oral cavity,UBERON:tongue,male
+L6S157,mge35910,UBERON:oral cavity,UBERON:tongue,male
+L6S16,mge36549,UBERON:oral cavity,UBERON:tongue,male
+L6S160,mge35471,UBERON:oral cavity,UBERON:tongue,male
+L6S161,mge35073,UBERON:oral cavity,UBERON:tongue,male
+L6S162,mge36142,UBERON:oral cavity,UBERON:tongue,male
+L6S164,mge35816,UBERON:oral cavity,UBERON:tongue,male
+L6S165,mge35446,UBERON:oral cavity,UBERON:tongue,male
+L6S167,mge35837,UBERON:oral cavity,UBERON:tongue,male
+L6S168,mge35081,UBERON:oral cavity,UBERON:tongue,male
+L6S169,mge35317,UBERON:oral cavity,UBERON:tongue,male
+L6S17,mge35674,UBERON:oral cavity,UBERON:tongue,male
+L6S172,mge36083,UBERON:oral cavity,UBERON:tongue,male
+L6S173,mge35912,UBERON:oral cavity,UBERON:tongue,male
+L6S174,mge35618,UBERON:oral cavity,UBERON:tongue,male
+L6S175,mge34917,UBERON:oral cavity,UBERON:tongue,male
+L6S177,mge36176,UBERON:oral cavity,UBERON:tongue,male
+L6S178,mge36318,UBERON:oral cavity,UBERON:tongue,male
+L6S179,mge36068,UBERON:oral cavity,UBERON:tongue,male
+L6S18,mge35089,UBERON:oral cavity,UBERON:tongue,male
+L6S181,mge36215,UBERON:oral cavity,UBERON:tongue,male
+L6S182,mge35132,UBERON:oral cavity,UBERON:tongue,male
+L6S183,mge34951,UBERON:oral cavity,UBERON:tongue,male
+L6S185,mge36281,UBERON:oral cavity,UBERON:tongue,male
+L6S186,mge35220,UBERON:oral cavity,UBERON:tongue,male
+L6S187,mge36570,UBERON:oral cavity,UBERON:tongue,male
+L6S189,mge36835,UBERON:oral cavity,UBERON:tongue,male
+L6S190,mge36481,UBERON:oral cavity,UBERON:tongue,male
+L6S191,mge35087,UBERON:oral cavity,UBERON:tongue,male
+L6S193,mge36837,UBERON:oral cavity,UBERON:tongue,male
+L6S194,mge35069,UBERON:oral cavity,UBERON:tongue,male
+L6S195,mge35751,UBERON:oral cavity,UBERON:tongue,male
+L6S197,mge36306,UBERON:oral cavity,UBERON:tongue,male
+L6S198,mge35309,UBERON:oral cavity,UBERON:tongue,male
+L6S2,mge35190,UBERON:oral cavity,UBERON:tongue,male
+L6S20,mge36482,UBERON:oral cavity,UBERON:tongue,male
+L6S200,mge35675,UBERON:oral cavity,UBERON:tongue,male
+L6S203,mge35369,UBERON:oral cavity,UBERON:tongue,male
+L6S204,mge36888,UBERON:oral cavity,UBERON:tongue,male
+L6S206,mge34992,UBERON:oral cavity,UBERON:tongue,male
+L6S207,mge35465,UBERON:oral cavity,UBERON:tongue,male
+L6S208,mge36342,UBERON:oral cavity,UBERON:tongue,male
+L6S209,mge36452,UBERON:oral cavity,UBERON:tongue,male
+L6S21,mge34949,UBERON:oral cavity,UBERON:tongue,male
+L6S210,mge36219,UBERON:oral cavity,UBERON:tongue,male
+L6S212,mge34993,UBERON:oral cavity,UBERON:tongue,male
+L6S213,mge35712,UBERON:oral cavity,UBERON:tongue,male
+L6S214,mge35757,UBERON:oral cavity,UBERON:tongue,male
+L6S215,mge36465,UBERON:oral cavity,UBERON:tongue,male
+L6S216,mge35625,UBERON:oral cavity,UBERON:tongue,male
+L6S217,mge36536,UBERON:oral cavity,UBERON:tongue,male
+L6S218,mge35378,UBERON:oral cavity,UBERON:tongue,male
+L6S219,mge34889,UBERON:oral cavity,UBERON:tongue,male
+L6S22,mge36336,UBERON:oral cavity,UBERON:tongue,male
+L6S221,mge36307,UBERON:oral cavity,UBERON:tongue,male
+L6S225,mge36771,UBERON:oral cavity,UBERON:tongue,male
+L6S226,mge35762,UBERON:oral cavity,UBERON:tongue,male
+L6S227,mge35758,UBERON:oral cavity,UBERON:tongue,male
+L6S229,mge35134,UBERON:oral cavity,UBERON:tongue,male
+L6S23,mge36308,UBERON:oral cavity,UBERON:tongue,male
+L6S231,mge36476,UBERON:oral cavity,UBERON:tongue,male
+L6S232,mge35787,UBERON:oral cavity,UBERON:tongue,male
+L6S234,mge35907,UBERON:oral cavity,UBERON:tongue,male
+L6S236,mge35476,UBERON:oral cavity,UBERON:tongue,male
+L6S239,mge36520,UBERON:oral cavity,UBERON:tongue,male
+L6S24,mge34899,UBERON:oral cavity,UBERON:tongue,male
+L6S240,mge35822,UBERON:oral cavity,UBERON:tongue,male
+L6S241,mge35882,UBERON:oral cavity,UBERON:tongue,male
+L6S242,mge36483,UBERON:oral cavity,UBERON:tongue,male
+L6S243,mge35835,UBERON:oral cavity,UBERON:tongue,male
+L6S244,mge35362,UBERON:oral cavity,UBERON:tongue,male
+L6S245,mge36924,UBERON:oral cavity,UBERON:tongue,male
+L6S246,mge35201,UBERON:oral cavity,UBERON:tongue,male
+L6S247,mge34910,UBERON:oral cavity,UBERON:tongue,male
+L6S248,mge35164,UBERON:oral cavity,UBERON:tongue,male
+L6S250,mge35715,UBERON:oral cavity,UBERON:tongue,male
+L6S251,mge35876,UBERON:oral cavity,UBERON:tongue,male
+L6S252,mge36156,UBERON:oral cavity,UBERON:tongue,male
+L6S254,mge35053,UBERON:oral cavity,UBERON:tongue,male
+L6S255,mge35665,UBERON:oral cavity,UBERON:tongue,male
+L6S256,mge35700,UBERON:oral cavity,UBERON:tongue,male
+L6S258,mge36088,UBERON:oral cavity,UBERON:tongue,male
+L6S259,mge36446,UBERON:oral cavity,UBERON:tongue,male
+L6S260,mge36094,UBERON:oral cavity,UBERON:tongue,male
+L6S261,mge36212,UBERON:oral cavity,UBERON:tongue,male
+L6S262,mge36122,UBERON:oral cavity,UBERON:tongue,male
+L6S263,mge35216,UBERON:oral cavity,UBERON:tongue,male
+L6S267,mge35192,UBERON:oral cavity,UBERON:tongue,male
+L6S269,mge35355,UBERON:oral cavity,UBERON:tongue,male
+L6S27,mge36775,UBERON:oral cavity,UBERON:tongue,male
+L6S270,mge36834,UBERON:oral cavity,UBERON:tongue,male
+L6S273,mge36033,UBERON:oral cavity,UBERON:tongue,male
+L6S275,mge35570,UBERON:oral cavity,UBERON:tongue,male
+L6S277,mge34976,UBERON:oral cavity,UBERON:tongue,male
+L6S278,mge34981,UBERON:oral cavity,UBERON:tongue,male
+L6S279,mge36241,UBERON:oral cavity,UBERON:tongue,male
+L6S28,mge34948,UBERON:oral cavity,UBERON:tongue,male
+L6S280,mge36471,UBERON:oral cavity,UBERON:tongue,male
+L6S281,mge35313,UBERON:oral cavity,UBERON:tongue,male
+L6S282,mge35809,UBERON:oral cavity,UBERON:tongue,male
+L6S283,mge36051,UBERON:oral cavity,UBERON:tongue,male
+L6S285,mge36473,UBERON:oral cavity,UBERON:tongue,male
+L6S287,mge35425,UBERON:oral cavity,UBERON:tongue,male
+L6S289,mge35114,UBERON:oral cavity,UBERON:tongue,male
+L6S29,mge35470,UBERON:oral cavity,UBERON:tongue,male
+L6S291,mge36089,UBERON:oral cavity,UBERON:tongue,male
+L6S292,mge36903,UBERON:oral cavity,UBERON:tongue,male
+L6S293,mge35793,UBERON:oral cavity,UBERON:tongue,male
+L6S296,mge35158,UBERON:oral cavity,UBERON:tongue,male
+L6S298,mge34886,UBERON:oral cavity,UBERON:tongue,male
+L6S299,mge35852,UBERON:oral cavity,UBERON:tongue,male
+L6S3,mge36144,UBERON:oral cavity,UBERON:tongue,male
+L6S30,mge35781,UBERON:oral cavity,UBERON:tongue,male
+L6S301,mge35421,UBERON:oral cavity,UBERON:tongue,male
+L6S302,mge36093,UBERON:oral cavity,UBERON:tongue,male
+L6S303,mge34985,UBERON:oral cavity,UBERON:tongue,male
+L6S306,mge36329,UBERON:oral cavity,UBERON:tongue,male
+L6S308,mge35204,UBERON:oral cavity,UBERON:tongue,male
+L6S309,mge35780,UBERON:oral cavity,UBERON:tongue,male
+L6S31,mge36086,UBERON:oral cavity,UBERON:tongue,male
+L6S310,mge36309,UBERON:oral cavity,UBERON:tongue,male
+L6S311,mge34900,UBERON:oral cavity,UBERON:tongue,male
+L6S312,mge36897,UBERON:oral cavity,UBERON:tongue,male
+L6S314,mge36261,UBERON:oral cavity,UBERON:tongue,male
+L6S316,mge35256,UBERON:oral cavity,UBERON:tongue,male
+L6S317,mge34958,UBERON:oral cavity,UBERON:tongue,male
+L6S318,mge36233,UBERON:oral cavity,UBERON:tongue,male
+L6S319,mge35451,UBERON:oral cavity,UBERON:tongue,male
+L6S32,mge35597,UBERON:oral cavity,UBERON:tongue,male
+L6S321,mge35725,UBERON:oral cavity,UBERON:tongue,male
+L6S324,mge36890,UBERON:oral cavity,UBERON:tongue,male
+L6S325,mge34963,UBERON:oral cavity,UBERON:tongue,male
+L6S326,mge35085,UBERON:oral cavity,UBERON:tongue,male
+L6S327,mge34964,UBERON:oral cavity,UBERON:tongue,male
+L6S329,mge35324,UBERON:gut,UBERON:feces,male
+L6S33,mge34943,UBERON:oral cavity,UBERON:tongue,male
+L6S330,mge36223,UBERON:gut,UBERON:feces,male
+L6S331,mge36535,UBERON:gut,UBERON:feces,male
+L6S34,mge35640,UBERON:oral cavity,UBERON:tongue,male
+L6S35,mge36562,UBERON:oral cavity,UBERON:tongue,male
+L6S36,mge36231,UBERON:oral cavity,UBERON:tongue,male
+L6S37,mge35155,UBERON:oral cavity,UBERON:tongue,male
+L6S38,mge35182,UBERON:oral cavity,UBERON:tongue,male
+L6S4,mge36084,UBERON:oral cavity,UBERON:tongue,male
+L6S40,mge36484,UBERON:oral cavity,UBERON:tongue,male
+L6S41,mge36098,UBERON:oral cavity,UBERON:tongue,male
+L6S42,mge35825,UBERON:oral cavity,UBERON:tongue,male
+L6S44,mge36567,UBERON:oral cavity,UBERON:tongue,male
+L6S45,mge36270,UBERON:oral cavity,UBERON:tongue,male
+L6S47,mge35643,UBERON:oral cavity,UBERON:tongue,male
+L6S49,mge36872,UBERON:oral cavity,UBERON:tongue,male
+L6S5,mge36456,UBERON:oral cavity,UBERON:tongue,male
+L6S50,mge35045,UBERON:oral cavity,UBERON:tongue,male
+L6S51,mge35777,UBERON:oral cavity,UBERON:tongue,male
+L6S53,mge35395,UBERON:oral cavity,UBERON:tongue,male
+L6S54,mge34952,UBERON:oral cavity,UBERON:tongue,male
+L6S56,mge35332,UBERON:oral cavity,UBERON:tongue,male
+L6S59,mge35591,UBERON:oral cavity,UBERON:tongue,male
+L6S6,mge36472,UBERON:oral cavity,UBERON:tongue,male
+L6S60,mge36058,UBERON:oral cavity,UBERON:tongue,male
+L6S61,mge36470,UBERON:oral cavity,UBERON:tongue,male
+L6S62,mge36754,UBERON:oral cavity,UBERON:tongue,male
+L6S63,mge35769,UBERON:oral cavity,UBERON:tongue,male
+L6S64,mge36556,UBERON:oral cavity,UBERON:tongue,male
+L6S65,mge36305,UBERON:oral cavity,UBERON:tongue,male
+L6S67,mge35352,UBERON:oral cavity,UBERON:tongue,male
+L6S68,mge36441,UBERON:oral cavity,UBERON:tongue,male
+L6S7,mge35022,UBERON:oral cavity,UBERON:tongue,male
+L6S70,mge35914,UBERON:oral cavity,UBERON:tongue,male
+L6S71,mge35658,UBERON:oral cavity,UBERON:tongue,male
+L6S72,mge35635,UBERON:oral cavity,UBERON:tongue,male
+L6S73,mge36275,UBERON:oral cavity,UBERON:tongue,male
+L6S74,mge35752,UBERON:oral cavity,UBERON:tongue,male
+L6S75,mge36462,UBERON:oral cavity,UBERON:tongue,male
+L6S77,mge35308,UBERON:oral cavity,UBERON:tongue,male
+L6S79,mge34980,UBERON:oral cavity,UBERON:tongue,male
+L6S8,mge35678,UBERON:oral cavity,UBERON:tongue,male
+L6S80,mge36047,UBERON:oral cavity,UBERON:tongue,male
+L6S81,mge36240,UBERON:oral cavity,UBERON:tongue,male
+L6S82,mge36531,UBERON:oral cavity,UBERON:tongue,male
+L6S83,mge35698,UBERON:oral cavity,UBERON:tongue,male
+L6S84,mge35746,UBERON:oral cavity,UBERON:tongue,male
+L6S86,mge34959,UBERON:oral cavity,UBERON:tongue,male
+L6S87,mge36064,UBERON:oral cavity,UBERON:tongue,male
+L6S88,mge34874,UBERON:oral cavity,UBERON:tongue,male
+L6S89,mge35897,UBERON:oral cavity,UBERON:tongue,male
+L6S9,mge36527,UBERON:oral cavity,UBERON:tongue,male
+L6S92,mge35636,UBERON:oral cavity,UBERON:tongue,male
+L6S93,mge35654,UBERON:oral cavity,UBERON:tongue,male
+L6S94,mge36039,UBERON:oral cavity,UBERON:tongue,male
+L6S97,mge35442,UBERON:oral cavity,UBERON:tongue,male
+L6S99,mge35315,UBERON:oral cavity,UBERON:tongue,male

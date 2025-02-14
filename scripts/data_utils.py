@@ -806,7 +806,7 @@ def calculate_logfold_matrix(rel_s_by_s, days):
 
 
 
-def find_runs(x):
+def find_runs(x, min_run_length=1):
     """Find runs of consecutive items in an array."""
 
     # ensure array
@@ -832,7 +832,13 @@ def find_runs(x):
         # find run lengths
         run_lengths = numpy.diff(numpy.append(run_starts, n))
 
-        return run_values, run_starts, run_lengths
+        to_keep_idx = (run_lengths>=min_run_length)
+
+        run_values_subset = run_values[to_keep_idx]
+        run_starts_subseet = run_starts[to_keep_idx]
+        run_lengths_subset = run_lengths[to_keep_idx]
+
+        return run_values_subset, run_starts_subseet, run_lengths_subset
 
 
 

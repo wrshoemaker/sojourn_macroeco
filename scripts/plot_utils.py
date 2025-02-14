@@ -1,21 +1,13 @@
 import numpy
-import diversity_utils
 from matplotlib import cm
 import matplotlib as mpl
 from matplotlib import colors
-import phylo_utils
 
 
 
 # taxonomic hierarchy colors
 cmap_offset = int(0.2*16)
 # +cmap_offset
-rgb_blue_taxon = cm.Blues(numpy.linspace(0,1,len(phylo_utils.taxonomic_hierarchies)+3))
-rgb_blue_taxon = mpl.colors.ListedColormap(rgb_blue_taxon[cmap_offset:,:-1])
-
-rgb_blue_taxon_with_asv = cm.Blues(numpy.linspace(0,1,len(phylo_utils.taxonomic_hierarchies_with_asv)+3))
-rgb_blue_taxon_with_asv = mpl.colors.ListedColormap(rgb_blue_taxon_with_asv[cmap_offset:,:-1])
-
 
 rgb_blue_phylo = cm.Blues(numpy.linspace(0,1,100+3))
 rgb_blue_phylo = mpl.colors.ListedColormap(rgb_blue_phylo[cmap_offset:,:-1])

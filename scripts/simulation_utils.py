@@ -37,8 +37,38 @@ def calculate_mean_and_cv_demog(m, r, D):
 
 
 
+def calculate_params_for_slm_and_demog(x_bar, cv, timescale):
 
-def simulate_slm_trajectory(n_days=1000, n_reps=100, k=10000, sigma=1, tau=7, n_grid_points=1000, init_log=False, return_log=False):
+    # calculates parameters for the two models given mean, CV, and timescale
+
+    # SLM
+    sigma = 2*(((cv**-2)+1)**-1)
+    k = x_bar*((1 - (sigma/2))**-1)
+    tau = timescale
+
+    # demog
+    # timescale inferred from Eq. 3 of Brigatti and Azaele: https://doi.org/10.1038/s41598-024-82882-x
+    r = 1/timescale
+    m = r*x_bar
+    D = (cv**2)*m
+    
+    # So we don't have to keep track of the order of returned variables
+    param_dict = {}
+    param_dict['k'] = k
+    param_dict['sigma'] = sigma
+    param_dict['tau'] = tau
+    
+    param_dict['m'] = m
+    param_dict['D'] = D
+    param_dict['r'] = r
+
+    return param_dict
+
+
+
+
+
+def simulate_slm_trajectory(n_days=1000, n_reps=100, k=10000, sigma=1, tau=7, n_grid_points=500, init_log=False, return_log=False):
 
     # n_days = length of trajectory
     # n_reps = number of replicate trajectories
@@ -71,13 +101,16 @@ def simulate_slm_trajectory(n_days=1000, n_reps=100, k=10000, sigma=1, tau=7, n_
     q_matrix = numpy.zeros(shape=(n_iter+1, n_reps))
     q_matrix[0,:] = q_0
 
-    z = numpy.random.randn(n_iter, n_reps)
-
+    #z = numpy.random.randn(n_iter, n_reps)
+    #z = stats.norm.rvs(size=(n_iter, n_reps))
+    # Multiply z by its constants
+    #z = z*numpy.sqrt(sigma*delta_t/tau)
+    
     for t_idx in range(n_iter):
 
         q_t = q_matrix[t_idx,:]
         # we can use t_idx for z because it has one less column than q_matrix
-        q_matrix[t_idx+1,:] = q_t + (1/tau)*(1 - (sigma/2) - numpy.exp(q_t)/k)*delta_t + numpy.sqrt(sigma*delta_t/tau)*z[t_idx,:]
+        q_matrix[t_idx+1,:] = q_t + (1/tau)*(1 - (sigma/2) - numpy.exp(q_t)/k)*delta_t + numpy.sqrt(sigma*delta_t/tau)*stats.norm.rvs(size=n_reps)
 
 
     # select samples you want to keep
@@ -97,7 +130,7 @@ def simulate_slm_trajectory(n_days=1000, n_reps=100, k=10000, sigma=1, tau=7, n_
 
 
 
-def simulate_demog_trajectory_dornic(n_days, n_reps, m, r, D, delta_t = 1):
+def simulate_demog_trajectory_dornic(n_days, n_reps, m, r, D, delta_t = 1, x_0=None):
 
     # Uses the convolution derived by Dornic et al to generate a trajctory of a migration-birth-drift SDE
     # sampling occurs *daily* like in the human gut timeseries
@@ -107,7 +140,9 @@ def simulate_demog_trajectory_dornic(n_days, n_reps, m, r, D, delta_t = 1):
     
 
     # expected value of the stationary distribution
-    x_0 = m/r
+
+    if x_0 == None:
+        x_0 = m/r
 
     # redefine variables for conveinance
     alpha = m
@@ -253,32 +288,45 @@ def calculate_moments_sojourn_time(x_matrix):
 
 
 
-def calculate_mean_deviation_pattern_simulation(x_matrix, min_run_length=10, min_n_runs=10, epsilon=None):
+def calculate_mean_deviation_pattern_simulation(x_matrix, min_run_length=10, min_n_runs=10, epsilon=None, x_0=None):
 
     # min_n_runs = minimum number of replicate trajectories belonging to a given sojourn time to be included in the analysis
+    # x_0 = initial condition. Default is that none is provided. If it is provided, it is used. 
+    # assumes that the in
 
-    deviation_x = x_matrix[1:,:] - x_matrix[0,:]
+    if x_0 != None:
+        deviation_x = x_matrix[1:,:] - x_0
+
+    else:
+        deviation_x = x_matrix[1:,:] - x_matrix[0,:]
+    
 
     # relative deviation from origin: epsilon = (x(t) - x(0))/x(0)
     # Absolute value of the relative deviation must be within +/- epsilon at start and end of sojourn period
     #epsilon = 0.1
     #x_epsilon = x_matrix[0,0]*epsilon
 
-    run_lengths_all = []
-    run_sum_all = []
-    run_deviation_all = []
+    #run_lengths_all = []
+    #run_sum_all = []
+    #run_deviation_all = []
+
+    run_dict = {}
 
     for deviation_traj in deviation_x.T:
 
         run_values, run_starts, run_lengths = data_utils.find_runs(deviation_traj>0, min_run_length=min_run_length)
 
         #run_lengths_all.append(run_lengths)
-
         for run_j_idx in range(len(run_values)):
             
             #run_values_j = run_values[run_j_idx]
             run_starts_j = run_starts[run_j_idx]
             run_length_j = run_lengths[run_j_idx]
+
+            # cannot have a sojourn time that is the length of the entire timeseries
+            # weird fluctuations here, ignore..
+            if (run_length_j >= deviation_x.shape[0]-3):
+                continue
 
             if epsilon != None:
                 
@@ -333,49 +381,72 @@ def calculate_mean_deviation_pattern_simulation(x_matrix, min_run_length=10, min
             else:
                 run_deviation_j = numpy.absolute(deviation_traj[run_starts_j:(run_starts_j + run_length_j)])
 
+            # have to check again...
+            #if len(run_deviation_j) == deviation_x.shape[0]:
+            #    continue
 
-            run_lengths_all.append(len(run_deviation_j))
-            run_sum_all.append(sum(run_deviation_j))
-            run_deviation_all.append(run_deviation_j)
+            
+            run_lengths_new_j = len(run_deviation_j)
+            if run_lengths_new_j not in run_dict:
+                run_dict[run_lengths_new_j] = []
+
+            #run_lengths_all.append(len(run_deviation_j))
+            #run_sum_all.append(sum(run_deviation_j))
+            #run_deviation_all.append(run_deviation_j)
+
+            run_dict[run_lengths_new_j].append(run_deviation_j)
 
 
     #run_lengths_all = numpy.concatenate(run_lengths_all).ravel()
-    run_lengths_all = numpy.asarray(run_lengths_all)
-    run_sum_all = numpy.asarray(run_sum_all, dtype=object)
-    run_deviation_all = numpy.asarray(run_deviation_all, dtype=object)
+    #run_lengths_all = numpy.asarray(run_lengths_all)
+    #run_sum_all = numpy.asarray(run_sum_all, dtype=object)
+    #run_deviation_all = numpy.asarray(run_deviation_all, dtype=object)
 
     # sorts the set
     #run_lengths_set = numpy.asarray(list(set(run_lengths_all.tolist())))
-    run_lengths_set = numpy.unique(run_lengths_all)
-    rescaled_mean_run_deviation_all = []
+    #run_lengths_set = numpy.unique(run_lengths_all)
+    run_lengths_set = list(run_dict.keys())
+    run_lengths_set.sort()
+
     run_length_all_final = []
+    mean_run_deviation_all_final = []
+
+    #for run_length_i in run_lengths_set:
     for run_length_i in run_lengths_set:
 
-        idx_i = (run_lengths_all==run_length_i)
+        run_deviation_i = run_dict[run_length_i]
+
+        #idx_i = (run_lengths_all==run_length_i)
 
         # Insufficient number of replicates
-        if sum(idx_i) < min_n_runs:
+        #if sum(idx_i) < min_n_runs:
+        #    continue
+
+        if len(run_deviation_i) < min_n_runs:
             continue
 
-        #rescaling_constant_i = numpy.mean(run_sum_all[idx_i])
+        run_length_all_final.append(run_length_i)
+        mean_run_deviation_all_final.append(numpy.mean(run_deviation_i, axis=0))
         
         # slice and form into matrix.
-        run_deviation_matrix_i = numpy.vstack(run_deviation_all[idx_i])
+        #run_deviation_matrix_i = numpy.vstack(run_deviation_all[idx_i])
         # try rescaling by sum within each replicate
-        #print(run_length_i, len(numpy.sum(run_deviation_matrix_i, axis=1)))
         #run_deviation_matrix_i = run_deviation_matrix_i/numpy.sum(run_deviation_matrix_i, axis=1)
         #run_deviation_matrix_i = ((run_deviation_matrix_i.T)/numpy.sum(run_deviation_matrix_i, axis=1)).T
-
-        mean_run_deviation_i = numpy.mean(run_deviation_matrix_i, axis=0)
         #rescaled_mean_run_deviation_i = mean_run_deviation_i#/sum(mean_run_deviation_i)
-        run_length_all_final.append(run_length_i)
-        rescaled_mean_run_deviation_all.append(mean_run_deviation_i)
+
+        #mean_run_deviation_i = numpy.mean(run_deviation_matrix_i, axis=0)
+        #mean_run_deviation_i = numpy.mean(run_deviation_all[idx_i])
+        #run_length_all_final.append(run_length_i)
+        #rescaled_mean_run_deviation_all.append(mean_run_deviation_i)
 
     # should be sorted
     run_length_all_final = numpy.asarray(run_length_all_final)
-    rescaled_mean_run_deviation_all = numpy.asarray(rescaled_mean_run_deviation_all, dtype=object)
+    mean_run_deviation_all_final = numpy.asarray(mean_run_deviation_all_final, dtype=object)
 
-    return run_length_all_final, rescaled_mean_run_deviation_all
+
+
+    return run_length_all_final, mean_run_deviation_all_final
     
 
 
@@ -555,13 +626,10 @@ if __name__ == "__main__":
 
     print("Running...")
 
-    n_days=1000
-    n_reps=100
+    #n_days=1000
+    #n_reps=100
 
-    test_x = simulate_brownian_trajectory_semi_infinite(n_days, n_reps, D=1, x_0=1000, delta_t=1)
-
-    print(test_x)
-
+  
 
 
 

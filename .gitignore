@@ -1,1 +1,3 @@
 .DS_Store
+./data/demog_dict.pickle
+data/demog_dict.pickle

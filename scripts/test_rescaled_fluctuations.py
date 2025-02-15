@@ -21,8 +21,6 @@ import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 from matplotlib import cm, colors
 
-
-
 from matplotlib.lines import Line2D
 from matplotlib.patches import Patch
 

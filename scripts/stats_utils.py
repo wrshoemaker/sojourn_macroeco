@@ -26,8 +26,9 @@ numpy.random.seed(123456789)
 
 
 def estimate_normalization_constant(range_, values_):
-
-    norm_factor = integrate.simps(values_, range_)
+    
+    # for Py3.11
+    norm_factor = integrate.simpson(values_, range_)
 
     return norm_factor
 
@@ -43,7 +44,7 @@ def log_log_regression(x_, y_, min_x=None):
 
     slope, intercept, r_valuer_value, p_value, std_err = stats.linregress(numpy.log10(x_), numpy.log10(y_))
 
-    return slope, intercept, 
+    return slope, intercept
 
 
 def estimate_sojourn_vs_constant_relationship(run_length, mean_run_deviation):

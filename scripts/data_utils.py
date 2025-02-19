@@ -842,7 +842,7 @@ def find_runs(x, min_run_length=1):
 
 
 
-def calculate_mean_deviation_pattern_data(x_trajectory, x_0, min_run_length=10, epsilon=None):
+def calculate_deviation_pattern_data(x_trajectory, x_0, min_run_length=10, epsilon=None, return_array=True):
 
     x_deviaton = x_trajectory - x_0
 
@@ -917,6 +917,9 @@ def calculate_mean_deviation_pattern_data(x_trajectory, x_0, min_run_length=10, 
         run_lengths_new_j = len(run_deviation_j)
         if run_lengths_new_j not in run_dict:
             run_dict[run_lengths_new_j] = []
+
+        if return_array == False:
+            run_deviation_j = run_deviation_j.tolist()
 
         run_dict[run_lengths_new_j].append(run_deviation_j)
 

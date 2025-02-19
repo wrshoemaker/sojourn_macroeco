@@ -6,11 +6,14 @@ import sys
 import numpy
 import random
 import pickle
+from collections import Counter
+
 import scipy.stats as stats
 from scipy.spatial import distance
 from scipy.special import digamma, gamma, erf
 from scipy import interpolate
 
+import stats_utils
 import data_utils
 
 
@@ -18,6 +21,9 @@ numpy.random.seed(123456789)
 
 slope_dict_path = '%sfluctuation_slope_dict.pickle' %config.data_directory
 sojourn_moment_dict_path = '%ssojourn_moments_dict.pickle' %config.data_directory
+
+
+sojourn_time_dist_sim_dict_path = '%ssojourn_time_dist_sim_dict.pickle' %config.data_directory
 
 
 def calculate_mean_and_cv_slm(k, sigma):
@@ -96,9 +102,12 @@ def simulate_slm_trajectory(n_days=1000, n_reps=100, k=10000, sigma=1, tau=7, n_
     # total number of iterations
     n_iter = n_grid_points*n_days
     delta_t = tau/n_grid_points
+    noise_constant = numpy.sqrt(sigma*delta_t/tau)
     
     # +1 for initial condition
-    q_matrix = numpy.zeros(shape=(n_iter+1, n_reps))
+    #q_matrix = numpy.zeros(shape=(n_iter+1, n_reps))
+
+    q_matrix = numpy.zeros(shape=(n_days+1, n_reps))
     q_matrix[0,:] = q_0
 
     #z = numpy.random.randn(n_iter, n_reps)
@@ -106,23 +115,39 @@ def simulate_slm_trajectory(n_days=1000, n_reps=100, k=10000, sigma=1, tau=7, n_
     # Multiply z by its constants
     #z = z*numpy.sqrt(sigma*delta_t/tau)
     
-    for t_idx in range(n_iter):
+    q_t_minus_one = q_0
+    # add one so we can use "%"
+    for t_idx in range(1, n_iter+1):
+        #for t_idx in range(n_iter):
 
-        q_t = q_matrix[t_idx,:]
+        #_t = q_matrix[t_idx,:]
         # we can use t_idx for z because it has one less column than q_matrix
-        q_matrix[t_idx+1,:] = q_t + (1/tau)*(1 - (sigma/2) - numpy.exp(q_t)/k)*delta_t + numpy.sqrt(sigma*delta_t/tau)*stats.norm.rvs(size=n_reps)
+        #q_matrix[t_idx+1,:] = q_t + (1/tau)*(1 - (sigma/2) - numpy.exp(q_t)/k)*delta_t + noise_constant*stats.norm.rvs(size=n_reps)
+        q_t = q_t_minus_one + (1/tau)*(1 - (sigma/2) - numpy.exp(q_t_minus_one)/k)*delta_t + noise_constant*stats.norm.rvs(size=n_reps)
+
+        # sampling event
+
+        #modulus_t = t_idx % n_grid_points 
+        #if t_idx % n_grid_points == 0:
+        # supposed to be faster than if statement
+        match (t_idx % n_grid_points):
+            case 0:
+                q_matrix[int(t_idx/n_grid_points),:] = q_t
+
+        q_t_minus_one = q_t
+
 
 
     # select samples you want to keep
-    sample_idx = numpy.arange(0, n_iter, n_grid_points)
-    sample_idx = numpy.append(sample_idx, n_iter)
-    q_matrix_sample = q_matrix[sample_idx,:]
+    #sample_idx = numpy.arange(0, n_iter, n_grid_points)
+    #sample_idx = numpy.append(sample_idx, n_iter)
+    #q_matrix_sample = q_matrix[sample_idx,:]
 
     if return_log == True:
-        matrix_sample_final = q_matrix_sample
+        matrix_sample_final = q_matrix
 
     else:
-        matrix_sample_final = numpy.exp(q_matrix_sample)
+        matrix_sample_final = numpy.exp(q_matrix)
 
 
     return matrix_sample_final
@@ -287,12 +312,37 @@ def calculate_moments_sojourn_time(x_matrix):
     return mean_run_length_all, std_run_length_all, max_run_length_all
 
 
+def calculate_sojourn_time_dist(x_matrix, min_run_length=1, x_0=None):
+
+    if x_0 != None:
+        deviation_x = x_matrix[1:,:] - x_0
+
+    else:
+        deviation_x = x_matrix[1:,:] - x_matrix[0,:]
+
+    run_lengths_all = []
+
+    for deviation_traj in deviation_x.T:
+
+        run_values, run_starts, run_lengths = data_utils.find_runs(deviation_traj>0, min_run_length=min_run_length)
+        run_lengths_all.append(run_lengths)
+
+    run_lengths_all = numpy.concatenate(run_lengths_all).ravel()
+
+    return run_lengths_all
+
+    
+
+
 
 def calculate_mean_deviation_pattern_simulation(x_matrix, min_run_length=10, min_n_runs=10, epsilon=None, x_0=None):
 
     # min_n_runs = minimum number of replicate trajectories belonging to a given sojourn time to be included in the analysis
     # x_0 = initial condition. Default is that none is provided. If it is provided, it is used. 
-    # assumes that the in
+    # relative deviation from origin: epsilon = (x(t) - x(0))/x(0)
+    # Absolute value of the relative deviation must be within +/- epsilon at start and end of sojourn period
+    # This code return the mean deviation from the origin over a large number of replicate sojourns
+    # It does *not* rescale the mean deviation
 
     if x_0 != None:
         deviation_x = x_matrix[1:,:] - x_0
@@ -300,15 +350,6 @@ def calculate_mean_deviation_pattern_simulation(x_matrix, min_run_length=10, min
     else:
         deviation_x = x_matrix[1:,:] - x_matrix[0,:]
     
-
-    # relative deviation from origin: epsilon = (x(t) - x(0))/x(0)
-    # Absolute value of the relative deviation must be within +/- epsilon at start and end of sojourn period
-    #epsilon = 0.1
-    #x_epsilon = x_matrix[0,0]*epsilon
-
-    #run_lengths_all = []
-    #run_sum_all = []
-    #run_deviation_all = []
 
     run_dict = {}
 
@@ -440,10 +481,9 @@ def calculate_mean_deviation_pattern_simulation(x_matrix, min_run_length=10, min
         #run_length_all_final.append(run_length_i)
         #rescaled_mean_run_deviation_all.append(mean_run_deviation_i)
 
-    # should be sorted
+    # should already be sorted
     run_length_all_final = numpy.asarray(run_length_all_final)
     mean_run_deviation_all_final = numpy.asarray(mean_run_deviation_all_final, dtype=object)
-
 
 
     return run_length_all_final, mean_run_deviation_all_final
@@ -620,6 +660,114 @@ def simulate_sojourn_time_vs_cumulative_walk_length(n_days, n_reps, n_slopes=100
 
 
 
+def simulate_sojourn_time_dist():
+
+    # We want to understand how the sojourn time distribution varies across parameter regimes and models
+    # We are NOT using the epsilon criteria. We are using all sojourns. 
+
+    n_days=1000
+    n_reps=10000
+
+    dist_dict = {}
+    dist_dict['demog'] = {}
+    dist_dict['slm'] = {}
+
+    dist_dict['n_days'] = n_days
+    dist_dict['n_reps'] = n_reps
+
+    m_range = numpy.logspace(numpy.log10(1), numpy.log10(10000), num=10, endpoint=True, base=10)
+    r_range = numpy.logspace(numpy.log10(0.0001), numpy.log10(0.01), num=10, endpoint=True, base=10)
+    D_range = numpy.logspace(numpy.log10(0.01), numpy.log10(100), num=10, endpoint=True, base=10)
+
+    sigma_range = numpy.logspace(-2, numpy.log10(2), num=10, endpoint=False, base=10)
+    k_range = numpy.logspace(2, 6, num=10, endpoint=True, base=10)
+    tau_range = numpy.logspace(numpy.log10(0.1), numpy.log10(100), num=10, endpoint=True, base=10)
+
+    #m_range = [m_range[0]]
+    #r_range = [r_range[0]]
+    #D_range = [D_range[0]]
+
+    #sigma_range = [sigma_range[0]]
+    #k_range = [k_range[0]]
+    #tau_range = [tau_range[0]]
+
+    # First, demog
+    for m in m_range:
+            
+        dist_dict['demog'][m] = {}
+        
+        for r in r_range:
+
+            dist_dict['demog'][m][r] = {}
+
+            for D in D_range:
+
+                mean_gamma, cv_gamma = calculate_mean_and_cv_demog(m, r, D)
+                mean_square_root_gamma = stats_utils.expected_value_square_root_gamma(mean_gamma, cv_gamma)
+
+                # unlikely that the square root transfomation will yield useful results
+                if numpy.isnan(mean_square_root_gamma) == True:
+                    continue
+
+                # initial condition is expected stationary value of square root of gamma rv
+                x_matrix = simulate_demog_trajectory_dornic(n_days, n_reps, m, r, D, x_0=mean_gamma)
+                x_matrix_sqrt = numpy.sqrt(x_matrix)
+                
+                # skip if there are any non finite values after square root transform
+                if numpy.isfinite(x_matrix_sqrt).all() == False:
+                    continue
+
+                run_lengths = calculate_sojourn_time_dist(x_matrix, min_run_length=1)
+                run_lengths_sqrt = calculate_sojourn_time_dist(x_matrix_sqrt, min_run_length=1, x_0=mean_square_root_gamma)
+
+                print('Demog', m, r, D)
+
+                dist_dict['demog'][m][r][D] = {}
+                dist_dict['demog'][m][r][D]['linear'] = dict(Counter(run_lengths.tolist()))
+                dist_dict['demog'][m][r][D]['sqrt'] = dict(Counter(run_lengths_sqrt.tolist()))
+
+                
+    # then, SLM
+    for sigma in sigma_range:
+            
+        dist_dict['slm'][sigma] = {}
+        
+        for k in k_range:
+
+            dist_dict['slm'][sigma][k] = {}
+
+            for tau in tau_range:
+
+                mean_gamma, cv_gamma = calculate_mean_and_cv_slm(k, sigma)
+                mean_log_gamma = stats_utils.expected_value_log_gamma(mean_gamma, cv_gamma)
+
+                if numpy.isnan(mean_log_gamma) == True:
+                    continue
+                
+                x_matrix = simulate_slm_trajectory(n_days=n_days, n_reps=n_reps, k=k, sigma=sigma, tau=tau, init_log=False, return_log=False)
+                x_matrix_log = numpy.log(x_matrix)
+
+                if numpy.isfinite(x_matrix_log).all() == False:
+                    continue
+
+                run_lengths = calculate_sojourn_time_dist(x_matrix, min_run_length=1)
+                run_lengths_log = calculate_sojourn_time_dist(x_matrix_log, min_run_length=1, x_0=mean_log_gamma)
+
+                print('SLM', sigma, k, tau)
+
+                dist_dict['slm'][sigma][k][tau] = {}
+                dist_dict['slm'][sigma][k][tau]['linear'] = dict(Counter(run_lengths.tolist()))
+                dist_dict['slm'][sigma][k][tau]['log'] = dict(Counter(run_lengths_log.tolist()))
+
+
+    sys.stderr.write("Saving dictionary...\n")
+    with open(sojourn_time_dist_sim_dict_path, 'wb') as outfile:
+        pickle.dump(dist_dict, outfile, protocol=pickle.HIGHEST_PROTOCOL)
+    sys.stderr.write("Done!\n")
+
+    # mylist = [key for key, val in mydict.items() for _ in range(val)]
+    
+
 
 
 if __name__ == "__main__":
@@ -628,6 +776,8 @@ if __name__ == "__main__":
 
     #n_days=1000
     #n_reps=100
+
+    simulate_sojourn_time_dist()
 
   
 

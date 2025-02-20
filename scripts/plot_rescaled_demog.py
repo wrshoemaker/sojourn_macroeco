@@ -44,88 +44,6 @@ D_range = numpy.logspace(numpy.log10(0.01), numpy.log10(100), num=10, endpoint=T
 
 
 
-def make_rescaled_demog_dict():
-
-    demog_dict = {}
-
-    for m in m_range:
-            
-        demog_dict[m] = {}
-        
-        for r in r_range:
-
-            demog_dict[m][r] = {}
-
-            for D in D_range:
-
-                mean_gamma, cv_gamma = simulation_utils.calculate_mean_and_cv_demog(m, r, D)
-                mean_square_root_gamma = stats_utils.expected_value_square_root_gamma(mean_gamma, cv_gamma)
-
-                # unlikely that the square root transfomation will yield useful results
-                if numpy.isnan(mean_square_root_gamma) == True:
-                    continue
-
-                # initial condition is expected stationary value of square root of gamma rv
-                x_matrix = simulation_utils.simulate_demog_trajectory_dornic(n_days, n_reps, m, r, D, x_0=mean_gamma)
-                #x_matrix_sqrt = simulation_utils.simulate_demog_trajectory_dornic(n_days, n_reps, m, r, D, x_0=mean_gamma)
-                # First timepoint has already been transformed....
-                #x_matrix_sqrt[1:,:] = numpy.sqrt(x_matrix[1:,:])
-                x_matrix_sqrt = numpy.sqrt(x_matrix)
-                
-                # skip if there are any non finite values after square root transform
-                if numpy.isfinite(x_matrix_sqrt).all() == False:
-                    continue
-
-                epsilon = 0.1*mean_gamma
-                epsilon_sqrt = 0.1*mean_square_root_gamma
-
-                run_length, mean_run_deviation = simulation_utils.calculate_mean_deviation_pattern_simulation(x_matrix, min_run_length=10, min_n_runs=50, epsilon=epsilon)
-                # epsilon for square root and use expected value of square root stationary gamma rv as initial condition...
-                run_length_sqrt, mean_run_deviation_sqrt = simulation_utils.calculate_mean_deviation_pattern_simulation(x_matrix_sqrt, min_run_length=10, min_n_runs=50, epsilon=epsilon_sqrt, x_0=mean_square_root_gamma)
-
-                if (len(run_length) == 0) or (len(run_length_sqrt) == 0):
-                    continue
-
-                print(m, r, D,  max(run_length), max(run_length_sqrt))
-
-                mean_run_deviation_list = [l.tolist() for l in mean_run_deviation]
-                mean_run_deviation_sqrt_list = [l.tolist() for l in mean_run_deviation_sqrt]
-
-                demog_dict[m][r][D] = {}
-                demog_dict[m][r][D]['linear'] = {}
-                demog_dict[m][r][D]['linear']['run_length'] = run_length.tolist()
-                demog_dict[m][r][D]['linear']['mean_run_deviation'] = mean_run_deviation_list
-
-                demog_dict[m][r][D]['sqrt'] = {}
-                demog_dict[m][r][D]['sqrt']['run_length'] = run_length_sqrt.tolist()
-                demog_dict[m][r][D]['sqrt']['mean_run_deviation'] = mean_run_deviation_sqrt_list
-
-                # calculate slope for sojourn time vs. norm. constant
-
-                for data_type in ['linear', 'sqrt']:
-
-                    if data_type == 'linear':
-                        run_length_ = run_length
-                        mean_run_deviation_ = mean_run_deviation
-
-                    else:
-                        run_length_ = run_length_sqrt
-                        mean_run_deviation_ = mean_run_deviation_sqrt
-
-                    slope, intercept, norm_constant = stats_utils.estimate_sojourn_vs_constant_relationship(run_length_, mean_run_deviation_)
-
-                    demog_dict[m][r][D][data_type]['slope'] = slope
-                    demog_dict[m][r][D][data_type]['intercept'] = intercept
-                    demog_dict[m][r][D][data_type]['norm_constant'] = norm_constant.tolist()
-
-
-
-    sys.stderr.write("Saving dictionary...\n")
-    with open(demog_dict_path, 'wb') as outfile:
-        pickle.dump(demog_dict, outfile, protocol=pickle.HIGHEST_PROTOCOL)
-    sys.stderr.write("Done!\n")
-
-
 
 
 def add_norm_const_to_dict():
@@ -546,12 +464,12 @@ if __name__ == "__main__":
 
     #plot_rescaled_same_sojourn_time(sojourn_time=25)
 
-    #make_rescaled_demog_dict()
+    make_demog_dict()
 
     # figs to make
 
     #add_norm_const_to_dict()
-    plot_compare_slopes()
+    #plot_compare_slopes()
     #plot_sojourn_vs_norm_constant(2.7825594022071245, 0.003593813663804626, 100.0)
 
     # cool sqrt.

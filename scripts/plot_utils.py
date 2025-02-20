@@ -27,6 +27,10 @@ color_radius=2
 host_color_dict = {'david_et_al': {'DonorA_post_travel': 'dodgerblue', 'DonorA_pre_travel': 'royalblue', 'DonorB_post_travel': 'cornflowerblue', 'DonorB_pre_travel': 'steelblue'}, 'poyet_et_al': {'ae': 'orangered', 'am': 'darkred', 'an': 'maroon', 'ao': 'firebrick'}, 'caporaso_et_al': {'F4': 'seagreen', 'M3': 'darkgreen'}}
 
 
+data_type_title_dict = {'linear':'No data transformation', 'sqrt':'Square-root transformation', 'log':'Log transformation'}
+
+sim_type_label_dict = {'demog': 'Demographic', 'slm': 'SLM'}
+
 
 def make_blue_cmap(n):
 

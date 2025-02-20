@@ -842,78 +842,94 @@ def find_runs(x, min_run_length=1):
 
 
 
+def extract_trajectory_epsilon(x_deviation, run_value, run_start, run_length, epsilon=None):
+
+    # cannot have a sojourn time that is the length of the entire timeseries
+    # weird fluctuations here, ignore..
+    if (run_length >= len(x_deviation-1)):
+        run_deviation = None
+
+    if epsilon != None:
+            
+        # avoid issue of walk starting at zero
+        # inclusive
+        start_before = abs(x_deviation[max([(run_start-1), 0])])
+
+        start_after = abs(x_deviation[run_start])
+        # inclusive
+        end_before = abs(x_deviation[(run_start + run_length-1)])
+        end_after = abs(x_deviation[min([(len(x_deviation)-1), (run_start + run_length)])])
+
+        start_before_bool = False
+        start_after_bool = False
+        end_before_bool = False
+        end_after_bool = False
+        
+        if start_before <= epsilon:
+            start_before_bool = True 
+
+        if start_after <= epsilon:
+            start_after_bool = True 
+
+        if end_before <= epsilon:
+            end_before_bool = True 
+
+        if end_after <= epsilon:
+            end_after_bool = True 
+
+        # continue, not within epsilon at either option
+        if ((start_before_bool+start_after_bool) == 0) or ((end_before_bool+end_after_bool) == 0):
+            run_deviation = None
+            
+        # Baldassarri used the first timepoint that reached epsilon 
+        # inclusive
+        if start_before_bool == True:
+            new_run_start = max([(run_start-1), 0])
+        else:
+            new_run_start = run_start
+        
+        # first timepoint at end that reached epsilon
+        # exclusive
+        if end_before == True:
+            new_run_end = run_start + run_length
+        else:
+            new_run_end = run_start + run_length + 1
+
+        if new_run_start == new_run_end:
+            run_deviation = None
+
+        else:
+            run_deviation = x_deviation[new_run_start:new_run_end]
+            
+            # negative deviation from the origin
+            if run_value == False:
+                run_deviation = -1*run_deviation
+            
+
+    else:
+        run_deviation = numpy.absolute(x_deviation[run_start:(run_start + run_length)])
+
+
+    
+    return run_deviation
+
+
+
 def calculate_deviation_pattern_data(x_trajectory, x_0, min_run_length=10, epsilon=None, return_array=True):
 
-    x_deviaton = x_trajectory - x_0
+    x_deviation = x_trajectory - x_0
 
-    run_values, run_starts, run_lengths = find_runs(x_deviaton>0, min_run_length=min_run_length)
+    run_values, run_starts, run_lengths = find_runs(x_deviation>0, min_run_length=min_run_length)
 
     run_dict = {}
 
     for run_j_idx in range(len(run_values)):
-            
-        run_starts_j = run_starts[run_j_idx]
-        run_length_j = run_lengths[run_j_idx]
-
-        # cannot have a sojourn time that is the length of the entire timeseries
-        # weird fluctuations here, ignore..
-        if (run_length_j >= len(x_deviaton-1)):
+        
+        run_deviation_j = extract_trajectory_epsilon(x_deviation, run_values[run_j_idx], run_starts[run_j_idx], run_lengths[run_j_idx], epsilon=epsilon)
+        
+        if run_deviation_j is None:
             continue
 
-        if epsilon != None:
-            
-            # avoid issue of walk starting at zero
-            # inclusive
-            start_before = abs(x_deviaton[max([(run_starts_j-1), 0])])
-            start_after = abs(x_deviaton[run_starts_j])
-            # inclusive
-            end_before = abs(x_deviaton[(run_starts_j + run_length_j-1)])
-            end_after = abs(x_deviaton[min([(len(x_deviaton)-1), (run_starts_j + run_length_j)])])
-
-            start_before_bool = False
-            start_after_bool = False
-            end_before_bool = False
-            end_after_bool = False
-            
-            if start_before <= epsilon:
-                start_before_bool = True 
-
-            if start_after <= epsilon:
-                start_after_bool = True 
-
-            if end_before <= epsilon:
-                end_before_bool = True 
-
-            if end_after <= epsilon:
-                end_after_bool = True 
-
-            # continue, not within epsilon at either option
-            if ((start_before_bool+start_after_bool) == 0) or ((end_before_bool+end_after_bool) == 0):
-                continue
-                
-            # Baldassarri used the first timepoint that reached epsilon 
-            # inclusive
-            if start_before_bool == True:
-                new_run_start_j = max([(run_starts_j-1), 0])
-            else:
-                new_run_start_j = run_starts_j
-            
-            # first timepoint at end that reached epsilon
-            # exclusive
-            if end_before == True:
-                new_run_end_j = run_starts_j + run_length_j
-            else:
-                new_run_end_j = run_starts_j + run_length_j + 1
-
-            if new_run_start_j == new_run_end_j:
-                continue
-
-            run_deviation_j = numpy.absolute(x_deviaton[new_run_start_j:new_run_end_j])
-
-        else:
-            run_deviation_j = numpy.absolute(x_deviaton[run_starts_j:(run_starts_j + run_length_j)])
-
-        
         run_lengths_new_j = len(run_deviation_j)
         if run_lengths_new_j not in run_dict:
             run_dict[run_lengths_new_j] = []

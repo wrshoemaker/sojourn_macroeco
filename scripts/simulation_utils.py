@@ -16,14 +16,32 @@ from scipy import interpolate
 import stats_utils
 import data_utils
 
+import warnings
+warnings.simplefilter("ignore", category=RuntimeWarning)
 
 numpy.random.seed(123456789)
 
+
+demog_dict_path = '%sdemog_dict.pickle' % config.data_directory
+slm_dict_path = '%sslm_dict.pickle' % config.data_directory
+
+
 slope_dict_path = '%sfluctuation_slope_dict.pickle' %config.data_directory
 sojourn_moment_dict_path = '%ssojourn_moments_dict.pickle' %config.data_directory
-
-
 sojourn_time_dist_sim_dict_path = '%ssojourn_time_dist_sim_dict.pickle' %config.data_directory
+
+
+sigma_range = numpy.logspace(-3, numpy.log10(2), num=10, endpoint=False, base=10)
+k_range = numpy.logspace(2, 6, num=10, endpoint=True, base=10)
+tau_range = numpy.logspace(numpy.log10(0.01), numpy.log10(100), num=10, endpoint=True, base=10)
+
+m_range = numpy.logspace(numpy.log10(1), numpy.log10(10000), num=10, endpoint=True, base=10)
+r_range = numpy.logspace(numpy.log10(0.01), numpy.log10(100), num=10, endpoint=True, base=10)
+D_range = numpy.logspace(numpy.log10(0.01), numpy.log10(100), num=10, endpoint=True, base=10)
+
+# add same timescale
+tau_range = numpy.append(tau_range, 1)
+r_range = numpy.append(r_range, 1)
 
 
 def calculate_mean_and_cv_slm(k, sigma):
@@ -360,7 +378,7 @@ def calculate_mean_deviation_pattern_simulation(x_matrix, min_run_length=10, min
         #run_lengths_all.append(run_lengths)
         for run_j_idx in range(len(run_values)):
             
-            #run_values_j = run_values[run_j_idx]
+            run_values_j = run_values[run_j_idx]
             run_starts_j = run_starts[run_j_idx]
             run_length_j = run_lengths[run_j_idx]
 
@@ -369,58 +387,64 @@ def calculate_mean_deviation_pattern_simulation(x_matrix, min_run_length=10, min
             if (run_length_j >= deviation_x.shape[0]-3):
                 continue
 
-            if epsilon != None:
+
+            run_deviation_j = data_utils.extract_trajectory_epsilon(deviation_traj, run_values_j, run_starts_j, run_length_j, epsilon=epsilon)
+
+            if run_deviation_j is None:
+                continue
+
+            #if epsilon != None:
                 
-                # avoid issue of walk starting at zero
-                # inclusive
-                start_before = abs(deviation_traj[max([(run_starts_j-1), 0])])
-                start_after = abs(deviation_traj[run_starts_j])
-                # inclusive
-                end_before = abs(deviation_traj[(run_starts_j + run_length_j-1)])
-                end_after = abs(deviation_traj[min([(len(deviation_traj)-1), (run_starts_j + run_length_j)])])
+            #    # avoid issue of walk starting at zero
+            #    # inclusive
+            #    start_before = abs(deviation_traj[max([(run_starts_j-1), 0])])
+            #    start_after = abs(deviation_traj[run_starts_j])
+            #    # inclusive
+            #    end_before = abs(deviation_traj[(run_starts_j + run_length_j-1)])
+            #    end_after = abs(deviation_traj[min([(len(deviation_traj)-1), (run_starts_j + run_length_j)])])
 
-                start_before_bool = False
-                start_after_bool = False
-                end_before_bool = False
-                end_after_bool = False
+            #    start_before_bool = False
+            #    start_after_bool = False
+            #    end_before_bool = False
+            #    end_after_bool = False
                 
-                if start_before <= epsilon:
-                    start_before_bool = True 
+            #    if start_before <= epsilon:
+            #        start_before_bool = True 
 
-                if start_after <= epsilon:
-                    start_after_bool = True 
+            #    if start_after <= epsilon:
+            #        start_after_bool = True 
 
-                if end_before <= epsilon:
-                    end_before_bool = True 
+            #    if end_before <= epsilon:
+            #        end_before_bool = True 
 
-                if end_after <= epsilon:
-                    end_after_bool = True 
+            #    if end_after <= epsilon:
+            #        end_after_bool = True 
 
-                # continue, not within epsilon at either option
-                if ((start_before_bool+start_after_bool) == 0) or ((end_before_bool+end_after_bool) == 0):
-                    continue
+            #    # continue, not within epsilon at either option
+            #    if ((start_before_bool+start_after_bool) == 0) or ((end_before_bool+end_after_bool) == 0):
+            #        continue
                     
-                # Baldassarri used the first timepoint that reached epsilon 
-                # inclusive
-                if start_before_bool == True:
-                    new_run_start_j = max([(run_starts_j-1), 0])
-                else:
-                    new_run_start_j = run_starts_j
+            #    # Baldassarri used the first timepoint that reached epsilon 
+            #    # inclusive
+            #    if start_before_bool == True:
+            #        new_run_start_j = max([(run_starts_j-1), 0])
+            #    else:
+            #        new_run_start_j = run_starts_j
                 
-                # first timepoint at end that reached epsilon
-                # exclusive
-                if end_before == True:
-                    new_run_end_j = run_starts_j + run_length_j
-                else:
-                    new_run_end_j = run_starts_j + run_length_j + 1
+            #    # first timepoint at end that reached epsilon
+            #    # exclusive
+            #    if end_before == True:
+            #        new_run_end_j = run_starts_j + run_length_j
+            #    else:
+            #        new_run_end_j = run_starts_j + run_length_j + 1
 
-                if new_run_start_j == new_run_end_j:
-                    continue
+            #    if new_run_start_j == new_run_end_j:
+            #        continue
 
-                run_deviation_j = numpy.absolute(deviation_traj[new_run_start_j:new_run_end_j])
+            #    run_deviation_j = numpy.absolute(deviation_traj[new_run_start_j:new_run_end_j])
 
-            else:
-                run_deviation_j = numpy.absolute(deviation_traj[run_starts_j:(run_starts_j + run_length_j)])
+            #else:
+            #    run_deviation_j = numpy.absolute(deviation_traj[run_starts_j:(run_starts_j + run_length_j)])
 
             # have to check again...
             #if len(run_deviation_j) == deviation_x.shape[0]:
@@ -494,10 +518,6 @@ def calculate_mean_deviation_pattern_simulation(x_matrix, min_run_length=10, min
 
 def simulate_cv_sojourn_time(n_days, n_reps):
 
-    sigma_range = numpy.logspace(-3, numpy.log10(2), num=10, endpoint=False, base=10)
-    k_range = numpy.logspace(2, 6, num=10, endpoint=True, base=10)
-    tau_range = numpy.logspace(numpy.log10(0.1), numpy.log10(1000), num=10, endpoint=True, base=10)
-
     sojourn_dict = {}
     sojourn_dict['slm'] = {}
     sojourn_dict['demog'] = {}
@@ -534,10 +554,6 @@ def simulate_cv_sojourn_time(n_days, n_reps):
 
 
     print('Running demog....')
-    m_range = numpy.logspace(numpy.log10(1), numpy.log10(10000), num=10, endpoint=True, base=10)
-    r_range = numpy.logspace(numpy.log10(0.0001), numpy.log10(0.01), num=10, endpoint=True, base=10)
-    D_range = numpy.logspace(numpy.log10(0.001), numpy.log10(100), num=10, endpoint=True, base=10)
-
     for m in m_range:
         
         sojourn_dict['demog'][m] = {}
@@ -573,10 +589,6 @@ def simulate_cv_sojourn_time(n_days, n_reps):
 
 
 def simulate_sojourn_time_vs_cumulative_walk_length(n_days, n_reps, n_slopes=100, min_run_length=10):
-
-    sigma_range = numpy.logspace(-3, numpy.log10(2), num=10, endpoint=False, base=10)
-    k_range = numpy.logspace(2, 6, num=10, endpoint=True, base=10)
-    tau_range = numpy.logspace(numpy.log10(0.1), numpy.log10(1000), num=10, endpoint=True, base=10)
 
     slope_dict = {}
     slope_dict['slm'] = {}
@@ -615,10 +627,6 @@ def simulate_sojourn_time_vs_cumulative_walk_length(n_days, n_reps, n_slopes=100
 
 
     print('Running demog....')
-
-    m_range = numpy.logspace(numpy.log10(1), numpy.log10(10000), num=10, endpoint=True, base=10)
-    r_range = numpy.logspace(numpy.log10(0.0001), numpy.log10(0.01), num=10, endpoint=True, base=10)
-    D_range = numpy.logspace(numpy.log10(0.001), numpy.log10(100), num=10, endpoint=True, base=10)
 
     for m in m_range:
         
@@ -674,22 +682,6 @@ def simulate_sojourn_time_dist():
 
     dist_dict['n_days'] = n_days
     dist_dict['n_reps'] = n_reps
-
-    m_range = numpy.logspace(numpy.log10(1), numpy.log10(10000), num=10, endpoint=True, base=10)
-    r_range = numpy.logspace(numpy.log10(0.0001), numpy.log10(0.01), num=10, endpoint=True, base=10)
-    D_range = numpy.logspace(numpy.log10(0.01), numpy.log10(100), num=10, endpoint=True, base=10)
-
-    sigma_range = numpy.logspace(-2, numpy.log10(2), num=10, endpoint=False, base=10)
-    k_range = numpy.logspace(2, 6, num=10, endpoint=True, base=10)
-    tau_range = numpy.logspace(numpy.log10(0.1), numpy.log10(100), num=10, endpoint=True, base=10)
-
-    #m_range = [m_range[0]]
-    #r_range = [r_range[0]]
-    #D_range = [D_range[0]]
-
-    #sigma_range = [sigma_range[0]]
-    #k_range = [k_range[0]]
-    #tau_range = [tau_range[0]]
 
     # First, demog
     for m in m_range:
@@ -770,14 +762,174 @@ def simulate_sojourn_time_dist():
 
 
 
+
+
+def make_demog_dict(n_days=1000, n_reps=10000):
+
+    demog_dict = {}
+
+    for m in m_range:
+            
+        demog_dict[m] = {}
+        
+        for r in r_range:
+
+            demog_dict[m][r] = {}
+
+            for D in D_range:
+
+                mean_gamma, cv_gamma = calculate_mean_and_cv_demog(m, r, D)
+                mean_square_root_gamma = stats_utils.expected_value_square_root_gamma(mean_gamma, cv_gamma)
+
+                # unlikely that the square root transfomation will yield useful results
+                if numpy.isnan(mean_square_root_gamma) == True:
+                    continue
+
+                # initial condition is expected stationary value of square root of gamma rv
+                x_matrix = simulate_demog_trajectory_dornic(n_days, n_reps, m, r, D, x_0=mean_gamma)
+                # First timepoint has already been transformed....
+                x_matrix_sqrt = numpy.sqrt(x_matrix)
+                
+                # skip if there are any non finite values after square root transform
+                if numpy.isfinite(x_matrix_sqrt).all() == False:
+                    continue
+
+                epsilon = 0.1*mean_gamma
+                epsilon_sqrt = 0.1*mean_square_root_gamma
+
+                run_length, mean_run_deviation = calculate_mean_deviation_pattern_simulation(x_matrix, min_run_length=10, min_n_runs=50, epsilon=epsilon)
+                # epsilon for square root and use expected value of square root stationary gamma rv as initial condition...
+                run_length_sqrt, mean_run_deviation_sqrt = calculate_mean_deviation_pattern_simulation(x_matrix_sqrt, min_run_length=10, min_n_runs=50, epsilon=epsilon_sqrt, x_0=mean_square_root_gamma)
+
+                if (len(run_length) == 0) or (len(run_length_sqrt) == 0):
+                    continue
+
+                print(m, r, D,  max(run_length), max(run_length_sqrt))
+
+                mean_run_deviation_list = [l.tolist() for l in mean_run_deviation]
+                mean_run_deviation_sqrt_list = [l.tolist() for l in mean_run_deviation_sqrt]
+
+                demog_dict[m][r][D] = {}
+                demog_dict[m][r][D]['linear'] = {}
+                demog_dict[m][r][D]['linear']['run_length'] = run_length.tolist()
+                demog_dict[m][r][D]['linear']['mean_run_deviation'] = mean_run_deviation_list
+
+                demog_dict[m][r][D]['sqrt'] = {}
+                demog_dict[m][r][D]['sqrt']['run_length'] = run_length_sqrt.tolist()
+                demog_dict[m][r][D]['sqrt']['mean_run_deviation'] = mean_run_deviation_sqrt_list
+
+                # calculate slope for sojourn time vs. norm. constant
+
+                for data_type in ['linear', 'sqrt']:
+
+                    if data_type == 'linear':
+                        run_length_ = run_length
+                        mean_run_deviation_ = mean_run_deviation
+
+                    else:
+                        run_length_ = run_length_sqrt
+                        mean_run_deviation_ = mean_run_deviation_sqrt
+
+                    slope, intercept, norm_constant = stats_utils.estimate_sojourn_vs_constant_relationship(run_length_, mean_run_deviation_)
+
+                    demog_dict[m][r][D][data_type]['slope'] = slope
+                    demog_dict[m][r][D][data_type]['intercept'] = intercept
+                    demog_dict[m][r][D][data_type]['norm_constant'] = norm_constant.tolist()
+
+
+
+    sys.stderr.write("Saving dictionary...\n")
+    with open(demog_dict_path, 'wb') as outfile:
+        pickle.dump(demog_dict, outfile, protocol=pickle.HIGHEST_PROTOCOL)
+    sys.stderr.write("Done!\n")
+
+
+
+
+
+
+def make_slm_dict(n_days=1000, n_reps=10000):
+
+    slm_dict = {}
+
+    for sigma in sigma_range:
+            
+        slm_dict[sigma] = {}
+        
+        for k in k_range:
+
+            slm_dict[sigma][k] = {}
+
+            for tau in tau_range:
+
+                mean_gamma, cv_gamma = calculate_mean_and_cv_slm(k, sigma)
+                mean_log_gamma = stats_utils.expected_value_log_gamma(mean_gamma, cv_gamma)
+
+                if numpy.isnan(mean_log_gamma) == True:
+                    continue
+
+                x_matrix = simulate_slm_trajectory(n_days=n_days, n_reps=n_reps, k=k, sigma=sigma, tau=tau, init_log=False, return_log=False)
+                x_matrix_log = numpy.log(x_matrix)
+
+                # skip if there are any non finite values after square root transform
+                if numpy.isfinite(x_matrix_log).all() == False:
+                    continue
+
+                epsilon = 0.1*mean_gamma
+                epsilon_log = 0.1*mean_log_gamma
+
+                run_length, mean_run_deviation = calculate_mean_deviation_pattern_simulation(x_matrix, min_run_length=10, min_n_runs=50, epsilon=epsilon)
+                run_length_log, mean_run_deviation_log = calculate_mean_deviation_pattern_simulation(x_matrix_log, min_run_length=10, min_n_runs=50, epsilon=epsilon_log, x_0=mean_log_gamma)
+
+                if (len(run_length) == 0) or (len(run_length_log) == 0):
+                    continue
+
+                print(sigma, k, tau,  max(run_length), max(run_length_log))
+
+                mean_run_deviation_list = [l.tolist() for l in mean_run_deviation]
+                mean_run_deviation_log_list = [l.tolist() for l in mean_run_deviation_log]
+                
+                slm_dict[sigma][k][tau] = {}
+                slm_dict[sigma][k][tau]['linear'] = {}
+                slm_dict[sigma][k][tau]['linear']['run_length'] = run_length.tolist()
+                slm_dict[sigma][k][tau]['linear']['mean_run_deviation'] = mean_run_deviation_list
+
+                slm_dict[sigma][k][tau]['log'] = {}
+                slm_dict[sigma][k][tau]['log']['run_length'] = run_length_log.tolist()
+                slm_dict[sigma][k][tau]['log']['mean_run_deviation'] = mean_run_deviation_log_list
+
+
+                slope, intercept, norm_constant = stats_utils.estimate_sojourn_vs_constant_relationship(run_length, mean_run_deviation)
+                slope_log, intercept_log, norm_constant_log = stats_utils.estimate_sojourn_vs_constant_relationship(run_length_log, mean_run_deviation_log)
+
+                slm_dict[sigma][k][tau]['linear']['slope'] = slope
+                slm_dict[sigma][k][tau]['linear']['intercept'] = intercept
+                slm_dict[sigma][k][tau]['linear']['norm_constant'] = norm_constant.tolist()
+
+                slm_dict[sigma][k][tau]['log']['slope'] = slope_log
+                slm_dict[sigma][k][tau]['log']['intercept'] = intercept_log
+                slm_dict[sigma][k][tau]['log']['norm_constant'] = norm_constant_log.tolist()
+
+
+
+    sys.stderr.write("Saving dictionary...\n")
+    with open(slm_dict_path, 'wb') as outfile:
+        pickle.dump(slm_dict, outfile, protocol=pickle.HIGHEST_PROTOCOL)
+    sys.stderr.write("Done!\n")
+
+
+
+
+
+
 if __name__ == "__main__":
 
     print("Running...")
 
-    #n_days=1000
-    #n_reps=100
+    #make_demog_dict()
+    # make_slm_dict()
 
-    simulate_sojourn_time_dist()
+    #simulate_sojourn_time_dist()
 
   
 

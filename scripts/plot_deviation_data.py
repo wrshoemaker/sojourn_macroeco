@@ -129,7 +129,6 @@ def make_mle_dict(epsilon_fract=0.01, min_run_length=10):
                 else:
                     mle_dict[dataset][host][asv_names_host_subset_i]['run_dict'] = run_dict
 
-
                 # add runs where the deviation can be examined
 
     sys.stderr.write("Saving dictionary...\n")
@@ -139,7 +138,7 @@ def make_mle_dict(epsilon_fract=0.01, min_run_length=10):
 
 
 
-def plot_sojourn_vs_norm():
+def plot_sojourn_vs_norm(remove_negative_values=True):
 
     mle_dict = pickle.load(open(mle_dict_path, "rb"))
 
@@ -163,8 +162,10 @@ def plot_sojourn_vs_norm():
 
                     for sojourn_trajectory_list in sojourn_trajectory_list_nested:
 
-                        #sojourn_trajectory_list = numpy.asarray(sojourn_trajectory_list)/mle_dict[dataset][host][asv]['x_mean']
-                        sojourn_trajectory_list = numpy.asarray(sojourn_trajectory_list)
+                        sojourn_trajectory_list = numpy.asarray(sojourn_trajectory_list)/mle_dict[dataset][host][asv]['x_mean']
+                        #sojourn_trajectory_list = numpy.asarray(sojourn_trajectory_list)
+
+                        #if remove_negative_values == True:
 
                         to_keep_idx = sojourn_trajectory_list > 0
 

@@ -177,6 +177,7 @@ def simulate_demog_trajectory_dornic(n_days, n_reps, m, r, D, delta_t = 1, x_0=N
 
     # Uses the convolution derived by Dornic et al to generate a trajctory of a migration-birth-drift SDE
     # sampling occurs *daily* like in the human gut timeseries
+    # https://doi.org/10.1103/PhysRevLett.94.100601
 
     # delta_t = time between sampling events (1 day) *NOT* gridpoints
     # we are exactly simulating the FPE, not approximating it via Euler

@@ -5,15 +5,19 @@ import sys
 import subprocess
 import random
 import re
+import pickle
 import gzip
 from collections import Counter
 import itertools
 import scipy.stats as stats
 
 
+import stats_utils
 import numpy
 #import phylo_utils
 from datetime import datetime
+
+mle_dict_path = '%smle_dict.pickle' %config.data_directory
 
 
 dataset_all = ['david_et_al', 'poyet_et_al', 'caporaso_et_al']
@@ -21,6 +25,8 @@ poyet_hosts = ['ae', 'am', 'an', 'ao']
 
 n_fna_characters = 80
 alpha = 0.05
+min_run_length_data = 5
+epsilon_fract_data = 0.1
 
 poyet_samples_to_remove = ['SRR9218560', 'SRR9218562', 'SRR9218594', 'SRR9218655', 'SRR9218701', 'SRR9218909',
                         'SRR9218917', 'SRR9219073', 'SRR9219086', 'SRR9219088', 'SRR9219170' ,'SRR9218553',
@@ -853,12 +859,21 @@ def extract_trajectory_epsilon(x_deviation, run_value, run_start, run_length, ep
             
         # avoid issue of walk starting at zero
         # inclusive
-        start_before = abs(x_deviation[max([(run_start-1), 0])])
+        start_before_idx = max([(run_start-1), 0])
+        start_after_idx = run_start
+        #end_before_idx = run_start + run_length - 1
+        #end_after_idx = min([(len(x_deviation)-1), (run_start + run_length)])
+        end_before_idx = run_start + run_length
+        # this value will be a different sign
+        end_after_idx = min([(len(x_deviation)), (run_start + run_length+1)])
 
-        start_after = abs(x_deviation[run_start])
+        start_before = abs(x_deviation[start_before_idx])
+        start_after = abs(x_deviation[start_after_idx])
         # inclusive
-        end_before = abs(x_deviation[(run_start + run_length-1)])
-        end_after = abs(x_deviation[min([(len(x_deviation)-1), (run_start + run_length)])])
+        end_before = abs(x_deviation[end_before_idx-1])
+        end_after = abs(x_deviation[end_after_idx-1])
+
+        #print(start_before, start_after, end_before, end_after)
 
         start_before_bool = False
         start_after_bool = False
@@ -877,34 +892,53 @@ def extract_trajectory_epsilon(x_deviation, run_value, run_start, run_length, ep
         if end_after <= epsilon:
             end_after_bool = True 
 
-        # continue, not within epsilon at either option
+        # continue, not within epsilon at either end of the trajectory
         if ((start_before_bool+start_after_bool) == 0) or ((end_before_bool+end_after_bool) == 0):
             run_deviation = None
-            
-        # Baldassarri used the first timepoint that reached epsilon 
-        # inclusive
-        if start_before_bool == True:
-            new_run_start = max([(run_start-1), 0])
+
         else:
-            new_run_start = run_start
+            
+            #print(start_before, start_after, end_before, end_after, epsilon)
+            #print(start_before_bool, start_after_bool, end_before_bool, end_after_bool)
+
+            # Baldassarri used the first timepoint that reached epsilon 
+            # inclusive
+            # find the smallest value..
+            if start_before_bool == True:
+                new_run_start = start_before_idx
+            # possible values (False, True)
+            else:
+                new_run_start = start_after_idx
+            
+
+            # first timepoint at end that reached epsilon
+            # exclusive
+            # should I make it exclusive?
+            if end_before_bool == True:
+                new_run_end = end_before_idx
+            else:
+                new_run_end = end_after_idx
+
+
+            if new_run_start == new_run_end:
+                run_deviation = None
+
+            else:
+                run_deviation = x_deviation[new_run_start:new_run_end]
+                
+                # negative deviation from the origin
+                if run_value == False:
+                    run_deviation = -1*run_deviation
+
+            #print(x_deviation[run_start:run_start+run_length])
+
+            # make sure start and end are within epsilon 
+            if (abs(run_deviation[0]) > epsilon) or (abs(run_deviation[-1]) > epsilon):
+                print("Error!")
         
-        # first timepoint at end that reached epsilon
-        # exclusive
-        if end_before == True:
-            new_run_end = run_start + run_length
-        else:
-            new_run_end = run_start + run_length + 1
-
-        if new_run_start == new_run_end:
-            run_deviation = None
-
-        else:
-            run_deviation = x_deviation[new_run_start:new_run_end]
-            
-            # negative deviation from the origin
-            if run_value == False:
-                run_deviation = -1*run_deviation
-            
+            #if (start_before_bool == True) and (end_before_bool == False):
+            #if len(run_deviation) != run_length:
+            #    print( start_before_bool, start_after_bool, end_before_bool, end_after_bool )
 
     else:
         run_deviation = numpy.absolute(x_deviation[run_start:(run_start + run_length)])
@@ -915,22 +949,26 @@ def extract_trajectory_epsilon(x_deviation, run_value, run_start, run_length, ep
 
 
 
-def calculate_deviation_pattern_data(x_trajectory, x_0, min_run_length=10, epsilon=None, return_array=True):
+def calculate_deviation_pattern_data(x_trajectory, x_0, days_array, min_run_length=min_run_length_data, epsilon=None, return_array=True):
 
     x_deviation = x_trajectory - x_0
 
+    # at least min_run_length observations
     run_values, run_starts, run_lengths = find_runs(x_deviation>0, min_run_length=min_run_length)
-
+    # get days
+    run_values_new, run_starts_new, run_lengths_new, days_run_lengths = run_lengths_to_days(run_values, run_starts, run_lengths, days_array)
     run_dict = {}
 
-    for run_j_idx in range(len(run_values)):
+    for run_j_idx in range(len(run_values_new)):
         
-        run_deviation_j = extract_trajectory_epsilon(x_deviation, run_values[run_j_idx], run_starts[run_j_idx], run_lengths[run_j_idx], epsilon=epsilon)
+        run_deviation_j = extract_trajectory_epsilon(x_deviation, run_values_new[run_j_idx], run_starts_new[run_j_idx], run_lengths_new[run_j_idx], epsilon=epsilon)
         
         if run_deviation_j is None:
             continue
 
-        run_lengths_new_j = len(run_deviation_j)
+        #run_lengths_new_j = len(run_deviation_j)
+        # we want sojourn time in **days**
+        run_lengths_new_j = days_run_lengths[run_j_idx]
         if run_lengths_new_j not in run_dict:
             run_dict[run_lengths_new_j] = []
 
@@ -943,5 +981,229 @@ def calculate_deviation_pattern_data(x_trajectory, x_0, min_run_length=10, epsil
     return run_dict
 
 
-#print('what')
-#make_otu_dict('david_et_al', 'gut')
+
+def make_list_from_count_dict(dict_):
+
+    counts = []
+    for key, value in dict_.items():
+        counts.extend([key]*value)
+
+    return counts
+
+
+
+def calculate_mean_from_count_dict(dict_):
+
+    sum_of_numbers = sum(number*count for number, count in dict_.items())
+    count = sum(count for n, count in dict_.items())
+    mean = sum_of_numbers / count
+
+    return mean
+
+
+
+
+def get_hist_and_bins(flat_array, n_bins=20, min_n_points=3):
+
+    # make sure its an array
+    flat_array = numpy.asarray(flat_array)
+    flat_array = flat_array[~numpy.isnan(flat_array)]
+
+    # null is too large, so we are binning it for the plot in this script
+    hist_, bin_edges_ = numpy.histogram(flat_array, density=False, bins=n_bins)
+    bins_mean_ = numpy.asarray([0.5 * (bin_edges_[i] + bin_edges_[i+1]) for i in range(0, len(bin_edges_)-1 )])
+        
+    hist_to_plot = hist_[hist_>0]
+    bins_mean_to_plot = bins_mean_[hist_>0]
+
+    hist_to_plot = hist_to_plot/sum(hist_to_plot)
+    
+
+    return hist_to_plot, bins_mean_to_plot
+
+
+
+def run_lengths_to_days(run_values, run_starts, run_lengths, days_array):
+
+    days_run_lengths = []
+    # skip first and last since we do not know when sojourns end
+    for run_j_idx in range(1, len(run_values)-1):
+
+        run_start_j = run_starts[run_j_idx]
+        run_end_j = run_starts[run_j_idx] + run_lengths[run_j_idx] + 1
+        
+        # end of timeseries
+        #if run_end_j > len(days_array):
+        #    continue
+        days_run_j = days_array[run_start_j:run_end_j]
+
+        # only one observation, skip
+        #if len(days_run_j) == 1:
+        #    continue
+
+        days_run_lengths.append(int(days_run_j[-1] - days_run_j[0]))
+
+    run_values_new = run_values[1:-1]
+    run_starts_new = run_starts[1:-1]
+    run_lengths_new = run_lengths[1:-1]
+
+
+    return run_values_new, run_starts_new, run_lengths_new, days_run_lengths
+
+
+
+
+
+
+def make_mle_dict(epsilon_fract=epsilon_fract_data, min_run_length_data=min_run_length_data):
+
+    mle_dict = {}
+    mle_dict['params'] = {}
+    mle_dict['params']['epsilon_fract'] = epsilon_fract
+    mle_dict['params']['min_run_length_data'] = min_run_length_data
+
+    for dataset in dataset_all:
+
+        sys.stderr.write("Analyzing dataset %s.....\n" % dataset)
+        
+        mle_dict[dataset] = {}
+
+        read_counts, host_status, days, asv_names = get_dada2_data(dataset, 'gut')
+
+        host_all = list(set(host_status))
+        host_all.sort()
+
+        for host in host_all:
+
+            sys.stderr.write("Analyzing host %s.....\n" % host)
+
+            mle_dict[dataset][host] = {}
+
+            # function subsets ASVs that are actually present
+            read_counts_host, days_host, asv_names_host = subset_s_by_s_by_host(read_counts, host_status, days, asv_names, host)
+            rel_read_counts_host = (read_counts_host/read_counts_host.sum(axis=0))
+            total_abundance = numpy.sum(read_counts_host, axis=0)
+
+            for asv_names_host_subset_i_idx, asv_names_host_subset_i in enumerate(asv_names_host):
+
+                abundance_trajectory = read_counts_host[asv_names_host_subset_i_idx,:]
+
+                # ignore ASVs with occupancy < 1
+                if sum(abundance_trajectory==0) > 0:
+                    continue
+
+                rel_abundance_trajectory = abundance_trajectory/total_abundance
+
+                # gamma MLE paramss
+                gamma_sampling_model = stats_utils.mle_gamma_sampling(total_abundance, abundance_trajectory)
+                mu_start = numpy.mean(abundance_trajectory/total_abundance)
+                sigma_start = numpy.std(abundance_trajectory/total_abundance)
+                start_params = numpy.asarray([mu_start, sigma_start])
+                gamma_sampling_result = gamma_sampling_model.fit(method="lbfgs", start_params=start_params, bounds= [(0.000001,1), (0.00001,100)], full_output=False, disp=False)
+                x_mean, x_std = gamma_sampling_result.params
+
+                # get sojourn times for runs of all lengths
+                #x_deviation = rel_abundance_trajectory - x_mean
+
+                log_rescaled_rel_abundance_trajectory = numpy.log(rel_abundance_trajectory/x_mean)
+                cv_asv = x_std/x_mean
+                expected_value_log_gamma = stats_utils.expected_value_log_gamma(1, cv_asv)
+                run_values, run_starts, run_lengths = find_runs((log_rescaled_rel_abundance_trajectory - expected_value_log_gamma)>0, min_run_length=1)
+
+                run_values_new, run_starts_new, run_lengths_new, days_run_lengths = run_lengths_to_days(run_values, run_starts, run_lengths, days_host)  
+                
+                if len(days_run_lengths) == 0:
+                    continue
+
+                mle_dict[dataset][host][asv_names_host_subset_i] = {}
+                mle_dict[dataset][host][asv_names_host_subset_i]['rel_abundance'] = rel_abundance_trajectory.tolist()
+                mle_dict[dataset][host][asv_names_host_subset_i]['days'] = days_host.tolist()
+                mle_dict[dataset][host][asv_names_host_subset_i]['x_mean'] = x_mean
+                mle_dict[dataset][host][asv_names_host_subset_i]['x_std'] = x_std
+                mle_dict[dataset][host][asv_names_host_subset_i]['days_run_lengths'] = days_run_lengths
+                run_dict = calculate_deviation_pattern_data(log_rescaled_rel_abundance_trajectory, expected_value_log_gamma, days_host, min_run_length=min_run_length_data, epsilon=epsilon_fract_data, return_array=False)
+                
+                if len(run_dict) == 0:
+                    mle_dict[dataset][host][asv_names_host_subset_i]['run_dict'] = None
+                else:
+                    mle_dict[dataset][host][asv_names_host_subset_i]['run_dict'] = run_dict
+
+                #if len(run_dict) != 0:
+                #    print(run_dict)
+
+
+
+    sys.stderr.write("Saving dictionary...\n")
+    with open(mle_dict_path, 'wb') as outfile:
+        pickle.dump(mle_dict, outfile, protocol=pickle.HIGHEST_PROTOCOL)
+    sys.stderr.write("Done!\n")
+
+
+
+def calculate_metadata_stats():
+
+    mle_dict = pickle.load(open(mle_dict_path, "rb"))
+    
+
+    sys.stderr.write("Dataset, Host, # samples, # days, Mean # days b/w samples, Mean # reads, # ASVs used\n")
+
+    for dataset in dataset_all:
+        
+        read_counts, host_status, days, asv_names = get_dada2_data(dataset, 'gut')
+
+        host_all = list(set(host_status))
+        host_all.sort()
+
+        if dataset == 'david_et_al':
+            host_all = ['DonorA_pre_travel', 'DonorB_pre_travel']
+
+        # Num. samples
+        # Num. # days
+        # mean # days between samples
+        # ASVs present in all samples
+        # mean # reads per sample
+
+        #n_samples_all = []
+
+
+        for host in host_all:
+
+            if dataset == 'david_et_al':
+                host_post = '%s_post_travel' % host.split('_')[0]
+                read_counts_host_pre, days_host_pre, asv_names_host_pre = subset_s_by_s_by_host(read_counts, host_status, days, asv_names, host)
+                read_counts_host_post, days_host_post, asv_names_host_post = subset_s_by_s_by_host(read_counts, host_status, days, asv_names, host_post)
+
+                n_samples = len(days_host_pre) + len(days_host_post)
+                n_days = max(days_host_post) - min(days_host_pre)
+                n_asvs = len(set(list(mle_dict[dataset][host].keys())) | set(list(mle_dict[dataset][host_post].keys())))
+                n_reads_per_sample = (numpy.mean(numpy.sum(read_counts_host_pre, axis=0)) + numpy.mean(numpy.sum(read_counts_host_post, axis=0)))/2
+
+
+            else:
+                # function subsets ASVs that are actually present
+                read_counts_host, days_host, asv_names_host = subset_s_by_s_by_host(read_counts, host_status, days, asv_names, host)
+
+
+                n_samples = len(days_host)
+                n_days = max(days_host) - min(days_host)
+                n_asvs = len(set(list(mle_dict[dataset][host].keys())))
+                n_reads_per_sample = numpy.mean(numpy.sum(read_counts_host, axis=0))
+
+            
+            
+            n_days_per_sample = n_days/n_samples
+
+            sys.stderr.write("%s, %s, %d, %d, %.2f, %.2f, %d\n" % (dataset, host, n_samples, n_days, n_days_per_sample, n_reads_per_sample, n_asvs))
+
+            #print(n_days, n_days_per_sample, n_asvs, n_reads_per_sample)
+
+
+
+
+if __name__ == "__main__":
+
+    print("Running...")
+
+    make_mle_dict()
+
+    #calculate_metadata_stats()

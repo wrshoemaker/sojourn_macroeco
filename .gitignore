@@ -1,3 +1,8 @@
 .DS_Store
 ./data/demog_dict.pickle
 data/demog_dict.pickle
+scripts/.DS_Store
+data/barcode_data/.DS_Store
+data/sojourn_time_dist_sim_fixed_moments_analytic_dict.pickle
+data/sojourn_time_dist_sim_fixed_moments_dict.pickle
+data/sojourn_time_dist_sim_fixed_moments_dict_old.pickle

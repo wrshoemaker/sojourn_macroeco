@@ -4,6 +4,7 @@ import copy
 import config
 import sys
 import numpy
+import math
 import random
 import pickle
 from collections import Counter
@@ -30,18 +31,23 @@ slope_dict_path = '%sfluctuation_slope_dict.pickle' %config.data_directory
 sojourn_moment_dict_path = '%ssojourn_moments_dict.pickle' %config.data_directory
 sojourn_time_dist_sim_dict_path = '%ssojourn_time_dist_sim_dict.pickle' %config.data_directory
 
+#sojourn_time_dist_sim_fixed_moments_dict_path = '%ssojourn_time_dist_sim_fixed_moments_dict.pickle' %config.data_directory
+sojourn_time_dist_sim_fixed_moments_dict_path = '%ssojourn_time_dist_sim_fixed_moments_dict.pickle' % config.data_directory
 
-sigma_range = numpy.logspace(-3, numpy.log10(2), num=10, endpoint=False, base=10)
-k_range = numpy.logspace(2, 6, num=10, endpoint=True, base=10)
-tau_range = numpy.logspace(numpy.log10(0.01), numpy.log10(100), num=10, endpoint=True, base=10)
+sojourn_time_dist_sim_fixed_moments_analytic_dict_path = '%ssojourn_time_dist_sim_fixed_moments_analytic_dict.pickle' % config.data_directory
 
-m_range = numpy.logspace(numpy.log10(1), numpy.log10(10000), num=10, endpoint=True, base=10)
-r_range = numpy.logspace(numpy.log10(0.01), numpy.log10(100), num=10, endpoint=True, base=10)
-D_range = numpy.logspace(numpy.log10(0.01), numpy.log10(100), num=10, endpoint=True, base=10)
+
+#sigma_range = numpy.logspace(-3, numpy.log10(2), num=10, endpoint=False, base=10)
+#k_range = numpy.logspace(2, 6, num=10, endpoint=True, base=10)
+tau_range = numpy.logspace(numpy.log10(0.1), numpy.log10(100), num=10, endpoint=True, base=10)
+
+#m_range = numpy.logspace(numpy.log10(1), numpy.log10(10000), num=10, endpoint=True, base=10)
+#r_range = numpy.logspace(numpy.log10(0.01), numpy.log10(100), num=10, endpoint=True, base=10)
+#D_range = numpy.logspace(numpy.log10(0.01), numpy.log10(100), num=10, endpoint=True, base=10)
 
 # add same timescale
-tau_range = numpy.append(tau_range, 1)
-r_range = numpy.append(r_range, 1)
+#tau_range = numpy.append(tau_range, 1)
+#r_range = numpy.append(r_range, 1)
 
 
 def calculate_mean_and_cv_slm(k, sigma):
@@ -52,59 +58,97 @@ def calculate_mean_and_cv_slm(k, sigma):
     return mean_, cv_
 
 
-def calculate_mean_and_cv_demog(m, r, D):
+def calculate_mean_and_cv_bdm(m, phi):
 
-    mean_ = m/r
-    cv_ = numpy.sqrt(D/m)
+    #mean_ = m/r
+    #cv_ = numpy.sqrt(D/m)
+
+    mean_ = m
+    cv_ = phi/numpy.sqrt(2*m)
 
     return mean_, cv_
 
 
 
-def calculate_params_for_slm_and_demog(x_bar, cv, timescale):
 
-    # calculates parameters for the two models given mean, CV, and timescale
+def calculate_stationary_params_from_moments(x_bar, cv):
 
+    # calculates parameters for the two models given mean and CV
     # SLM
     sigma = 2*(((cv**-2)+1)**-1)
     k = x_bar*((1 - (sigma/2))**-1)
-    tau = timescale
 
     # demog
     # timescale inferred from Eq. 3 of Brigatti and Azaele: https://doi.org/10.1038/s41598-024-82882-x
-    r = 1/timescale
-    m = r*x_bar
-    D = (cv**2)*m
+    m = x_bar
+    # CV = phi/sqrt(2*m)
+    phi = cv*numpy.sqrt(2*m)
     
-    # So we don't have to keep track of the order of returned variables
-    param_dict = {}
-    param_dict['k'] = k
-    param_dict['sigma'] = sigma
-    param_dict['tau'] = tau
-    
-    param_dict['m'] = m
-    param_dict['D'] = D
-    param_dict['r'] = r
+    return k, sigma, m, phi
 
-    return param_dict
+
+def calculate_mean_log_rescaled_gamma(cv):
+
+    beta = cv**(-2)
+
+    return digamma(beta) - numpy.log(beta)
 
 
 
 
+def simulate_slm_trajectory(t_total=None, n_reps=100, k=10000, sigma=1, tau=7, epsilon=0.001, analytic=False, init_log=False, return_log=False):
 
-def simulate_slm_trajectory(n_days=1000, n_reps=100, k=10000, sigma=1, tau=7, n_grid_points=500, init_log=False, return_log=False):
-
-    # n_days = length of trajectory
+    # t_total = length of trajectory
     # n_reps = number of replicate trajectories
     # tau = generation timescale of SLM
     # Two timescales: 1) simulation timescale, 2) observation timescale
     # Dimulation timescale = \Delta t = \tau/n_grid_points
-    # Observation timesca = daily sampling (set by n_days)
-    # init_log = Whether you are want the initial condition to the expected value of the *log* of x. 
+    # Observation timesca = daily sampling (set by walk_length)
+    # init_log = Whether you are want the initial condition to the expected value of the *log* of x.
+    # epsilon = \Delta t / tau ~= 10^{-3}
     # Useful if you are analyzing log transformed empirical data and need simulations
 
+    # delta_t_1 = \Delta t 1 (grid timescale, smaller)
+    # delta_t_2 = \Delta t 1 (continuous timescale, larger)
+
+    # \Delta t = numerical integration timestep = length of timeseries / # points
+    # \delta t = time between observations (i.e., days, \Delta t << \delta t) 
+
+    # Two types of simulations:
+    # 1) Simulations that match data, where we know \delta t (sampling time) and walk_length (length of timeseries). 
+    #so \Delta << \delta t << T, where tau can (reasonably) vary
+    # 2) Simulations to test analytic predictions, where \Delta t <~ \delta t << \tau << T
+
+    if analytic == False:
+        # we need to calcualte # points
+        n_points = t_total/(epsilon*tau)
+        # we want daily sampling intervals, # points per day
+        # make sure we are working with integers
+        n_points_per_delta_t_2 = math.ceil(n_points/t_total)
+        #delta_t_2 = 1 # *daily* sampling
+        # n_points_per_delta_t_2*(t_total/delta_t_2) = n_points_per_delta_t_2*t_total
+        n_points_to_integrate = n_points_per_delta_t_2*t_total
+        # define delta_t using the actual number of points
+        delta_t_1 = t_total/n_points_to_integrate
+        # +1 for initial condition
+        n_observations = t_total+1
+
+    else:
+        # epsilon refers to
+        # delta_t = \tau*epsilon
+        # T = tau / epsilon
+        t_total = round(tau/epsilon)
+        delta_t_2 = epsilon*tau
+        delta_t_1 = 0.1*delta_t_2
+        n_points = t_total/delta_t_1
+        # divide number of points by number of delta_t_2 increments
+        n_points_per_delta_t_2 = math.ceil(n_points/(t_total/delta_t_2))
+        n_points_to_integrate = math.ceil(n_points_per_delta_t_2*(t_total/delta_t_2))
+        n_observations = int(n_points_to_integrate/n_points_per_delta_t_2) + 1
+
+
     # SLM
-    x_bar_slm = k*(1- (sigma/2))
+    x_bar_slm = k*(1-(sigma/2))
     beta_slm = (2-sigma)/sigma
 
     # expected value of the log of a gamma random variable.
@@ -117,43 +161,29 @@ def simulate_slm_trajectory(n_days=1000, n_reps=100, k=10000, sigma=1, tau=7, n_
         # initial condition is log of expected stationary value
         q_0 = numpy.log(x_bar_slm)
 
-    # total number of iterations
-    n_iter = n_grid_points*n_days
-    delta_t = tau/n_grid_points
-    noise_constant = numpy.sqrt(sigma*delta_t/tau)
+    
+    noise_constant = numpy.sqrt(sigma*delta_t_1/tau)
     
     # +1 for initial condition
-    #q_matrix = numpy.zeros(shape=(n_iter+1, n_reps))
-
-    q_matrix = numpy.zeros(shape=(n_days+1, n_reps))
+    q_matrix = numpy.zeros(shape=(n_observations, n_reps))
     q_matrix[0,:] = q_0
 
-    #z = numpy.random.randn(n_iter, n_reps)
-    #z = stats.norm.rvs(size=(n_iter, n_reps))
-    # Multiply z by its constants
-    #z = z*numpy.sqrt(sigma*delta_t/tau)
-    
     q_t_minus_one = q_0
-    # add one so we can use "%"
-    for t_idx in range(1, n_iter+1):
-        #for t_idx in range(n_iter):
-
-        #_t = q_matrix[t_idx,:]
+    # start with one so we can use "%"
+    for t_idx in range(1, n_points_to_integrate+1):
         # we can use t_idx for z because it has one less column than q_matrix
         #q_matrix[t_idx+1,:] = q_t + (1/tau)*(1 - (sigma/2) - numpy.exp(q_t)/k)*delta_t + noise_constant*stats.norm.rvs(size=n_reps)
-        q_t = q_t_minus_one + (1/tau)*(1 - (sigma/2) - numpy.exp(q_t_minus_one)/k)*delta_t + noise_constant*stats.norm.rvs(size=n_reps)
+        q_t = q_t_minus_one + (delta_t_1/tau)*(1 - (sigma/2) - numpy.exp(q_t_minus_one)/k) + noise_constant*stats.norm.rvs(size=n_reps)
 
         # sampling event
-
-        #modulus_t = t_idx % n_grid_points 
-        #if t_idx % n_grid_points == 0:
         # supposed to be faster than if statement
-        match (t_idx % n_grid_points):
+        # we want to sample per unit \delta t (delta_t_2)
+
+        match (t_idx % n_points_per_delta_t_2):
             case 0:
-                q_matrix[int(t_idx/n_grid_points),:] = q_t
+                q_matrix[int(t_idx/n_points_per_delta_t_2),:] = q_t
 
         q_t_minus_one = q_t
-
 
 
     # select samples you want to keep
@@ -173,7 +203,7 @@ def simulate_slm_trajectory(n_days=1000, n_reps=100, k=10000, sigma=1, tau=7, n_
 
 
 
-def simulate_demog_trajectory_dornic(n_days, n_reps, m, r, D, delta_t = 1, x_0=None):
+def simulate_bdm_trajectory_dornic(t_total, n_reps, m, phi, tau, delta_t = 1, x_0=None, epsilon=None):
 
     # Uses the convolution derived by Dornic et al to generate a trajctory of a migration-birth-drift SDE
     # sampling occurs *daily* like in the human gut timeseries
@@ -185,27 +215,40 @@ def simulate_demog_trajectory_dornic(n_days, n_reps, m, r, D, delta_t = 1, x_0=N
 
     # expected value of the stationary distribution
 
+    if t_total == None:
+        delta_t = tau*epsilon
+        t_total = tau/epsilon
+        n_observations = math.ceil(t_total/delta_t)
+
+    else:
+        n_observations = t_total
+
+        
     if x_0 == None:
-        x_0 = m/r
+        #x_0 = m/r
+        x_0 = m
 
     # redefine variables for conveinance
-    alpha = m
-    beta = -1*r
-    sigma = numpy.sqrt(2*D)
+    # first term, constant
+    alpha = m/tau
+    #beta = -1*r
+    beta = -1*(1/tau)
+    
+    #sigma = numpy.sqrt(2*D)
+    sigma = phi/numpy.sqrt(tau)
 
-    x_matrix = numpy.zeros(shape=(n_days+1, n_reps))
+    x_matrix = numpy.zeros(shape=(n_observations+1, n_reps))
     x_matrix[0,:] = x_0
 
     lambda_ = (2*beta)/((sigma**2) * (numpy.exp(beta*delta_t)-1) )
     mu_ = -1 + (2*alpha)/(sigma**2)
     
-    for i in range(n_days):
+    for i in range(n_observations):
         poisson_rate_i = lambda_*x_matrix[i,:]*numpy.exp(beta*delta_t)
         poisson_rv_i = stats.poisson.rvs(poisson_rate_i)
         gamma_rate_i = mu_ + 1 + poisson_rv_i
         # rescale at each timepoint because this value is used as the initial condition for the next round of sampling.
         #gamma_rv_i = stats.gamma.rvs(gamma_rate_i, size=1)/lambda_
-
         x_matrix[i+1,:] = (stats.gamma.rvs(gamma_rate_i)/lambda_)
         
 
@@ -275,7 +318,6 @@ def simulate_brownian_trajectory_semi_infinite(n_days, n_reps, D, x_0, delta_t =
 
         x_matrix[i+1,:] = sample_cdf(brownian_trajectory_semi_infinite_pdf, x_matrix[i,:])(uniform_rv[i,:], x_matrix[i,:])
 
-        print(x_matrix[i+1,:10])
         
         #stats.norm.rvs(loc=x_matrix[i,:], scale=std_dev)
     return x_matrix
@@ -329,6 +371,7 @@ def calculate_moments_sojourn_time(x_matrix):
         max_run_length_all.append(max(run_lengths))
 
     return mean_run_length_all, std_run_length_all, max_run_length_all
+
 
 
 def calculate_sojourn_time_dist(x_matrix, min_run_length=1, x_0=None):
@@ -589,7 +632,7 @@ def simulate_cv_sojourn_time(n_days, n_reps):
 
 
 
-def simulate_sojourn_time_vs_cumulative_walk_length(n_days, n_reps, n_slopes=100, min_run_length=10):
+def simulate_sojourn_time_vs_cumulative_walk_length_exponent(n_days, n_reps, n_slopes=100, min_run_length=10):
 
     slope_dict = {}
     slope_dict['slm'] = {}
@@ -618,6 +661,7 @@ def simulate_sojourn_time_vs_cumulative_walk_length(n_days, n_reps, n_slopes=100
 
                     if len(slope_all) > 0:
                         slope_dict['slm'][sigma][k][tau]['slope'].extend(slope_all[0:min([len(slope_all), n_slopes_to_add])])
+
 
                 #print(sigma, k, tau, numpy.mean(slope_dict['slm'][sigma][k][tau]['slope']))
                 x_bar_slm = k*(1-(sigma/2))
@@ -703,21 +747,27 @@ def simulate_sojourn_time_dist():
                     continue
 
                 # initial condition is expected stationary value of square root of gamma rv
-                x_matrix = simulate_demog_trajectory_dornic(n_days, n_reps, m, r, D, x_0=mean_gamma)
-                x_matrix_sqrt = numpy.sqrt(x_matrix)
+                x_matrix = simulate_bdm_trajectory_dornic(n_days, n_reps, m, r, D, x_0=mean_gamma)
+                #x_matrix_sqrt = numpy.sqrt(x_matrix)
                 
                 # skip if there are any non finite values after square root transform
-                if numpy.isfinite(x_matrix_sqrt).all() == False:
+                #if numpy.isfinite(x_matrix_sqrt).all() == False:
+                #    continue
+
+                if numpy.isfinite(x_matrix).all() == False:
                     continue
 
                 run_lengths = calculate_sojourn_time_dist(x_matrix, min_run_length=1)
-                run_lengths_sqrt = calculate_sojourn_time_dist(x_matrix_sqrt, min_run_length=1, x_0=mean_square_root_gamma)
+                #run_lengths_sqrt = calculate_sojourn_time_dist(x_matrix_sqrt, min_run_length=1, x_0=mean_square_root_gamma)
 
                 print('Demog', m, r, D)
 
                 dist_dict['demog'][m][r][D] = {}
-                dist_dict['demog'][m][r][D]['linear'] = dict(Counter(run_lengths.tolist()))
-                dist_dict['demog'][m][r][D]['sqrt'] = dict(Counter(run_lengths_sqrt.tolist()))
+                dist_dict['demog'][m][r][D]['linear'] = {}
+                dist_dict['demog'][m][r][D]['linear']['sojourn_time_count_dict'] = dict(Counter(run_lengths.tolist()))
+                dist_dict['demog'][m][r][D]['linear']['mean_sojourn_time'] = numpy.mean(run_lengths)
+                dist_dict['demog'][m][r][D]['linear']['std_sojourn_time'] = numpy.std(run_lengths)
+
 
                 
     # then, SLM
@@ -738,19 +788,25 @@ def simulate_sojourn_time_dist():
                     continue
                 
                 x_matrix = simulate_slm_trajectory(n_days=n_days, n_reps=n_reps, k=k, sigma=sigma, tau=tau, init_log=False, return_log=False)
-                x_matrix_log = numpy.log(x_matrix)
+                #x_matrix_log = numpy.log(x_matrix)
 
-                if numpy.isfinite(x_matrix_log).all() == False:
+                #if numpy.isfinite(x_matrix_log).all() == False:
+                #    continue
+
+                if numpy.isfinite(x_matrix).all() == False:
                     continue
 
                 run_lengths = calculate_sojourn_time_dist(x_matrix, min_run_length=1)
-                run_lengths_log = calculate_sojourn_time_dist(x_matrix_log, min_run_length=1, x_0=mean_log_gamma)
+                #run_lengths_log = calculate_sojourn_time_dist(x_matrix_log, min_run_length=1, x_0=mean_log_gamma)
 
                 print('SLM', sigma, k, tau)
 
                 dist_dict['slm'][sigma][k][tau] = {}
-                dist_dict['slm'][sigma][k][tau]['linear'] = dict(Counter(run_lengths.tolist()))
-                dist_dict['slm'][sigma][k][tau]['log'] = dict(Counter(run_lengths_log.tolist()))
+                #dist_dict['slm'][sigma][k][tau]['log'] = dict(Counter(run_lengths_log.tolist()))
+                dist_dict['slm'][sigma][k][tau]['linear'] = {}
+                dist_dict['slm'][sigma][k][tau]['linear']['sojourn_time_count_dict'] = dict(Counter(run_lengths.tolist()))
+                dist_dict['slm'][sigma][k][tau]['linear']['mean_sojourn_time'] = numpy.mean(run_lengths)
+                dist_dict['slm'][sigma][k][tau]['linear']['std_sojourn_time'] = numpy.std(run_lengths)
 
 
     sys.stderr.write("Saving dictionary...\n")
@@ -920,6 +976,168 @@ def make_slm_dict(n_days=1000, n_reps=10000):
 
 
 
+def simulate_sojourn_time_dist_fixed_mean_cv(n_days=1000, n_reps=10000):
+
+    mean_range = [10000]
+    cv_range = numpy.logspace(numpy.log10(0.01), numpy.log10(10), num=10, endpoint=True, base=10)
+    #cv_range = [10]
+
+    dist_dict = {}
+
+    for mean in mean_range:
+
+        dist_dict[mean] = {}
+
+        for cv in cv_range:
+
+            dist_dict[mean][cv] = {}
+
+            k, sigma, m, phi = calculate_stationary_params_from_moments(mean, cv)
+
+            for tau in tau_range:
+
+                print(mean, cv, tau)
+
+                x_matrix_bdm = simulate_bdm_trajectory_dornic(t_total=n_days, n_reps=n_reps, m=m, phi=phi, tau=tau)
+                x_matrix_slm = simulate_slm_trajectory(t_total=n_days, n_reps=n_reps, k=k, sigma=sigma, tau=tau, epsilon=0.001, analytic=False)
+
+                if (numpy.isfinite(x_matrix_bdm).all() == False) or (numpy.isfinite(x_matrix_slm).all() == False):
+                    continue
+
+                run_lengths_bdm = calculate_sojourn_time_dist(x_matrix_bdm, min_run_length=1)
+                run_lengths_slm = calculate_sojourn_time_dist(x_matrix_slm, min_run_length=1)
+
+                # get the sojourn deviation
+                epsilon = 0.05*mean
+
+                run_length_deviation_all_bdm, mean_run_deviation_bdm = calculate_mean_deviation_pattern_simulation(x_matrix_bdm, min_run_length=10, min_n_runs=50, epsilon=epsilon)
+                run_length_deviation_all_slm, mean_run_deviation_slm = calculate_mean_deviation_pattern_simulation(x_matrix_slm, min_run_length=10, min_n_runs=50, epsilon=epsilon)
+
+                mean_run_deviation_bdm_list = [l.tolist() for l in mean_run_deviation_bdm]
+                mean_run_deviation_slm_list = [l.tolist() for l in mean_run_deviation_slm]
+
+                slope_bdm, intercept_bdm, norm_constant_bdm = stats_utils.estimate_sojourn_vs_constant_relationship(run_length_deviation_all_bdm, mean_run_deviation_bdm)
+                slope_slm, intercept_slm, norm_constant_slm = stats_utils.estimate_sojourn_vs_constant_relationship(run_length_deviation_all_slm, mean_run_deviation_slm)
+
+                print(slope_bdm, len(norm_constant_bdm), slope_slm, len(norm_constant_slm))
+
+                tau_float = float(tau)
+                dist_dict[mean][cv][tau_float] = {}
+                
+                dist_dict[mean][cv][tau_float]['bdm'] = {}
+                dist_dict[mean][cv][tau_float]['bdm']['sojourn_time_count_dict'] = dict(Counter(run_lengths_bdm.tolist()))
+                dist_dict[mean][cv][tau_float]['bdm']['mean_sojourn_time'] = numpy.mean(run_lengths_bdm)
+                #dist_dict[mean][cv][tau_float]['bdm']['std_sojourn_time'] = numpy.std(run_lengths_bdm)
+                
+                dist_dict[mean][cv][tau_float]['bdm']['run_length'] = run_length_deviation_all_bdm.tolist()
+                dist_dict[mean][cv][tau_float]['bdm']['mean_run_deviation'] = mean_run_deviation_bdm_list
+                dist_dict[mean][cv][tau_float]['bdm']['slope'] = slope_bdm
+                dist_dict[mean][cv][tau_float]['bdm']['intercept'] = intercept_bdm
+                dist_dict[mean][cv][tau_float]['bdm']['norm_constant'] = norm_constant_bdm.tolist()
+
+
+                dist_dict[mean][cv][tau_float]['slm'] = {}
+                dist_dict[mean][cv][tau_float]['slm']['sojourn_time_count_dict'] = dict(Counter(run_lengths_slm.tolist()))
+                dist_dict[mean][cv][tau_float]['slm']['mean_sojourn_time'] = numpy.mean(run_lengths_slm)
+                #dist_dict[mean][cv][tau_float]['slm']['std_sojourn_time'] = numpy.std(run_lengths_slm)
+               
+                dist_dict[mean][cv][tau_float]['slm']['run_length'] = run_length_deviation_all_slm.tolist()
+                dist_dict[mean][cv][tau_float]['slm']['mean_run_deviation'] = mean_run_deviation_slm_list
+                dist_dict[mean][cv][tau_float]['slm']['slope'] = slope_slm
+                dist_dict[mean][cv][tau_float]['slm']['intercept'] = intercept_slm
+                dist_dict[mean][cv][tau_float]['slm']['norm_constant'] = norm_constant_slm.tolist()
+
+
+    
+    sys.stderr.write("Saving dictionary...\n")
+    with open(sojourn_time_dist_sim_fixed_moments_dict_path, 'wb') as outfile:
+        pickle.dump(dist_dict, outfile, protocol=pickle.HIGHEST_PROTOCOL)
+    sys.stderr.write("Done!\n")
+
+
+
+def simulate_sojourn_time_dist_fixed_mean_cv_analytic(t_total=None, n_reps=10000):
+
+    mean_range = [10000]
+    cv_range = numpy.logspace(numpy.log10(0.01), numpy.log10(10), num=10, endpoint=True, base=10)
+    #cv_range = [10]
+
+    dist_dict = {}
+
+    for mean in mean_range:
+
+        dist_dict[mean] = {}
+
+        for cv in cv_range:
+
+            dist_dict[mean][cv] = {}
+
+            k, sigma, m, phi = calculate_stationary_params_from_moments(mean, cv)
+
+            for tau in tau_range:
+
+                print(mean, cv, tau)
+
+                epsilon_sim = 0.01
+
+                x_matrix_bdm = simulate_bdm_trajectory_dornic(t_total=t_total, n_reps=n_reps, m=m, phi=phi, tau=tau, epsilon=epsilon_sim)
+                x_matrix_slm = simulate_slm_trajectory(t_total=t_total, n_reps=n_reps, k=k, sigma=sigma, tau=tau, epsilon=epsilon_sim, analytic=True)
+
+                if (numpy.isfinite(x_matrix_bdm).all() == False) or (numpy.isfinite(x_matrix_slm).all() == False):
+                    continue
+
+                run_lengths_bdm = calculate_sojourn_time_dist(x_matrix_bdm, min_run_length=1)
+                run_lengths_slm = calculate_sojourn_time_dist(x_matrix_slm, min_run_length=1)
+
+                # get the sojourn deviation
+                epsilon = 0.05*mean
+
+                run_length_deviation_all_bdm, mean_run_deviation_bdm = calculate_mean_deviation_pattern_simulation(x_matrix_bdm, min_run_length=10, min_n_runs=50, epsilon=epsilon)
+                run_length_deviation_all_slm, mean_run_deviation_slm = calculate_mean_deviation_pattern_simulation(x_matrix_slm, min_run_length=10, min_n_runs=50, epsilon=epsilon)
+
+                mean_run_deviation_bdm_list = [l.tolist() for l in mean_run_deviation_bdm]
+                mean_run_deviation_slm_list = [l.tolist() for l in mean_run_deviation_slm]
+
+                slope_bdm, intercept_bdm, norm_constant_bdm = stats_utils.estimate_sojourn_vs_constant_relationship(run_length_deviation_all_bdm, mean_run_deviation_bdm)
+                slope_slm, intercept_slm, norm_constant_slm = stats_utils.estimate_sojourn_vs_constant_relationship(run_length_deviation_all_slm, mean_run_deviation_slm)
+
+                #print(slope_bdm, len(norm_constant_bdm), slope_slm, len(norm_constant_slm))
+
+                tau_float = float(tau)
+                dist_dict[mean][cv][tau_float] = {}
+                
+                dist_dict[mean][cv][tau_float]['bdm'] = {}
+                dist_dict[mean][cv][tau_float]['bdm']['sojourn_time_count_dict'] = dict(Counter(run_lengths_bdm.tolist()))
+                dist_dict[mean][cv][tau_float]['bdm']['mean_sojourn_time'] = numpy.mean(run_lengths_bdm)
+                #dist_dict[mean][cv][tau_float]['bdm']['std_sojourn_time'] = numpy.std(run_lengths_bdm)
+                
+                dist_dict[mean][cv][tau_float]['bdm']['run_length'] = run_length_deviation_all_bdm.tolist()
+                dist_dict[mean][cv][tau_float]['bdm']['mean_run_deviation'] = mean_run_deviation_bdm_list
+                dist_dict[mean][cv][tau_float]['bdm']['slope'] = slope_bdm
+                dist_dict[mean][cv][tau_float]['bdm']['intercept'] = intercept_bdm
+                dist_dict[mean][cv][tau_float]['bdm']['norm_constant'] = norm_constant_bdm.tolist()
+
+
+                dist_dict[mean][cv][tau_float]['slm'] = {}
+                dist_dict[mean][cv][tau_float]['slm']['sojourn_time_count_dict'] = dict(Counter(run_lengths_slm.tolist()))
+                dist_dict[mean][cv][tau_float]['slm']['mean_sojourn_time'] = numpy.mean(run_lengths_slm)
+                #dist_dict[mean][cv][tau_float]['slm']['std_sojourn_time'] = numpy.std(run_lengths_slm)
+               
+                dist_dict[mean][cv][tau_float]['slm']['run_length'] = run_length_deviation_all_slm.tolist()
+                dist_dict[mean][cv][tau_float]['slm']['mean_run_deviation'] = mean_run_deviation_slm_list
+                dist_dict[mean][cv][tau_float]['slm']['slope'] = slope_slm
+                dist_dict[mean][cv][tau_float]['slm']['intercept'] = intercept_slm
+                dist_dict[mean][cv][tau_float]['slm']['norm_constant'] = norm_constant_slm.tolist()
+
+
+    
+    sys.stderr.write("Saving dictionary...\n")
+    with open(sojourn_time_dist_sim_fixed_moments_analytic_dict_path, 'wb') as outfile:
+        pickle.dump(dist_dict, outfile, protocol=pickle.HIGHEST_PROTOCOL)
+    sys.stderr.write("Done!\n")
+
+
+
 
 
 
@@ -932,6 +1150,11 @@ if __name__ == "__main__":
 
     #simulate_sojourn_time_dist()
 
+    #simulate_sojourn_time_dist_fixed_mean_cv()
+
+
+    simulate_sojourn_time_dist_fixed_mean_cv_analytic()
+
   
 
 
@@ -942,7 +1165,7 @@ if __name__ == "__main__":
 
 
 
-#simulate_sojourn_time_vs_cumulative_walk_length(n_days, n_reps, n_slopes=10)
+#simulate_sojourn_time_vs_cumulative_walk_length_exponent(n_days, n_reps, n_slopes=10)
 
 
 #simulate_cv_sojourn_time(n_days, n_reps)

@@ -26,10 +26,15 @@ color_radius=2
 
 host_color_dict = {'david_et_al': {'DonorA_post_travel': 'dodgerblue', 'DonorA_pre_travel': 'royalblue', 'DonorB_post_travel': 'cornflowerblue', 'DonorB_pre_travel': 'steelblue'}, 'poyet_et_al': {'ae': 'orangered', 'am': 'darkred', 'an': 'maroon', 'ao': 'firebrick'}, 'caporaso_et_al': {'F4': 'seagreen', 'M3': 'darkgreen'}}
 
-
 data_type_title_dict = {'linear':'No data transformation', 'sqrt':'Square-root transformation', 'log':'Log transformation'}
 
-sim_type_label_dict = {'demog': 'Demographic', 'slm': 'SLM'}
+sim_type_label_dict = {'bdm': 'BDM', 'slm': 'SLM', 'demog': 'BDM'}
+
+dataset_name_dict = {'david_et_al': 'david_et_al'}
+
+
+host_name_dict = {'david_et_al': {'DonorA_post_travel': 'A, post-travel', 'DonorA_pre_travel': 'A, pre-travel', 'DonorB_post_travel': 'B, post-travel', 'DonorB_pre_travel': 'B, pre-travel'}, 'poyet_et_al': {'ae': 'ae', 'am': 'am', 'an': 'an', 'ao': 'ao'}, 'caporaso_et_al': {'F4': 'F4', 'M3': 'M3'}}
+
 
 
 def make_blue_cmap(n):
@@ -298,3 +303,32 @@ def get_scatter_density_arrays(x, y, radius, loglog):
     return x, y, z
 
 
+
+
+def get_bin_mean_x_y(x, y, bins=20, min_n_bin=5):
+
+    x_log10 = numpy.log10(x)
+    y_log10 = numpy.log10(y)
+
+    hist_all, bin_edges_all = numpy.histogram(x_log10, density=True, bins=bins)
+    #bins_x = [0.5 * (bin_edges_all[i] + bin_edges_all[i+1]) for i in range(0, len(bin_edges_all)-1 )]
+    bins_x_to_keep = []
+    bins_y = []
+    for i in range(0, len(bin_edges_all)-1 ):
+        y_log10_i = y_log10[(x_log10>=bin_edges_all[i]) & (x_log10<bin_edges_all[i+1])]
+
+        if len(y_log10_i) >= min_n_bin:
+            bins_x_to_keep.append(bin_edges_all[i])
+            bins_y.append(numpy.median(y_log10_i))
+
+
+    bins_x_to_keep = numpy.asarray(bins_x_to_keep)
+    bins_y = numpy.asarray(bins_y)
+
+    bins_x_to_keep_no_nan = bins_x_to_keep[(~numpy.isnan(bins_x_to_keep)) & (~numpy.isnan(bins_y))]
+    bins_y_no_nan = bins_y[(~numpy.isnan(bins_x_to_keep)) & (~numpy.isnan(bins_y))]
+
+    bins_x_to_keep_no_nan = 10**bins_x_to_keep_no_nan
+    bins_y_no_nan = 10**bins_y_no_nan
+
+    return bins_x_to_keep_no_nan, bins_y_no_nan

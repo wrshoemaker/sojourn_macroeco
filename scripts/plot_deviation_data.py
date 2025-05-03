@@ -10,6 +10,7 @@ import pickle
 import scipy.stats as stats
 from scipy.spatial import distance
 from scipy.special import digamma, gamma
+from scipy import integrate
 
 #import functools
 #import operator
@@ -38,116 +39,49 @@ ax_idx_all = [(0,0), (0,1), (1,0), (1,1), (2,0), (2,1), (3,0), (3,1), (4,0), (4,
 slope_dict_path = '%sfluctuation_slope_dict.pickle' %config.data_directory
 sim_dict_path = '%sfluctuation_sim_dict.pickle' %config.data_directory
 
-mle_dict_path = '%smle_dict.pickle' %config.data_directory
 
+def make_null_exponent_dict(n_iter=1, min_run_length=data_utils.min_run_length_data, epsilon_fract=data_utils.epsilon_fract_data):
 
+    mle_dict = pickle.load(open(data_utils.mle_dict_path, "rb"))
 
+    exponent_null_all = []
 
-def make_mle_dict(epsilon_fract=0.01, min_run_length=10):
+    for n in range(n_iter):
 
-    mle_dict = {}
-    mle_dict['params'] = {}
-    mle_dict['params']['epsilon_fract'] = epsilon_fract
-    mle_dict['params']['min_run_length'] = min_run_length
+        for dataset in data_utils.dataset_all:
 
-    for dataset in data_utils.dataset_all:
+            for host in mle_dict[dataset].keys():
 
-        sys.stderr.write("Analyzing dataset %s.....\n" % dataset)
-        
-        mle_dict[dataset] = {}
+                for asv in mle_dict[dataset][host]:
 
-        read_counts, host_status, days, asv_names = data_utils.get_dada2_data(dataset, environment)
+                    rel_abundance = numpy.asarray(mle_dict[dataset][host][asv]['rel_abundance'])
+                    x_mean = mle_dict[dataset][host][asv]['x_mean']
+                    days = numpy.asarray(mle_dict[dataset][host][asv]['days'])
 
-        host_all = list(set(host_status))
-        host_all.sort()
+                    rel_abundance_null = numpy.random.permutation(rel_abundance)
 
-        for host in host_all:
+                    #run_values_null, run_starts_null, run_lengths_null = find_runs((rel_abundance_null - x_mean)>0, min_run_length=1)
 
-            sys.stderr.write("Analyzing host %s.....\n" % host)
+                    run_dict = data_utils.calculate_deviation_pattern_data(rel_abundance_null, x_mean, days, min_run_length=min_run_length, epsilon=epsilon_fract, return_array=False)
 
-            mle_dict[dataset][host] = {}
-
-            # function subsets ASVs that are actually present
-            read_counts_host, days_host, asv_names_host = data_utils.subset_s_by_s_by_host(read_counts, host_status, days, asv_names, host)
-            rel_read_counts_host = (read_counts_host/read_counts_host.sum(axis=0))
-
-            #occupancy_min_idx = numpy.sum(rel_read_counts_host>0, axis=1)/len(days_host) >= occupancy_min   
-
-            #rel_read_counts_host_subset = rel_read_counts_host[occupancy_min_idx,:]
-            #asv_names_host_subset = asv_names_host[occupancy_min_idx]
-
-            total_abundance = numpy.sum(read_counts_host, axis=0)
-
-            for asv_names_host_subset_i_idx, asv_names_host_subset_i in enumerate(asv_names_host):
-
-                abundance_trajectory = read_counts_host[asv_names_host_subset_i_idx,:]
-
-                # ignore ASVs with occupancy < 1
-                if sum(abundance_trajectory==0) > 0:
-                    continue
-
-                rel_abundance_trajectory = abundance_trajectory/total_abundance
-
-                # gamma MLE paramss
-                gamma_sampling_model = stats_utils.mle_gamma_sampling(total_abundance, abundance_trajectory)
-                mu_start = numpy.mean(abundance_trajectory/total_abundance)
-                sigma_start = numpy.std(abundance_trajectory/total_abundance)
-                start_params = numpy.asarray([mu_start, sigma_start])
-                gamma_sampling_result = gamma_sampling_model.fit(method="lbfgs", start_params=start_params, bounds= [(0.000001,1), (0.00001,100)], full_output=False, disp=False)
-                x_mean, x_std = gamma_sampling_result.params
-
-                # get sojourn times for runs of all lengths
-                run_values, run_starts, run_lengths = data_utils.find_runs((rel_abundance_trajectory - x_mean)>0, min_run_length=1)
-                days_run_lengths = []
-                for run_j_idx in range(len(run_values)):
-                    
-                    days_run_j = days_host[run_starts[run_j_idx]:run_starts[run_j_idx]+run_lengths[run_j_idx]]
-
-                    # only one observation, skip
-                    if len(days_run_j) == 1:
-                        continue
-
-                    days_run_lengths.append(int(days_run_j[-1] - days_run_j[0]))
-
-
-
-                if len(days_run_lengths) == 0:
-                    continue
-
-                mle_dict[dataset][host][asv_names_host_subset_i] = {}
-                mle_dict[dataset][host][asv_names_host_subset_i]['rel_abundance'] = rel_abundance_trajectory.tolist()
-                mle_dict[dataset][host][asv_names_host_subset_i]['days'] = days_host.tolist()
-                mle_dict[dataset][host][asv_names_host_subset_i]['x_mean'] = x_mean
-                mle_dict[dataset][host][asv_names_host_subset_i]['x_std'] = x_std
-                mle_dict[dataset][host][asv_names_host_subset_i]['days_run_lengths'] = days_run_lengths
-
-                #for run_length, run_sojourn in run_dict.items():
-                run_dict = data_utils.calculate_deviation_pattern_data(rel_abundance_trajectory, x_mean, min_run_length=min_run_length, epsilon=epsilon_fract*x_mean, return_array=False)
-
-                if len(run_dict) == 0:
-                    mle_dict[dataset][host][asv_names_host_subset_i]['run_dict'] = None
-                else:
-                    mle_dict[dataset][host][asv_names_host_subset_i]['run_dict'] = run_dict
-
-                # add runs where the deviation can be examined
-
-    sys.stderr.write("Saving dictionary...\n")
-    with open(mle_dict_path, 'wb') as outfile:
-        pickle.dump(mle_dict, outfile, protocol=pickle.HIGHEST_PROTOCOL)
-    sys.stderr.write("Done!\n")
-
+                    print(run_dict)
 
 
 def plot_sojourn_vs_norm(remove_negative_values=True):
 
-    mle_dict = pickle.load(open(mle_dict_path, "rb"))
+    mle_dict = pickle.load(open(data_utils.mle_dict_path, "rb"))
 
     sojourn_time_all = []
     norm_all = []
 
-    for dataset in mle_dict.keys():
+    fig, ax = plt.subplots(figsize=(6,4))
+
+    for dataset in data_utils.dataset_all:
 
         for host in mle_dict[dataset].keys():
+
+            sojourn_time_all_host = []
+            norm_all_host = []
 
             for asv in mle_dict[dataset][host]:
 
@@ -158,36 +92,49 @@ def plot_sojourn_vs_norm(remove_negative_values=True):
 
                 for sojourn_time, sojourn_trajectory_list_nested in run_dict.items():
 
-                    rescald_time_range = numpy.linspace(0, 1, num=sojourn_time, endpoint=True)
-
                     for sojourn_trajectory_list in sojourn_trajectory_list_nested:
 
-                        sojourn_trajectory_list = numpy.asarray(sojourn_trajectory_list)/mle_dict[dataset][host][asv]['x_mean']
-                        #sojourn_trajectory_list = numpy.asarray(sojourn_trajectory_list)
+                        # len(sojourn_trajectory_list) is the number of observations in the sojourn
+                        # sojourn_time is the number of days
 
-                        #if remove_negative_values == True:
+                        rescald_time_range = numpy.linspace(0, 1, num=len(sojourn_trajectory_list), endpoint=True)
 
-                        to_keep_idx = sojourn_trajectory_list > 0
+                        rescaled_sojourn_trajectory_list = numpy.asarray(sojourn_trajectory_list)/mle_dict[dataset][host][asv]['x_mean']
 
-                        sojourn_trajectory_list = sojourn_trajectory_list[to_keep_idx]
-                        rescald_time_range_ = rescald_time_range[to_keep_idx]
+                        #to_keep_idx = sojourn_trajectory_list > 0
 
-                        norm = stats_utils.estimate_normalization_constant(rescald_time_range_, sojourn_trajectory_list)
-                        
+                        #sojourn_trajectory_list = sojourn_trajectory_list[to_keep_idx]
+                        #rescald_time_range_ = rescald_time_range[to_keep_idx]
+
+                        #print(to_keep_idx[0], to_keep_idx[-1], len(to_keep_idx))
+                        #print(numpy.log(sojourn_trajectory_list))
+
+                        # we are taking the integral of the *log*
+                        # add one because we want the constant to be positive and to *increase* with T
+                        print(mle_dict[dataset][host][asv]['x_mean'])
+                        print(sojourn_trajectory_list)
+                        print(rescaled_sojourn_trajectory_list)
+                        rescaled_sojourn_trajectory_log = numpy.log(rescaled_sojourn_trajectory_list+1)
+                        print(rescaled_sojourn_trajectory_log)
+                        #rescald_time_range_ = numpy.linspace(0, 1, num=len(rescald_time_range_), endpoint=True)
+                        norm = stats_utils.estimate_normalization_constant(rescald_time_range, rescaled_sojourn_trajectory_log)
+
+                        print(norm)
+
                         sojourn_time_all.append(sojourn_time)
                         norm_all.append(norm)
+            
+                        sojourn_time_all_host.append(sojourn_time)
+                        norm_all_host.append(norm)
 
+            
+            ax.scatter(sojourn_time_all_host, norm_all_host, color=plot_utils.host_color_dict[dataset][host], alpha=0.6, s=10)
 
 
     sojourn_time_all = numpy.asarray(sojourn_time_all)
     norm_all = numpy.asarray(norm_all)
-
-
-    slope, intercept = stats_utils.log_log_regression(sojourn_time_all, norm_all)
-
-    fig, ax = plt.subplots(figsize=(6,4))
-
-    ax.scatter(sojourn_time_all, norm_all, c='k', alpha=0.6, s=10)
+    slope, intercept, r_value, p_value, std_err = stats_utils.log_log_regression(sojourn_time_all, norm_all)
+    print(slope, p_value, std_err)
 
     x_log10_range =  numpy.linspace(min(numpy.log10(sojourn_time_all)) , max(numpy.log10(sojourn_time_all)) , 10000)
     y_log10_fit_range = (slope*x_log10_range + intercept)
@@ -213,7 +160,7 @@ def plot_sojourn_vs_norm(remove_negative_values=True):
 
 def plot_deviation_data(sojourn_time, min_x_mean = 0):
 
-    mle_dict = pickle.load(open(mle_dict_path, "rb"))
+    mle_dict = pickle.load(open(data_utils.mle_dict_path, "rb"))
 
     fig = plt.figure(figsize = (8, 20)) #
     fig.subplots_adjust(bottom= 0.1,  wspace=0.15)
@@ -263,7 +210,6 @@ def plot_deviation_data(sojourn_time, min_x_mean = 0):
                 if x_mean <= min_x_mean:
                     continue
 
-                
                 run_dict = mle_dict[dataset][host][asv]['run_dict']
 
                 if run_dict is None:
@@ -282,15 +228,22 @@ def plot_deviation_data(sojourn_time, min_x_mean = 0):
 
                         run_sojourn_j = numpy.asarray(run_sojourn_j)
 
+                        run_sojourn_integral_j = integrate.simpson(run_sojourn_j, s_range)
+                        run_sojourn_j = run_sojourn_j/run_sojourn_integral_j
+
+                        if x_mean < 0.001:
+                            continue
+                        
+
                         #print(len(run_sojourn_j))
-                        run_sojourn_j = numpy.absolute(run_sojourn_j)
+                        #run_sojourn_j = numpy.absolute(run_sojourn_j)
                         
                         # ensure no negative values
                         to_plot_idx = (run_sojourn_j>0)
                         s_range_to_plot = s_range[to_plot_idx]
                         run_sojourn_j_to_plot = run_sojourn_j[to_plot_idx]
-                        rescaled_run_sojourn_j_to_plot = run_sojourn_j_to_plot/x_mean
-                        ax.plot(s_range_to_plot, rescaled_run_sojourn_j_to_plot, lw=1, alpha=1, c=cmap.to_rgba(x_mean), ls='-')
+                        #rescaled_run_sojourn_j_to_plot = run_sojourn_j_to_plot/x_mean
+                        ax.plot(s_range_to_plot, run_sojourn_j_to_plot, lw=1, alpha=1, c=cmap.to_rgba(x_mean), ls='-')
 
                 
             ax.set_yscale('log', base=10)
@@ -302,6 +255,223 @@ def plot_deviation_data(sojourn_time, min_x_mean = 0):
     fig.savefig(fig_name, format='png', bbox_inches = "tight", pad_inches = 0.3, dpi = 600)
     plt.close()
 
+
+def plot_deviation_data_all_sojourn(min_x_mean = 0):
+
+
+    fig = plt.figure(figsize = (8, 20)) #
+    fig.subplots_adjust(bottom= 0.1,  wspace=0.15)
+
+    mle_dict = pickle.load(open(data_utils.mle_dict_path, "rb"))
+
+    host_count = 0
+
+    cmap = cm.ScalarMappable(norm = colors.Normalize(11, 20), cmap = plt.get_cmap('Blues'))
+
+
+    for dataset in data_utils.dataset_all:
+
+        sys.stderr.write("Analyzing dataset %s.....\n" % dataset)
+
+        host_all = list(mle_dict[dataset].keys())
+        host_all.sort()
+
+        for host in host_all:
+
+            days_run_lengths_all = []
+            cv_all = []
+            for key, value in mle_dict[dataset][host].items():
+
+                days_run_lengths_all.extend(value['days_run_lengths'])
+
+                cv_all.append(value['x_std']/value['x_mean'])
+
+                
+            days_run_lengths_all = numpy.asarray(days_run_lengths_all)
+
+            ax = plt.subplot2grid((5, 2), ax_idx_all[host_count])
+
+            sojourn_dict = {}
+
+            host_count+=1
+
+            for asv in  mle_dict[dataset][host].keys():
+                
+                rel_abundance = numpy.asarray(mle_dict[dataset][host][asv]['rel_abundance'])
+                x_mean = mle_dict[dataset][host][asv]['x_mean']
+
+                if x_mean <= min_x_mean:
+                    continue
+
+                run_dict = mle_dict[dataset][host][asv]['run_dict']
+
+                if run_dict is None:
+                    continue
+
+                for run_length, run_sojourn in run_dict.items():
+
+                    #s_range = numpy.linspace(0, 1, num=run_length, endpoint=True)
+
+                    if run_length not in sojourn_dict:
+                        sojourn_dict[run_length] = []
+ 
+                    for run_sojourn_j in run_sojourn:
+
+                        run_sojourn_j = numpy.asarray(run_sojourn_j)
+                        run_sojourn_rescaled_j = run_sojourn_j/x_mean
+
+                        #run_sojourn_integral_j = integrate.simpson(run_sojourn_j, s_range)
+                        #run_sojourn_j = run_sojourn_j/run_sojourn_integral_j
+
+                        sojourn_dict[run_length].append(run_sojourn_rescaled_j)
+
+                        # ensure no negative values
+                        #to_plot_idx = (run_sojourn_j>0)
+                        #s_range_to_plot = s_range[to_plot_idx]
+                        #run_sojourn_j_to_plot = run_sojourn_j[to_plot_idx]
+
+
+            mean_run_sojourn_all = []
+            for run_length, run_sojourn_all in sojourn_dict.items():
+
+                if len(run_sojourn_all) <= 4:
+                    continue
+                
+
+                run_sojourn_all = numpy.stack(run_sojourn_all, axis=0)
+                mean_run_sojourn = numpy.mean(run_sojourn_all, axis=0)
+
+                s_range = numpy.linspace(0, 1, num=run_length, endpoint=True)
+
+                #print(mean_run_sojourn[-1])
+                to_plot_idx = (mean_run_sojourn>0)
+                #s_range_to_plot = s_range[to_plot_idx]
+                #mean_run_sojourn_to_plot = mean_run_sojourn[to_plot_idx]
+
+                ax.plot(s_range, mean_run_sojourn, lw=1, alpha=1, c=cmap.to_rgba(run_length), ls='-')
+
+                mean_run_sojourn_all.extend(mean_run_sojourn.tolist())
+
+            #ax.set_yscale('log', base=10)
+            ax.set_xlim([0,1])
+            ax.set_ylim([0,max(mean_run_sojourn_all)*1.1])
+            ax.set_title('%s, %s' % (dataset, host), fontsize=11)
+            #host_count+=1
+            ax.set_xlabel('Rescaled time within sojourn period, ' + r'$t$', fontsize=9)
+            ax.set_ylabel("Rescaled mean deviation, " + r'$\left < x(t) - x(0) \right >_{T}$', fontsize=9)
+
+
+
+    fig.subplots_adjust(hspace=0.25, wspace=0.25)
+    fig_name = "%sdeviation_data_all_sojourn.png" % (config.analysis_directory)
+    fig.savefig(fig_name, format='png', bbox_inches = "tight", pad_inches = 0.3, dpi = 600)
+    plt.close()
+
+
+
+def plot_deviation_data_all_sojourn_survival(min_x_mean = 0):
+
+    fig = plt.figure(figsize = (12, 4)) #
+    fig.subplots_adjust(bottom= 0.1,  wspace=0.15)
+
+    mle_dict = pickle.load(open(data_utils.mle_dict_path, "rb"))
+
+    host_count = 0
+
+    cmap = cm.ScalarMappable(norm = colors.Normalize(11, 20), cmap = plt.get_cmap('Blues'))
+
+
+    for dataset_idx, dataset in enumerate(data_utils.dataset_all):
+
+        sys.stderr.write("Analyzing dataset %s.....\n" % dataset)
+
+        host_all = list(mle_dict[dataset].keys())
+        host_all.sort()
+
+        ax = plt.subplot2grid((1, 3), (0, dataset_idx))
+
+        sojourn_deviation_all = []
+
+        for host in host_all:
+
+            days_run_lengths_all = []
+            cv_all = []
+            for key, value in mle_dict[dataset][host].items():
+
+                days_run_lengths_all.extend(value['days_run_lengths'])
+
+                cv_all.append(value['x_std']/value['x_mean'])
+
+                
+            days_run_lengths_all = numpy.asarray(days_run_lengths_all)
+
+    
+            sojourn_dict = {}
+
+            for asv in  mle_dict[dataset][host].keys():
+                
+                rel_abundance = numpy.asarray(mle_dict[dataset][host][asv]['rel_abundance'])
+                x_mean = mle_dict[dataset][host][asv]['x_mean']
+
+                if x_mean <= min_x_mean:
+                    continue
+
+                run_dict = mle_dict[dataset][host][asv]['run_dict']
+
+                if run_dict is None:
+                    continue
+
+                for run_length, run_sojourn in run_dict.items():
+
+                    #s_range = numpy.linspace(0, 1, num=run_length, endpoint=True)
+
+                    if run_length not in sojourn_dict:
+                        sojourn_dict[run_length] = []
+ 
+                    for run_sojourn_j in run_sojourn:
+
+                        run_sojourn_j = numpy.asarray(run_sojourn_j)
+                        run_sojourn_rescaled_j = run_sojourn_j/x_mean
+                        sojourn_dict[run_length].append(run_sojourn_rescaled_j)
+
+
+            mean_run_sojourn_all = []
+            for run_length, run_sojourn_all in sojourn_dict.items():
+
+                #if len(run_sojourn_all) <= 4:
+                #    continue
+
+                for run_sojourn_j in run_sojourn_all:
+                    sojourn_deviation_all.extend(run_sojourn_j.tolist())
+
+
+        sojourn_deviation_all = numpy.asarray(sojourn_deviation_all)
+        sojourn_deviation_all = sojourn_deviation_all[sojourn_deviation_all>0]
+
+        
+
+        
+
+        print(mean_run_sojourn)
+
+    ax.plot(s_range, mean_run_sojourn, lw=1, alpha=1, c=cmap.to_rgba(run_length), ls='-')
+
+    mean_run_sojourn_all.extend(mean_run_sojourn.tolist())
+
+    #ax.set_yscale('log', base=10)
+    ax.set_xlim([0,1])
+    ax.set_ylim([0,max(mean_run_sojourn_all)*1.1])
+    ax.set_title('%s, %s' % (dataset, host), fontsize=11)
+    #host_count+=1
+    ax.set_xlabel('Rescaled time within sojourn period, ' + r'$t$', fontsize=9)
+    ax.set_ylabel("Rescaled mean deviation, " + r'$\left < x(t) - x(0) \right >_{T}$', fontsize=9)
+
+
+
+    fig.subplots_adjust(hspace=0.25, wspace=0.25)
+    fig_name = "%sdeviation_data_all_sojourn_survival.png" % (config.analysis_directory)
+    fig.savefig(fig_name, format='png', bbox_inches = "tight", pad_inches = 0.3, dpi = 600)
+    plt.close()
 
 
 
@@ -323,7 +493,6 @@ def plot_dist_run_lengths():
 
         for host in host_all:
 
-
             days_run_lengths_all = []
             cv_all = []
             for key, value in mle_dict[dataset][host].items():
@@ -335,7 +504,7 @@ def plot_dist_run_lengths():
                 
             days_run_lengths_all = numpy.asarray(days_run_lengths_all)
 
-            print(dataset, host, numpy.mean(cv_all))
+            #print(dataset, host, numpy.mean(cv_all))
 
 
             ax = plt.subplot2grid((5, 2), ax_idx_all[host_count])
@@ -344,18 +513,23 @@ def plot_dist_run_lengths():
             #days_run_lengths_all_pos = days_run_lengths_all[run_values_all==True]
             #days_run_lengths_all_neg = days_run_lengths_all[run_values_all==False]
 
-            ax.hist(numpy.log10(days_run_lengths_all), bins=9, density=True, lw=3, histtype='step', fill=False, color='dodgerblue')
+            days_run_lengths_all_log10 = numpy.log10(days_run_lengths_all)
+            hist_to_plot, bins_mean_to_plot = data_utils.get_hist_and_bins(days_run_lengths_all_log10, n_bins=10)
+            #ax.hist(numpy.log10(days_run_lengths_all), bins=9, density=True, lw=3, histtype='step', fill=False, color='dodgerblue')
+            ax.scatter(10**bins_mean_to_plot, hist_to_plot, s=40, color='dodgerblue', alpha=1, lw=1)
 
             #ax.hist(days_run_lengths_all_pos, bins=10, density=True, histtype='step', fill=False, color='b')
             #ax.hist(days_run_lengths_all_neg, bins=10, density=True, histtype='step', fill=False, color='r')
 
             ax.set_xlabel("Sojourn time (days)", fontsize=12)
             ax.set_ylabel("Density", fontsize=12)
-
+            
+            ax.set_xlim([1, 200])
+            ax.set_xscale('log', base=10)
             ax.set_yscale('log', base=10)
-            #ax.set_xlim([1, 200])
+            #
 
-            ax.set_xlim([0, numpy.log10(200)])
+            #ax.set_xlim([0, numpy.log10(200)])
 
 
             host_count+=1
@@ -368,21 +542,140 @@ def plot_dist_run_lengths():
 
 
 
+def plot_stat_vs_sojourn_data():
+
+    fig = plt.figure(figsize = (12, 12)) #
+    fig.subplots_adjust(bottom= 0.1,  wspace=0.15)
+
+    mle_dict = pickle.load(open(data_utils.mle_dict_path, "rb"))
+
+    host_count = 0
+
+    for dataset_idx, dataset in enumerate(data_utils.dataset_all):
+
+        sys.stderr.write("Analyzing dataset %s.....\n" % dataset)
+
+        ax_mean = plt.subplot2grid((3, len(data_utils.dataset_all)), (0, dataset_idx))
+        ax_cv = plt.subplot2grid((3, len(data_utils.dataset_all)), (1, dataset_idx))
+        ax_cv_resid = plt.subplot2grid((3, len(data_utils.dataset_all)), (2, dataset_idx))
+
+        host_all = list(mle_dict[dataset].keys())
+        host_all.sort()
+
+        mean_all_all = []
+        cv_all_all = []
+        mean_sojourn_all_all = []
+        for host in host_all:
+
+            mean_all = []
+            cv_all = []
+            mean_sojourn_all = []
+            for key, value in mle_dict[dataset][host].items():
+
+                mean_all.append(value['x_mean'])
+                cv_all.append(value['x_std']/value['x_mean'])
+                mean_sojourn_all.append(numpy.mean(value['days_run_lengths']))
+
+            
+            ax_mean.scatter(mean_all, mean_sojourn_all, lw=0.5, ls='-', s=10, alpha=0.8, color=plot_utils.host_color_dict[dataset][host])
+            ax_cv.scatter(cv_all, mean_sojourn_all, lw=0.5, ls='-', s=10, alpha=0.8, color=plot_utils.host_color_dict[dataset][host])
+
+            mean_all_all.extend(mean_all)
+            cv_all_all.extend(cv_all)
+            mean_sojourn_all_all.extend(mean_sojourn_all)
+            
+        
+        #if dataset_idx < 2:
+
+        bins_mean, bins_mean_sojourn = plot_utils.get_bin_mean_x_y(mean_all_all, mean_sojourn_all_all, bins=15, min_n_bin=3)
+        bins_cv, bins_cv_sojourn = plot_utils.get_bin_mean_x_y(cv_all_all, mean_sojourn_all_all, bins=15, min_n_bin=3)
+        
+        #ax_mean.plot(bins_mean, bins_mean_sojourn, c='k', lw=3, linestyle='--', zorder=2)
+        #ax_cv.plot(bins_cv, bins_cv_sojourn, c='k', lw=3, linestyle='--', zorder=2)
+
+        ax_mean.set_title('%s' % (dataset), fontsize=12)
+
+
+
+        # slope
+        slope_mean, intercept_mean, r_value_mean, p_value_mean, std_err_mean = data_utils.stats.linregress(numpy.log10(mean_all_all), numpy.log10(mean_sojourn_all_all))
+        slope_cv, intercept_cv, r_value_cv, p_value_cv, std_err_cv = data_utils.stats.linregress(numpy.log10(cv_all_all), numpy.log10(mean_sojourn_all_all))
+
+        x_log10_range_mean =  numpy.linspace(min(numpy.log10(mean_all_all)) , max(numpy.log10(mean_all_all)) , 10000)
+        y_log10_fit_range_mean = (slope_mean*x_log10_range_mean + intercept_mean)
+
+        x_log10_range_cv =  numpy.linspace(min(numpy.log10(cv_all_all)) , max(numpy.log10(cv_all_all)) , 10000)
+        y_log10_fit_range_cv = (slope_cv*x_log10_range_cv + intercept_cv)
+
+        #if p_value_mean < 0.05:
+        #    ax_mean.plot(10**x_log10_range_mean, 10**y_log10_fit_range_mean, c='k', lw=2.5, linestyle='-', zorder=2, label="OLS regression slope")
+        
+        ax_mean.plot(10**x_log10_range_mean, 10**y_log10_fit_range_mean, c='k', lw=2.5, linestyle='-', zorder=2, label="OLS regression slope")
+        ax_cv.plot(10**x_log10_range_cv, 10**y_log10_fit_range_cv, c='k', lw=2.5, linestyle='-', zorder=2, label="OLS regression slope")
+
+        #if p_value_cv < 0.05:
+        #    ax_cv.plot(10**x_log10_range_cv, 10**y_log10_fit_range_cv, c='k', lw=2.5, linestyle='-', zorder=2, label="OLS regression slope")
+
+        cv_resid = numpy.log10(mean_sojourn_all_all) - (slope_cv*numpy.log10(cv_all_all) + intercept_cv)
+
+        ax_cv_resid.scatter(cv_all_all, cv_resid, lw=0.5, ls='-', s=10, alpha=0.8, color=plot_utils.host_color_dict[dataset][host])
+        #ax_mean.scatter(mean_all_all, mean_sojourn_all, s=10, alpha=0.8, c=plot_utils.host_color_dict[dataset][host], zorder=1)
+
+        slope_resid, intercept_resid, r_value_resid, p_value_resid, std_err_resid = data_utils.stats.linregress(numpy.log10(cv_all_all), cv_resid)
+        print(slope_cv, p_value_cv)
+        y_log10_fit_range_cv_resid = (slope_resid*x_log10_range_cv + intercept_resid)
+        ax_cv_resid.plot(10**x_log10_range_cv, y_log10_fit_range_cv_resid, c='k', lw=2.5, linestyle='-', zorder=2, label="OLS regression slope")
+
+        ax_mean.set_xscale('log', base=10)
+        ax_cv.set_xscale('log', base=10)
+
+        ax_mean.set_yscale('log', base=10)
+        ax_cv.set_yscale('log', base=10)
+
+        ax_mean.set_xlabel("Mean abundance", fontsize=12)
+        ax_cv.set_xlabel("CV of abundance", fontsize=12)
+
+        ax_mean.set_ylabel("Mean sojourn time", fontsize=12)
+        ax_cv.set_ylabel("Mean sojourn time", fontsize=12)
+
+
+        ax_cv_resid.set_xlabel("CV of abundance", fontsize=12)
+        ax_cv_resid.set_ylabel("Residuals", fontsize=12)
+        ax_cv_resid.axhline(y=0, lw=2, ls=':', c='k')
+
+        ax_cv_resid.set_xscale('log', base=10)
+
+
+    fig.subplots_adjust(hspace=0.25, wspace=0.25)
+    fig_name = "%sstat_vs_mean_sojourn_data.png" % (config.analysis_directory)
+    fig.savefig(fig_name, format='png', bbox_inches = "tight", pad_inches = 0.3, dpi = 600)
+    plt.close()
+
+
 
 
 if __name__ == "__main__":
 
     print("Running...")
 
-    plot_sojourn_vs_norm()
+    #plot_sojourn_vs_norm()
 
+    #plot_deviation_data_all_sojourn_survival()
+
+    #plot_stat_vs_sojourn_data()
 
     #plot_dist_run_lengths()
+    
+    #plot_sojourn_vs_norm()
+    plot_stat_vs_sojourn_data()
+    #plot_deviation_data(11)
 
-#sojourn_all = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 38, 43, 44, 45, 47, 50, 51, 60, 73]
+    #plot_stat_vs_sojourn_data()
+    #make_mle_dict(epsilon_fract=0.01)
 
-#for s in sojourn_all:
-#    plot_deviation_data(s)
+    #plot_deviation_data_all_sojourn()
 
-#make_mle_dict(epsilon_fract=0.01)
+    #make_null_exponent_dict()
+
+
 #plot_deviation_data(12)

@@ -42,9 +42,9 @@ def log_log_regression(x_, y_, min_x=None):
         x_ = x_[x_idx]
         y_ = y_[x_idx]
 
-    slope, intercept, r_valuer_value, p_value, std_err = stats.linregress(numpy.log10(x_), numpy.log10(y_))
+    slope, intercept, r_value, p_value, std_err = stats.linregress(numpy.log10(x_), numpy.log10(y_))
 
-    return slope, intercept
+    return slope, intercept, r_value, p_value, std_err
 
 
 def estimate_sojourn_vs_constant_relationship(run_length, mean_run_deviation):
@@ -72,6 +72,8 @@ def expected_value_log_gamma(x_bar, cv):
     beta = (cv)**(-2)
 
     return digamma(beta) - numpy.log(beta/x_bar) 
+
+
 
 
 def expected_value_square_root_gamma(x_bar, cv):
@@ -145,6 +147,67 @@ def test_mle():
     #print(mu_start, sigma_start)
     #print(gamma_sampling_result.params)
 
+
+
+
+def autocorrelation_by_days(data, days, min_n_autocorr_values=5):
+
+    delay_days_range = numpy.arange(1, max(days) - min(days) - min_n_autocorr_values)
+    # Rescale data by mean
+    data = data - numpy.mean(data)
+
+    delay_days_all = []
+    autocorr_all = []
+
+    for delay_days in delay_days_range:
+
+        autocorr = []
+        
+        # Loop through all possible lags
+        for i in range(len(data) - delay_days):
+            current_day = days[i]
+            lagged_day = days[i + delay_days]
+            
+            # Check if the difference in days equals delay_days
+            if lagged_day - current_day == delay_days:
+                current_value = data[i]
+                lagged_value = data[i + delay_days]
+                # Save product of current and lagged value
+                autocorr.append((current_value) * (lagged_value))
+
+        # Sufficient number of datapoints to calcualte autocorrelation
+        if len(autocorr) >= min_n_autocorr_values:
+            # Normalize covariance by sum of covariance terms divided by # of covariance terms
+            # and the variance  
+            delay_days_all.append(delay_days)  
+            autocorr_all.append(numpy.sum(autocorr) / (len(autocorr) * numpy.var(data)))
+
+
+    delay_days_all = numpy.asarray(delay_days_all)
+    autocorr_all = numpy.asarray(autocorr_all)
+
+    delay_days_all = numpy.insert(delay_days_all, 0, 0, axis=0)
+    autocorr_all = numpy.insert(autocorr_all, 0, 1, axis=0)
+
+
+    return delay_days_all, autocorr_all
+
+
+
+def autocorrelation(x):
+    # Normalize the input array
+    x = numpy.asarray(x)
+    x = x - numpy.mean(x)
+    
+    # Compute the autocorrelation for all lags
+    result = numpy.correlate(x, x, mode='full')
+    print(len(result))
+    
+    # Normalize the result by the value at lag 0
+    autocorr = result[result.size // 2:]  # Take the second half (positive lags)
+    autocorr /= autocorr[0]  # Normalize to have value 1 at lag 0
+    
+    return autocorr
 
 
 if __name__ == "__main__":

@@ -24,23 +24,44 @@ from matplotlib import cm, colors
 from matplotlib.lines import Line2D
 from matplotlib.patches import Patch
 
+import simulation_utils
 
-min_x = 10
-max_x = 1000
-lambda_ = 10
+
+import theory_utils 
+
+
+#min_x = 10
+#max_x = 1000
+#lambda_ = 10
+
+k, sigma, m, phi = simulation_utils.calculate_stationary_params_from_moments(50, 2)
 
 
 fig, ax = plt.subplots(figsize=(6,4))
 
+max_t=800
 
-x_range =  numpy.logspace(numpy.log10(min_x) , numpy.log10(max_x), 10000)
-#y_log10_fit_range = (slope*x_log10_range + intercept)
+for tau in [0.1, 1, 6]:
 
-y = numpy.exp(-1*x_range*lambda_) / ((1 - numpy.exp(-2*x_range*lambda_))**(3/2))
+    t_range_slm, prob_t_slm = theory_utils.predict_sojourn_dist_slm(100000, k, sigma, tau, 10000)
+    t_range_bdm, prob_t_bdm = theory_utils.predict_sojourn_dist_bdm(100000, m, phi, tau, 10000)
 
-ax.plot(x_range, y, c='k', lw=2.5, linestyle='-', zorder=2, label="OLS regression slope")
+    t_range_slm = t_range_slm[:max_t]
+    prob_t_slm = prob_t_slm[:max_t]
+    prob_t_slm = prob_t_slm/sum(prob_t_slm)
+
+    t_range_bdm = t_range_bdm[:max_t]
+    prob_t_bdm = prob_t_bdm[:max_t]
+    prob_t_bdm = prob_t_bdm/sum(prob_t_bdm)
+    
+
+
+    ax.plot(t_range_bdm, prob_t_bdm, c='k', lw=2.5, linestyle='-', zorder=2)
+
+
+
 #ax.scatter(run_lengths, run_sum_all, s=10, alpha=0.4, c='k', zorder=1)
-
+ax.set_ylim([0.00001, 1])
 
 
 

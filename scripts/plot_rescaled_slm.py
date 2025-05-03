@@ -30,10 +30,80 @@ warnings.simplefilter("ignore", category=RuntimeWarning)
 
 
 
-
-
-
 def plot_compare_slopes():
+
+    sojourn_dict = pickle.load(open('%ssojourn_time_dist_sim_fixed_moments_bdm_dict.pickle' % config.data_directory, 'rb'))
+
+    mean = list(sojourn_dict.keys())[0]
+    cv_all = list(sojourn_dict[mean].keys())
+    tau_all = list(sojourn_dict[mean][cv_all[0]].keys())
+
+    slopes_bdm = []
+    slopes_slm = []
+
+    cv_all_to_plot = []
+    tau_all_to_plot = []
+    for cv in cv_all:
+
+        for tau in tau_all:
+
+            sojourn_dict_bdm_i = sojourn_dict[mean][cv][tau]['bdm']['sojourn_time_count_dict']
+            sojourn_dict_slm_i = sojourn_dict[mean][cv][tau]['slm']['sojourn_time_count_dict']
+
+            #print(sojourn_dict[mean][cv][tau]['bdm']['slope'])
+
+            x_bdm = numpy.asarray(list(sojourn_dict_bdm_i.keys()))
+            x_slm = numpy.asarray(list(sojourn_dict_slm_i.keys()))
+
+            if (max(x_bdm) > 400) or (max(x_slm) > 400):
+                continue
+
+            if sojourn_dict[mean][cv][tau]['bdm']['slope'] < 0:
+                print(cv, tau)
+
+            #print(max(x_bdm), max(x_slm))
+
+            slopes_bdm.append(sojourn_dict[mean][cv][tau]['bdm']['slope'])
+            slopes_slm.append(sojourn_dict[mean][cv][tau]['slm']['slope'])
+            cv_all_to_plot.append(cv)
+            tau_all_to_plot.append(tau)
+
+
+    fig = plt.figure(figsize = (8, 4)) #
+    fig.subplots_adjust(bottom= 0.1,  wspace=0.15)
+
+    ax_cv = plt.subplot2grid((1,2), (0,0))
+    ax_timescale = plt.subplot2grid((1,2), (0,1))
+
+    ax_cv.scatter(cv_all_to_plot, slopes_bdm, s=10, c='r', alpha=0.2, label='BDM')
+    ax_cv.scatter(cv_all_to_plot, slopes_slm, s=10, c='b', alpha=0.2, label='SLM')
+    ax_cv.set_xlabel("CV", fontsize=12)
+    ax_cv.set_ylabel("Exponent of sojourn time vs. integral", fontsize=12)
+    ax_cv.set_xscale('log', base=10)
+    ax_cv.axhline(y=0.5, lw=2, ls=':', c='k', label='Brownian motion')
+    ax_cv.axhline(y=0.1531465459645992, lw=2, ls='--', c='k', label='Human gut')
+    ax_cv.legend(loc='upper left')
+
+
+    ax_timescale.scatter(tau_all_to_plot, slopes_bdm, s=10, c='r', alpha=0.2)
+    ax_timescale.scatter(tau_all_to_plot, slopes_slm, s=10, c='b', alpha=0.2)
+    ax_timescale.set_xlabel("Growth timescale", fontsize=12)
+    ax_timescale.set_ylabel("Exponent of sojourn time vs. integral", fontsize=12)
+    ax_timescale.set_xscale('log', base=10)
+    ax_timescale.axhline(y=0.5, lw=2, ls=':', c='k', label='Brownian motion')
+    ax_timescale.axhline(y=0.1531465459645992, lw=2, ls='--', c='k', label='Human gut')
+
+
+    fig.subplots_adjust(hspace=0.25, wspace=0.25)
+    fig_name = "%scv_vs_slope_slm.png" % (config.analysis_directory)
+    fig.savefig(fig_name, format='png', bbox_inches = "tight", pad_inches = 0.3, dpi = 600)
+    plt.close()
+
+
+
+
+
+def plot_compare_slopes_old():
 
     demog_dict = pickle.load(open(slm_dict_path, "rb"))
 
@@ -313,7 +383,9 @@ if __name__ == "__main__":
 
     #plot_rescaled_deviation_all_params()
 
-    plot_rescaled_same_sojourn_time()
+    #plot_rescaled_same_sojourn_time()
+
+    plot_compare_slopes()
 
 
 

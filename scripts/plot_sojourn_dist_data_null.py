@@ -8,7 +8,6 @@ import stats_utils
 import plot_utils
 import config
 
-
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec

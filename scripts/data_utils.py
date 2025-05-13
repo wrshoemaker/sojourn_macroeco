@@ -1111,7 +1111,7 @@ def make_mle_dict(epsilon_fract=epsilon_fract_data, min_run_length_data=min_run_
                 run_values, run_starts, run_lengths = find_runs((log_rescaled_rel_abundance_trajectory - expected_value_log_gamma)>0, min_run_length=1)
 
                 run_values_new, run_starts_new, run_lengths_new, days_run_lengths = run_lengths_to_days(run_values, run_starts, run_lengths, days_host)  
-                
+
                 if len(days_run_lengths) == 0:
                     continue
 
@@ -1120,9 +1120,14 @@ def make_mle_dict(epsilon_fract=epsilon_fract_data, min_run_length_data=min_run_
                 mle_dict[dataset][host][asv_names_host_subset_i]['days'] = days_host.tolist()
                 mle_dict[dataset][host][asv_names_host_subset_i]['x_mean'] = x_mean
                 mle_dict[dataset][host][asv_names_host_subset_i]['x_std'] = x_std
+                mle_dict[dataset][host][asv_names_host_subset_i]['run_starts'] = run_starts_new.tolist()
                 mle_dict[dataset][host][asv_names_host_subset_i]['days_run_lengths'] = days_run_lengths
+                mle_dict[dataset][host][asv_names_host_subset_i]['days_run_values'] = run_values_new.tolist()
                 run_dict = calculate_deviation_pattern_data(log_rescaled_rel_abundance_trajectory, expected_value_log_gamma, days_host, min_run_length=min_run_length_data, epsilon=epsilon_fract_data, return_array=False)
                 
+                # max possible sojourn time
+                mle_dict[dataset][host][asv_names_host_subset_i]['max_possible_sojourn_time'] = max(days_host) - min(days_host)
+
                 if len(run_dict) == 0:
                     mle_dict[dataset][host][asv_names_host_subset_i]['run_dict'] = None
                 else:

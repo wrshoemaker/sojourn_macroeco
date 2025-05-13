@@ -194,6 +194,24 @@ def autocorrelation_by_days(data, days, min_n_autocorr_values=5):
 
 
 
+def calculate_expected_sojourn_time_ou(tau, sigma, y_0):
+
+    alpha = y_0*numpy.sqrt((2/sigma) - 1)
+    tilde_tau = tau*((1 - sigma/2)**-1)
+
+    def sojourn_time_ou_integrand(u):
+
+        return numpy.exp(-1*(u**2)/2) * ((1 - numpy.exp(-1*alpha*u)) / u)
+    
+    result, error = integrate.quad(sojourn_time_ou_integrand, 1, numpy.inf)
+
+    expected_sojourn_time = result*tilde_tau
+
+    return expected_sojourn_time
+
+
+
+
 def autocorrelation(x):
     # Normalize the input array
     x = numpy.asarray(x)

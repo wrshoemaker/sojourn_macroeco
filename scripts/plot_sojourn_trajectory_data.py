@@ -34,6 +34,8 @@ import simulation_utils
 
 mle_dict = pickle.load(open(data_utils.mle_dict_path, "rb"))
 
+min_n_sojourn_intermediate_obs = 3
+
 
 def plot_sojourn_trajectory_data():
 
@@ -170,7 +172,7 @@ def plot_mean_sojourn_trajector_data():
 
             run_sojourn_intermediate_s = run_sojourn_all_flat[(s_range_all_flat > s_range_to_plot[s_idx]) & (s_range_all_flat < s_range_to_plot[s_idx+1])]
             
-            if len(run_sojourn_intermediate_s) > 2:
+            if len(run_sojourn_intermediate_s) >= min_n_sojourn_intermediate_obs:
                 run_sojourn_intermediate.append(numpy.mean(run_sojourn_intermediate_s))
 
         if len(run_sojourn_intermediate) < 3:

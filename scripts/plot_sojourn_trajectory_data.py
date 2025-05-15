@@ -61,7 +61,7 @@ def plot_sojourn_trajectory_data():
             run_sojourn_integral_all = []
 
             ax = plt.subplot2grid((n_rows, n_cols), (dataset_idx, host_idx))
-            ax.set_title('%s, %s' % (dataset, host), fontsize=11)
+            ax.set_title('%s, %s' % (dataset, host), fontsize=12)
 
             run_sojourn_all = []
 
@@ -85,11 +85,11 @@ def plot_sojourn_trajectory_data():
             ax.set_ylim([0,max(run_sojourn_all)*1.1])
 
             if (host_idx == 0):
-                ax.set_ylabel("Sojourn deviation, " + r'$ y(t) - \left < y \right >$', fontsize=11)
+                ax.set_ylabel("Sojourn deviation, " + r'$ y(t) - \left < y \right >$', fontsize=12)
                 
             # x-label
             if (dataset_idx == len(data_utils.dataset_all)-1):
-                ax.set_xlabel('Rescaled time within sojourn period, ' + r'$t$', fontsize=11)
+                ax.set_xlabel('Rescaled time within sojourn period, ' + r'$t$', fontsize=12)
 
 
     fig.subplots_adjust(hspace=0.25, wspace=0.25)
@@ -103,6 +103,7 @@ def plot_sojourn_trajectory_data():
 def plot_mean_sojourn_trajector_data():
 
     mean_run_dict = {}
+    sigma_all = []
 
     for dataset_idx, dataset in enumerate(data_utils.dataset_all):
 
@@ -114,7 +115,6 @@ def plot_mean_sojourn_trajector_data():
         for host_idx, host in enumerate(host_all):
         
             #sys.stderr.write("Analyzing host %s.....\n" % host)
-
             run_length_all = []
             run_sojourn_integral_all = []
 
@@ -123,6 +123,11 @@ def plot_mean_sojourn_trajector_data():
             for asv in  mle_dict[dataset][host].keys():
                 
                 run_dict = mle_dict[dataset][host][asv]['run_dict']
+                x_mean = mle_dict[dataset][host][asv]['x_mean']
+                x_std = mle_dict[dataset][host][asv]['x_std']
+                x_cv = x_mean/x_std
+
+                k, sigma, m, phi = simulation_utils.calculate_stationary_params_from_moments(x_mean, x_cv)
 
                 if run_dict is None:
                     continue
@@ -132,9 +137,14 @@ def plot_mean_sojourn_trajector_data():
                     for run_sojourn_j in run_sojourn:
 
                         if run_length not in mean_run_dict:
-                            mean_run_dict[run_length] = []
+                            mean_run_dict[run_length] = {}
+                            mean_run_dict[run_length]['run_sojourn_all'] = []
+                            mean_run_dict[run_length]['asv_all'] = []
+                            mean_run_dict[run_length]['sigma_all'] = []
 
-                        mean_run_dict[run_length].append(run_sojourn_j)
+                        mean_run_dict[run_length]['run_sojourn_all'].append(run_sojourn_j)
+                        mean_run_dict[run_length]['asv_all'].append(asv)
+                        mean_run_dict[run_length]['sigma_all'].append(sigma)
 
     
     run_length_all = list(mean_run_dict.keys())
@@ -143,13 +153,14 @@ def plot_mean_sojourn_trajector_data():
 
     run_length_final = []
     run_sojourn_merged_final = []
-
+    sigma_final = []
     for run_length in run_length_all:
 
-        if len(mean_run_dict[run_length]) < 2:
+        if len(mean_run_dict[run_length]['run_sojourn_all']) < 2:
             continue
         
-        run_sojourn_all = mean_run_dict[run_length]
+        run_sojourn_all = mean_run_dict[run_length]['run_sojourn_all']
+        sigma_final.extend(mean_run_dict[run_length]['sigma_all'])
         # get the relative time within sojourn period for all sojourns
         s_range_all = [numpy.linspace(0, 1, num=len(n),  endpoint=True) for n in run_sojourn_all]
         
@@ -184,8 +195,23 @@ def plot_mean_sojourn_trajector_data():
         run_sojourn_merged_final.append(run_sojourn_merged)
 
 
+    
+    #asv_final = list(set(asv_final))
+
+    #x_mean_final = mle_dict[dataset][host][asv]['x_mean']
+    #x_std = mle_dict[dataset][host][asv]['x_std']
+    #x_cv = x_mean/x_std
+    #print(asv_final)
+
+    sigma_final = numpy.asarray(list(set(sigma_final)))
+    mean_sigma = numpy.mean(sigma_final)
+    predicted_sojourn = (((2/sigma_final) - 1)**(-0.5)) * numpy.sqrt(8/numpy.pi) 
+
+
+    #print(numpy.mean(predicted_sojourn))
+
     cmap = cm.ScalarMappable(norm = colors.Normalize(1, max(run_length_final)+1), cmap = plt.get_cmap('Blues'))
-    fig, ax = plt.subplots(figsize=(4,4))
+    fig, ax = plt.subplots(figsize=(5,4))
 
     run_sojourn_merged_final_flat = []
     for r_idx, r in enumerate(run_length_final):
@@ -194,8 +220,8 @@ def plot_mean_sojourn_trajector_data():
 
     ax.set_xlim([0,1])
     ax.set_ylim([0,max(run_sojourn_merged_final_flat)*1.1])
-    ax.set_xlabel('Rescaled time within sojourn period, ' + r'$\frac{t}{\mathcal{T}}$', fontsize=11)
-    ax.set_ylabel("Mean sojourn deviation, " + r'$ \left < y(t) - \left < y \right > \right >_{\mathcal{T}}$', fontsize=11)
+    ax.set_xlabel('Rescaled time within sojourn period, ' + r'$\frac{t}{\mathcal{T}}$', fontsize=12)
+    ax.set_ylabel("Mean sojourn deviation, " + r'$ \left < y(t) - \bar{y} \right >_{\mathcal{T}}$', fontsize=12)
 
     # colorbar
     #cmap.set_array([])  # Required for colorbar in some versions
@@ -209,7 +235,7 @@ def plot_mean_sojourn_trajector_data():
     cbar.ax.xaxis.set_ticks_position('top')
     cbar.ax.xaxis.set_label_position('top')
     
-    cbar.set_label("Sojourn time (days), "  + r'$\mathcal{T}$')
+    cbar.set_label("Sojourn time (days), "  + r'$\mathcal{T}$', fontsize=12)
 
     cbar.set_ticks([1, 5, 10, 15, 20])       # Set tick positions
     cbar.set_ticklabels(['1', '5', '10', '15', '20'])
@@ -221,6 +247,7 @@ def plot_mean_sojourn_trajector_data():
     fig_name = "%smean_sojourn_trajector_data.png" % (config.analysis_directory)
     fig.savefig(fig_name, format='png', bbox_inches = "tight", pad_inches = 0.3, dpi = 600)
     plt.close()
+
 
 
 plot_mean_sojourn_trajector_data()

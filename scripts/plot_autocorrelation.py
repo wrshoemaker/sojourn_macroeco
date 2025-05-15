@@ -30,6 +30,8 @@ import stats_utils
 import simulation_utils
 
 
+
+
 mle_dict = pickle.load(open(data_utils.mle_dict_path, "rb"))
 #min_n_autocorr_values = 6
 
@@ -67,13 +69,22 @@ for dataset_idx, dataset in enumerate(data_utils.dataset_all):
             delay_days_all = numpy.asarray(delay_days_all)
             autocorr_all = numpy.asarray(autocorr_all)
 
-            if max(delay_days_all) < 3:
+            autocorr_pos_idx = (autocorr_all > 0 ) & (delay_days_all < 7)
+
+            delay_days_all = delay_days_all[autocorr_pos_idx]
+            autocorr_all = autocorr_all[autocorr_pos_idx]
+
+            autocorr_all = numpy.log(autocorr_all)
+
+            if len(autocorr_all) < 4:
                 continue
             
             ax.plot(delay_days_all, autocorr_all, lw=1, ls='-', c=plot_utils.host_color_dict[dataset][host], alpha=0.2)
 
             delay_days_all_all.extend(delay_days_all.tolist())
             autocorr_all_all.extend(autocorr_all.tolist())
+
+            #or
 
 
         # remove frame if nothing was plotted 
@@ -86,6 +97,7 @@ for dataset_idx, dataset in enumerate(data_utils.dataset_all):
 
         # plot example
         if len(delay_days_all_all) != 0:
+            continue
             days_delay_range_ou = numpy.arange(0, max(delay_days_all_all)+1)
             #autocorr_ou = numpy.exp(-days_delay_range_ou/1)
             ax.plot(days_delay_range_ou, numpy.exp(-days_delay_range_ou/2), lw=2, ls='-', c='k', alpha=1, label='OU, ' + r'$\tau = 2$')
@@ -106,8 +118,8 @@ for dataset_idx, dataset in enumerate(data_utils.dataset_all):
         
         
 
-        ax.set_xlim([0,6])
-        ax.set_ylim([-1,1])
+        #ax.set_xlim([0,6])
+        #ax.set_ylim([-1,1])
 
         ax.axhline(y=0 , ls=':', lw=2, c='k', zorder=2, label=r'$\rho=0$')
 

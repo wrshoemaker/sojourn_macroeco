@@ -198,7 +198,7 @@ def identify_ml_tau(max_sojourn_time=max_sojourn_time):
 
 
 
-def plot_():
+def plot_sojourn_time_mix_dist():
 
     #colors_dict = {'0':'#87CEEB', '1': '#FFA500', '2':'#FF6347'}
 
@@ -211,9 +211,10 @@ def plot_():
     tau_0 = 3
     tau_1 = tau_0/mean_sigma
    
-    ax.plot(sojourn_data_range, sojourn_data_pdf, c='k', lw=2, ls='-', label='Data')
-    ax.plot(sojourn_null_range, sojourn_null_pdf, c='#FF6347', lw=2, ls='-', label=r'$\tau \ll \delta t $' + ' (gamma)')
+    ax.plot(sojourn_data_range, sojourn_data_pdf, c='#87CEEB', lw=2, ls='-', label='Data')
+    ax.plot(sojourn_null_range, sojourn_null_pdf, c='k', lw=2, ls=':', label=r'$\tau \ll \delta t $' + ' (gamma)')
 
+    # #FF6347
     color_tau_all = ['lightskyblue', 'dodgerblue', 'royalblue']
     #tau_all = [1, 2, 3]
     #for tau_idx, tau in enumerate(tau_all):
@@ -221,11 +222,11 @@ def plot_():
     #    ax.plot(sojourn_time_range_tau, mixture_dist_tau, c=color_tau_all[tau_idx], lw=2, ls='-', label=r'$\tau = $' + str(tau) + ' (OU)')
 
     sojourn_time_range_tau, mixture_dist_tau = make_ou_sojourn_time_dist(tau_0=0, tau_1=tau_1)
-    ax.plot(sojourn_time_range_tau, mixture_dist_tau, c='dodgerblue', lw=2, ls='-', label='OU, ' + r'$\tau_{i} \propto \sigma_{i}$')
+    #ax.plot(sojourn_time_range_tau, mixture_dist_tau, c='dodgerblue', lw=2, ls='-', label='OU, ' + r'$\tau_{i} \propto \sigma_{i}$')
 
     # 2.715195778605458
     sojourn_time_range_tau, mixture_dist_tau = make_ou_sojourn_time_dist(tau_0=tau_0, tau_1=0)
-    ax.plot(sojourn_time_range_tau, mixture_dist_tau, c='dodgerblue', lw=2, ls=':', label='OU, constant ' + r'$\tau$')
+    ax.plot(sojourn_time_range_tau, mixture_dist_tau, c='k', lw=2, ls='--', label=r'$\tau = 3$')
 
 
     ax.set_xlim([1, max(sojourn_data_range)])
@@ -251,7 +252,7 @@ def plot_():
 
 #identify_ml_tau()
 
-plot_()
+plot_sojourn_time_mix_dist()
 #make_ou_sojourn_time_dist(max_sojourn_time=100, tau=1)
 
 

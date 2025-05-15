@@ -9,6 +9,9 @@ from matplotlib import colors
 cmap_offset = int(0.2*16)
 # +cmap_offset
 
+#FF6347
+#87CEEB
+
 rgb_blue_phylo = cm.Blues(numpy.linspace(0,1,100+3))
 rgb_blue_phylo = mpl.colors.ListedColormap(rgb_blue_phylo[cmap_offset:,:-1])
 
@@ -26,11 +29,14 @@ color_radius=2
 
 host_color_dict = {'david_et_al': {'DonorA_post_travel': 'dodgerblue', 'DonorA_pre_travel': 'royalblue', 'DonorB_post_travel': 'cornflowerblue', 'DonorB_pre_travel': 'steelblue'}, 'poyet_et_al': {'ae': 'orangered', 'am': 'darkred', 'an': 'maroon', 'ao': 'firebrick'}, 'caporaso_et_al': {'F4': 'seagreen', 'M3': 'darkgreen'}}
 
+dataset_color_dict = {'david_et_al': 'royalblue', 'poyet_et_al': 'firebrick', 'caporaso_et_al': 'darkgreen'}
+
+
 data_type_title_dict = {'linear':'No data transformation', 'sqrt':'Square-root transformation', 'log':'Log transformation'}
 
 sim_type_label_dict = {'bdm': 'BDM', 'slm': 'SLM', 'demog': 'BDM'}
 
-dataset_name_dict = {'david_et_al': 'david_et_al'}
+dataset_name_dict = {'david_et_al': 'David et al.', 'poyet_et_al': 'Poyet et al.', 'caporaso_et_al': 'Caporaso et al.'}
 
 
 host_name_dict = {'david_et_al': {'DonorA_post_travel': 'A, post-travel', 'DonorA_pre_travel': 'A, pre-travel', 'DonorB_post_travel': 'B, post-travel', 'DonorB_pre_travel': 'B, pre-travel'}, 'poyet_et_al': {'ae': 'ae', 'am': 'am', 'an': 'an', 'ao': 'ao'}, 'caporaso_et_al': {'F4': 'F4', 'M3': 'M3'}}

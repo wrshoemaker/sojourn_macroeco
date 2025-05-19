@@ -105,7 +105,7 @@ def make_null_gamma_sojourn_time_dist(max_sojourn_time=max_sojourn_time):
 
 
 
-def make_ou_sojourn_time_dist(max_sojourn_time=max_sojourn_time, tau_0=1, tau_1=0, y_0=data_utils.epsilon_fract_data):
+def make_ou_sojourn_time_dist(max_sojourn_time=max_sojourn_time, tau_0=1, tau_1=0, y_0=data_utils.epsilon_fract_data, normalize=False):
 
     # data_utils.epsilon_fract_data
 
@@ -132,6 +132,7 @@ def make_ou_sojourn_time_dist(max_sojourn_time=max_sojourn_time, tau_0=1, tau_1=
                 days_run_values = mle_dict[dataset][host][asv]['days_run_values']
                 run_starts = mle_dict[dataset][host][asv]['run_starts']
                 rel_abundance = mle_dict[dataset][host][asv]['rel_abundance']
+                #max_possible_sojourn_time = mle_dict[dataset][host][asv]['max_possible_sojourn_time']
 
                 #y_0 = mle_dict[dataset][host][asv]['rel_abundance'][0]
                 days_run_lengths = numpy.asarray(days_run_lengths)
@@ -141,8 +142,6 @@ def make_ou_sojourn_time_dist(max_sojourn_time=max_sojourn_time, tau_0=1, tau_1=
 
                 days_run_lengths_pos = days_run_lengths[days_run_values==True]
                 run_starts_pos = run_starts[days_run_values==True]
-
-                #print(rel_abundance[run_starts_pos[0]])
 
                 x_mean = mle_dict[dataset][host][asv]['x_mean']
                 x_cv = mle_dict[dataset][host][asv]['x_std']/x_mean
@@ -165,9 +164,8 @@ def make_ou_sojourn_time_dist(max_sojourn_time=max_sojourn_time, tau_0=1, tau_1=
     weights_per_dist = n_obs_per_dist/sum(n_obs_per_dist)
     mixture_dist = numpy.sum(sojourn_time_pdf_all * weights_per_dist[:, numpy.newaxis], axis=0)
 
-    # normalize probability to sum to one
-    #mixture_dist = mixture_dist/sum(mixture_dist)
-
+    if normalize == True:
+        mixture_dist = mixture_dist/sum(mixture_dist)
 
     return sojourn_time_range, mixture_dist
 
@@ -198,35 +196,49 @@ def identify_ml_tau(max_sojourn_time=max_sojourn_time):
 
 
 
-def plot_sojourn_time_mix_dist():
+def plot_sojourn_time_mix_dist(plot_gamma_null=False):
 
     #colors_dict = {'0':'#87CEEB', '1': '#FFA500', '2':'#FF6347'}
 
-    fig, ax = plt.subplots(figsize=(4,4))
+    fig, ax = plt.subplots(figsize=(5,4))
 
     sojourn_data_range, sojourn_data_pdf, sojourn_null_range, sojourn_null_pdf = make_null_gamma_sojourn_time_dist()
 
     # mean sigma = 0.6033768396901017
-    mean_sigma = 0.6033768396901017
-    tau_0 = 3
-    tau_1 = tau_0/mean_sigma
+    # = 0.6033768396901017
+    tau_3 = 3
+    #tau_2 = 2
+    #tau_1 = tau_0/mean_sigma
    
-    ax.plot(sojourn_data_range, sojourn_data_pdf, c='#87CEEB', lw=2, ls='-', label='Data')
-    ax.plot(sojourn_null_range, sojourn_null_pdf, c='k', lw=2, ls=':', label=r'$\tau \ll \delta t $' + ' (gamma)')
+    ax.plot(sojourn_data_range, sojourn_data_pdf, c='#87CEEB', lw=4, ls='-', label='Data')
+
+    if plot_gamma_null == True:
+        ax.plot(sojourn_null_range, sojourn_null_pdf, c='k', lw=4, ls=':', label=r'$\tau \ll \delta t $' + ' (gamma)')
+        sojourn_prediction_label = r'$\tau \sim \mathcal{O}(\delta t)$'
+        plot_gamma_null_label = '_w_gamma'
+
+    else:
+        sojourn_prediction_label = 'Prediction'
+        plot_gamma_null_label = ''
 
     # #FF6347
-    color_tau_all = ['lightskyblue', 'dodgerblue', 'royalblue']
+    #color_tau_all = ['lightskyblue', 'dodgerblue', 'royalblue']
     #tau_all = [1, 2, 3]
     #for tau_idx, tau in enumerate(tau_all):
     #    sojourn_time_range_tau, mixture_dist_tau = make_ou_sojourn_time_dist(tau=tau)
     #    ax.plot(sojourn_time_range_tau, mixture_dist_tau, c=color_tau_all[tau_idx], lw=2, ls='-', label=r'$\tau = $' + str(tau) + ' (OU)')
-
-    sojourn_time_range_tau, mixture_dist_tau = make_ou_sojourn_time_dist(tau_0=0, tau_1=tau_1)
     #ax.plot(sojourn_time_range_tau, mixture_dist_tau, c='dodgerblue', lw=2, ls='-', label='OU, ' + r'$\tau_{i} \propto \sigma_{i}$')
 
     # 2.715195778605458
-    sojourn_time_range_tau, mixture_dist_tau = make_ou_sojourn_time_dist(tau_0=tau_0, tau_1=0)
-    ax.plot(sojourn_time_range_tau, mixture_dist_tau, c='k', lw=2, ls='--', label=r'$\tau = 3$')
+    #sojourn_time_range_tau_2, mixture_dist_tau_2 = make_ou_sojourn_time_dist(tau_0=tau_3, tau_1=0, normalize=True)
+    #ax.plot(sojourn_time_range_tau_2, mixture_dist_tau_2, c='k', lw=4, ls=':', label=r'$\tau = $' + str(tau_2))
+
+    sojourn_time_range_tau_2, mixture_dist_tau_2 = make_ou_sojourn_time_dist(tau_0=tau_3, tau_1=0, normalize=True)
+    ax.plot(sojourn_time_range_tau_2, mixture_dist_tau_2, c='k', lw=4, ls='--', label=sojourn_prediction_label)
+
+
+    #sojourn_time_range_tau_3, mixture_dist_tau_3 = make_ou_sojourn_time_dist(tau_0=tau_2, tau_1=0, normalize=True)
+    #ax.plot(sojourn_time_range_tau_3, mixture_dist_tau_3, c='k', lw=4, ls='--', label=r'$\tau = $' + str(tau_3))
 
 
     ax.set_xlim([1, max(sojourn_data_range)])
@@ -235,24 +247,22 @@ def plot_sojourn_time_mix_dist():
     ax.set_xscale('log', base=10)
     ax.set_yscale('log', base=10)
 
-
-
-    ax.set_xlabel('Sojourn time (days), ' + r'$\mathcal{T}$', fontsize=12)
-    ax.set_ylabel("Probability density, " + r'$P(\mathcal{T})$', fontsize=12)
-
+    ax.set_xlabel('Sojourn time (days), ' + r'$\mathcal{T}$', fontsize=15)
+    ax.set_ylabel("Probability density, " + r'$P(\mathcal{T})$', fontsize=15)
     ax.legend(loc='upper right', fontsize=10)
 
+    
 
     fig.subplots_adjust(hspace=0.25, wspace=0.25)
-    fig_name = "%ssojourn_time_data_mix.png" % (config.analysis_directory)
+    fig_name = "%ssojourn_time_data_mix%s.png" % (config.analysis_directory, plot_gamma_null_label)
     fig.savefig(fig_name, format='png', bbox_inches = "tight", pad_inches = 0.3, dpi = 600)
     plt.close()
 
 
 
 #identify_ml_tau()
-
-plot_sojourn_time_mix_dist()
+plot_sojourn_time_mix_dist(plot_gamma_null=False)
+plot_sojourn_time_mix_dist(plot_gamma_null=True)
 #make_ou_sojourn_time_dist(max_sojourn_time=100, tau=1)
 
 

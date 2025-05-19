@@ -79,13 +79,6 @@ for dataset in data_utils.dataset_all:
                     run_sojourn_j = numpy.asarray(run_sojourn_j)
                     run_sojourn_integral_j = integrate.simpson(run_sojourn_j, numpy.linspace(0, 1, num=len(run_sojourn_j), endpoint=True))
 
-                    # run length has units of days
-                    #run_length_all.append(run_length)
-                    #run_sojourn_integral_all.append(run_sojourn_integral_j)
-                    #sigma_all.append(sigma)
-
-                    #run_sojourn_integral.append(run_sojourn_integral_j)
-
                     run_length_all.append(run_length)
                     run_sojourn_integral_all.append(run_sojourn_integral_j)
                     sigma_all.append(sigma)
@@ -97,6 +90,7 @@ for dataset in data_utils.dataset_all:
 run_length_all = numpy.asarray(run_length_all)
 run_sojourn_integral_all = numpy.asarray(run_sojourn_integral_all)
 sigma_all = numpy.asarray(sigma_all)
+#print(numpy.median(sigma_all))
 sigma_function_all = (2/sigma_all) -1
 
 dataset_all = numpy.asarray(dataset_all)
@@ -113,10 +107,10 @@ rect = Rectangle((0.58,0.5),
                  linewidth=1.5,
                  zorder=2) 
 
-ax.add_patch(rect)
+#ax.add_patch(rect)
 
-ax_sigma = inset_axes(ax, width="100%", height="100%", bbox_to_anchor=(0.62,0.64,0.35,0.35), bbox_transform=ax.transAxes, loc='upper right')
-ax_sigma.set_facecolor('white')
+ax_sigma = inset_axes(ax, width="100%", height="100%", bbox_to_anchor=(0.58,0.64,0.35,0.35), bbox_transform=ax.transAxes, loc='upper right')
+#ax_sigma.set_facecolor('white')
 ax_sigma.tick_params(labelleft=False, labelbottom=False, left=False, bottom=False)
 ax_sigma.xaxis.set_tick_params(labelsize=6)
 
@@ -129,7 +123,7 @@ for dataset_i in data_utils.dataset_all:
     sigma_function_i = sigma_function_all[dataset_idx]
 
 
-    ax.scatter(run_length_i, run_sojourn_integral_i, color=plot_utils.dataset_color_dict[dataset_i], alpha=0.6, s=10, label=plot_utils.dataset_name_dict[dataset_i])
+    ax.scatter(run_length_i, run_sojourn_integral_i, color=plot_utils.dataset_color_dict[dataset_i], alpha=0.6, s=15, label=plot_utils.dataset_name_dict[dataset_i])
     ax_sigma.scatter(sigma_function_i, run_sojourn_integral_i, color=plot_utils.dataset_color_dict[dataset_i], alpha=0.6, s=10)
 
 
@@ -137,25 +131,20 @@ for dataset_i in data_utils.dataset_all:
 
 # regression...
 #sigma_all_all = numpy.asarray(sigma_all_all)
-#print(stats_utils.log_log_regression((2/sigma_all_all) -1, run_sojourn_integral_all_all)[0])
-
 slope_time, intercept_time, r_value_time, p_value_time, std_err_time = stats_utils.log_log_regression(run_length_all, run_sojourn_integral_all)
-
 x_log10_range_time =  numpy.linspace(min(numpy.log10(run_length_all)) , max(numpy.log10(run_length_all)) , 10000)
-#y_log10_fit_range = (slope*x_log10_range + intercept)
-
 y_log10_time_high_tau = (0.5*x_log10_range_time + intercept_time)
 y_log10_time_low_tau = (0*x_log10_range_time + intercept_time)
 
 
 #ax_time.plot(10**x_log10_range, 10**y_log10_fit_range, c='k', lw=2.5, linestyle='--', zorder=2, label='Exponent = %.3f' % slope)
 
-ax.plot(10**x_log10_range_time, 10**y_log10_time_high_tau, c='k', lw=3, linestyle='-', zorder=1, label='Prediction: ' + r'$\tau \gg \mathcal{T}$')
-ax.plot(10**x_log10_range_time, 10**y_log10_time_low_tau, c='k', lw=3, linestyle='--', zorder=2, label='Prediction: ' + r'$\tau \ll \mathcal{T}$')
+#ax.plot(10**x_log10_range_time, 10**y_log10_time_high_tau, c='k', lw=3, linestyle='-', zorder=1, label='Prediction: ' + r'$\tau \gg \mathcal{T}$')
+ax.plot(10**x_log10_range_time, 10**y_log10_time_low_tau, c='k', lw=3, linestyle='--', zorder=2, label=r'$\tau \ll \mathcal{T}$')
 
 
-ax.set_xlabel('Sojourn time (days), ' + r'$\mathcal{T}$', fontsize=12)
-ax.set_ylabel("Sojourn walk length, " + r'$L(\mathcal{T})$', fontsize=12)
+ax.set_xlabel('Sojourn time (days), ' + r'$\mathcal{T}$', fontsize=15)
+ax.set_ylabel("Sojourn trajectory area, " + r'$\mathcal{A}(\mathcal{T})$', fontsize=15)
 ax.legend(loc='upper left', fontsize=10)
 
 ax.set_ylim([0.05, 60])
@@ -181,8 +170,9 @@ ax_sigma.plot(10**x_log10_range_sigma, 10**y_log10_sigma, c='k', lw=2.5, linesty
 #ax_sigma.plot(10**x_log10_range, 10**y_log10_low_tau_range, c='#87CEEB', lw=2.5, linestyle=':', zorder=2, label=r'$\tilde{\tau} \ll t, \mathcal{T}-t$')
 
 
-ax_sigma.set_xlabel('Inverse environmental\nnoise, ' + r'$2\sigma^{-1} -2$', fontsize=10, bbox=dict(facecolor='white', edgecolor='none'))
-ax_sigma.set_ylabel(r'$L(\mathcal{T})$', fontsize=10)
+ax_sigma.set_xlabel('Inverse environmental\nnoise, ' + r'$2\sigma^{-1} -2$', fontsize=11)
+#bbox=dict(facecolor='white', edgecolor='none')
+ax_sigma.set_ylabel(r'$\mathcal{A}(\mathcal{T})$', fontsize=12)
 
 #inset_ax.set_xlabel('Inset X-label', bbox=dict(facecolor='white', edgecolor='none'))
 

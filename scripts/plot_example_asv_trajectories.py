@@ -50,6 +50,8 @@ tau = 4
 lw_target=1.8
 alpha_target=1
 
+label_fontsize=15
+
 
 def make_example_asv_trajectory_dict():
 
@@ -116,8 +118,8 @@ ax.set_xlim([1,t_total])
 ax.set_ylim([4*(10**-8),1])
 ax.set_yscale('log', base=10)
 
-ax.set_xlabel("Time (days), " + r'$t$', fontsize=12)
-ax.set_ylabel("Relative abundance, " + r'$x(t)$', fontsize=12)
+ax.set_xlabel("Time (days), " + r'$t$', fontsize=label_fontsize)
+ax.set_ylabel("Relative abundance, " + r'$x(t)$', fontsize=label_fontsize)
 
 ax.xaxis.set_tick_params(labelsize=7)
 ax.yaxis.set_tick_params(labelsize=7)
@@ -130,8 +132,8 @@ fig.savefig(fig_name, format='png', bbox_inches = "tight", pad_inches = 0.3, dpi
 plt.close()
 
 
-
-fig, ax = plt.subplots(figsize=(7.5,3))
+#fig, ax = plt.subplots(figsize=(7.5,3))
+fig, ax = plt.subplots(figsize=(16,3))
 
 # get parameters of target trajectory
 mean_x = numpy.mean(target_asv_trajectory)
@@ -153,8 +155,16 @@ ax.set_ylim([-3.2,3.2])
 ax.axhline(y=0, lw=2, ls='--', c='k')
 
 
-ax.set_xlabel("Time (days), " + r'$t$', fontsize=12)
-ax.set_ylabel("Deviation from typical\n" + r'$\mathrm{log}_{e}$' + " abundance, " + r'$y(t) - \bar{y}$', fontsize=12)
+
+t_area_start = 126
+t_area_stop = 159
+t_range_area = numpy.arange(t_area_start, t_area_stop)
+ax.fill_between(t_range_area, 0, diff_log_rescaled_target_asv_trajectory[t_area_start:t_area_stop], color=target_asv_color, alpha=0.4, zorder=1)
+
+
+ax.set_title('Temporal dynamics of a single community member', fontsize=16)
+ax.set_xlabel("Time (days), " + r'$t$', fontsize=label_fontsize)
+ax.set_ylabel("Deviation from typical\n" + r'$\mathrm{log}_{e}$' + " abundance, " + r'$y(t) - \bar{y}$', fontsize=label_fontsize)
 ax.xaxis.set_tick_params(labelsize=7)
 ax.yaxis.set_tick_params(labelsize=7)
 
@@ -167,4 +177,23 @@ fig.savefig(fig_name, format='png', bbox_inches = "tight", pad_inches = 0.3, dpi
 plt.close()
 
 
-# plot example deviation
+# plot notation
+
+fig, ax = plt.subplots(figsize=(7.5,3))
+
+
+ax.text(0.05, 0.7, "Sojourn trajectory area, " +  r'$\mathcal{A}(\mathcal{T}\, ) \equiv \int_{0}^{1} \left [ y(s \cdot \mathcal{T} \, ) - \bar{y} \right ] \, ds$', fontsize=15, transform=ax.transAxes)
+ax.text(0.05, 0.5, "Sojourn time, " +  r'$\mathcal{T}$', fontsize=15, transform=ax.transAxes)
+ax.text(0.01, 0.3, "Typical deviation within sojourn trajectory, " +  r'$\left < y(t) - \bar{y} \right >_{\mathcal{T}}$', fontsize=15, transform=ax.transAxes)
+
+
+
+
+#fig.subplots_adjust(hspace=0.25, wspace=0.25)
+fig_name = "%snotation.png" % (config.analysis_directory)
+fig.savefig(fig_name, format='png', bbox_inches = "tight", pad_inches = 0.3, dpi = 600)
+plt.close()
+
+
+
+

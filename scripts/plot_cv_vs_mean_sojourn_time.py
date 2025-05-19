@@ -31,7 +31,7 @@ import theory_utils
 
 
 environment = 'gut'
-tau = 8
+tau = 3
 
 
 #max_sojourn_time = theory_utils.max_sojourn_time
@@ -125,7 +125,7 @@ for dataset_idx, dataset in enumerate(data_utils.dataset_all):
         
         bins_mean_all_to_keep.append(bin_edges_all[i])
         bins_y.append(numpy.mean(y_i))
-
+ 
 
     bins_mean_all_to_keep = numpy.asarray(bins_mean_all_to_keep)
     bins_y = numpy.asarray(bins_y)

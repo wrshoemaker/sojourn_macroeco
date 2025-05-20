@@ -209,8 +209,10 @@ def plot_sojourn_time_mix_dist(plot_gamma_null=False):
     tau_3 = 3
     #tau_2 = 2
     #tau_1 = tau_0/mean_sigma
-   
-    ax.plot(sojourn_data_range, sojourn_data_pdf, c='#87CEEB', lw=4, ls='-', label='Data')
+    
+    #target_asv_color = '#eb5900'
+    # 87CEEB
+    ax.plot(sojourn_data_range, sojourn_data_pdf, c='#eb5900', lw=4, ls='-', label='Data')
 
     if plot_gamma_null == True:
         ax.plot(sojourn_null_range, sojourn_null_pdf, c='k', lw=4, ls=':', label=r'$\tau \ll \delta t $' + ' (gamma)')
@@ -247,9 +249,9 @@ def plot_sojourn_time_mix_dist(plot_gamma_null=False):
     ax.set_xscale('log', base=10)
     ax.set_yscale('log', base=10)
 
-    ax.set_xlabel('Sojourn time (days), ' + r'$\mathcal{T}$', fontsize=15)
-    ax.set_ylabel("Probability density, " + r'$P(\mathcal{T})$', fontsize=15)
-    ax.legend(loc='upper right', fontsize=10)
+    ax.set_xlabel('Sojourn time (days), ' + r'$\mathcal{T}$', fontsize=17)
+    ax.set_ylabel("Probability density, " + r'$P(\mathcal{T})$', fontsize=17)
+    ax.legend(loc='upper right', fontsize=13)
 
     
 

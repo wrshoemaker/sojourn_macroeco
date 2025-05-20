@@ -60,7 +60,7 @@ for dataset_idx, dataset in enumerate(data_utils.dataset_all):
   
 
         if host_idx == 0:
-            ax.set_ylabel(r'$\mathrm{ln}\, \tilde{x}_{i}(t)  - \left < \mathrm{ln}\, \tilde{x}_{i} \right >$', fontsize=12)
+            ax.set_ylabel(r'$y(t)  - \bar{y}$', fontsize=12)
         
         # x-label
         if (dataset_idx == len(data_utils.dataset_all)-1) or ((host_idx >= 2) and (dataset_idx==1)):

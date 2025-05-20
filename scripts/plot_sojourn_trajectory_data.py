@@ -85,7 +85,7 @@ def plot_sojourn_trajectory_data():
             ax.set_ylim([0,max(run_sojourn_all)*1.1])
 
             if (host_idx == 0):
-                ax.set_ylabel("Sojourn deviation, " + r'$ y(t) - \left < y \right >$', fontsize=12)
+                ax.set_ylabel("Sojourn deviation, " + r'$ y(t) - \bar{y}$', fontsize=12)
                 
             # x-label
             if (dataset_idx == len(data_utils.dataset_all)-1):
@@ -220,26 +220,26 @@ def plot_mean_sojourn_trajector_data():
 
     ax.set_xlim([0,1])
     ax.set_ylim([0,max(run_sojourn_merged_final_flat)*1.1])
-    ax.set_xlabel('Rescaled time within sojourn period, ' + r'$\frac{t}{\mathcal{T}}$', fontsize=15)
-    ax.set_ylabel("Mean sojourn deviation, " + r'$ \left < y(t) - \bar{y} \right >_{\mathcal{T}}$', fontsize=15)
+    ax.set_xlabel('Time within sojourn period, ' + r'$\frac{t}{\mathcal{T}}$', fontsize=17)
+    ax.set_ylabel("Mean sojourn deviation, " + r'$ \left < y(t) - \bar{y} \right >_{\mathcal{T}}$', fontsize=17)
 
     # colorbar
     #cmap.set_array([])  # Required for colorbar in some versions
-    cmap.set_array(numpy.linspace(1,  max(run_length_final)+1, 100))
+    #cmap.set_array(numpy.linspace(1,  max(run_length_final)+1, 100))
 
     # Plot colorbar on top
-    cbar_ax = fig.add_axes([0.15, 0.92, 0.7, 0.03])  # [left, bottom, width, height]
-    cbar = fig.colorbar(cmap, cax=cbar_ax, orientation='horizontal', pad=0.1)
+    #cbar_ax = fig.add_axes([0.15, 0.92, 0.7, 0.03])  # [left, bottom, width, height]
+    #cbar = fig.colorbar(cmap, cax=cbar_ax, orientation='horizontal', pad=0.1)
 
     # Move it to the top
-    cbar.ax.xaxis.set_ticks_position('top')
-    cbar.ax.xaxis.set_label_position('top')
+    #cbar.ax.xaxis.set_ticks_position('top')
+    #cbar.ax.xaxis.set_label_position('top')
     
-    cbar.set_label("Sojourn time (days), "  + r'$\mathcal{T}$', fontsize=15)
+    #cbar.set_label("Sojourn time (days), "  + r'$\mathcal{T}$', fontsize=15)
 
-    cbar.set_ticks([1, 5, 10, 15, 20])       # Set tick positions
-    cbar.set_ticklabels(['1', '5', '10', '15', '20'])
-    cbar.ax.tick_params(labelsize=8)
+    #cbar.set_ticks([1, 5, 10, 15, 20])       # Set tick positions
+    #cbar.set_ticklabels(['1', '5', '10', '15', '20'])
+    #cbar.ax.tick_params(labelsize=8)
 
 
 
@@ -250,4 +250,6 @@ def plot_mean_sojourn_trajector_data():
 
 
 
-plot_mean_sojourn_trajector_data()
+plot_sojourn_trajectory_data()
+
+#plot_mean_sojourn_trajector_data()

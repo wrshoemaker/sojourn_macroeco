@@ -148,11 +148,11 @@ def plot_dist_w_null():
             ax.set_yscale('log', base=10)
 
             if host_idx == 0:
-                ax.set_ylabel('Fraction of observations ' + r'$\geq T$', fontsize=9)        
+                ax.set_ylabel('Fraction of sojourn trajectories ' + r'$\geq \mathcal{T}$', fontsize=9)        
             
             # x-label
             if (dataset_idx == len(data_utils.dataset_all)-1) or ((host_idx >= 2) and (dataset_idx==1)):
-                ax.set_xlabel('Sojourn time (days), ' + r'$T$', fontsize=9)
+                ax.set_xlabel('Sojourn time (days), ' + r'$\mathcal{T}$', fontsize=9)
 
             if dataset_idx + host_idx == 0:
                 ax.legend(loc = 'upper right')
@@ -243,5 +243,4 @@ if __name__ == "__main__":
     print("Running...")
 
     #make_mle_null_dict()
-    #plot_dist_w_null()
-    #plot_mean_sojourn_time_w_null()
+    plot_dist_w_null()

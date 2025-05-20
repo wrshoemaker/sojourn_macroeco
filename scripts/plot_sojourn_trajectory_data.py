@@ -221,7 +221,7 @@ def plot_mean_sojourn_trajector_data():
     ax.set_xlim([0,1])
     ax.set_ylim([0,max(run_sojourn_merged_final_flat)*1.1])
     ax.set_xlabel('Time within sojourn period, ' + r'$\frac{t}{\mathcal{T}}$', fontsize=17)
-    ax.set_ylabel("Mean sojourn deviation, " + r'$ \left < y(t) - \bar{y} \right >_{\mathcal{T}}$', fontsize=17)
+    ax.set_ylabel("Mean sojourn deviation, " + r'$ \left < y(t) - \bar{y} \right >_{\mathcal{T}}$', fontsize=15)
 
     # colorbar
     #cmap.set_array([])  # Required for colorbar in some versions
@@ -250,6 +250,6 @@ def plot_mean_sojourn_trajector_data():
 
 
 
-plot_sojourn_trajectory_data()
+#plot_sojourn_trajectory_data()
 
-#plot_mean_sojourn_trajector_data()
+plot_mean_sojourn_trajector_data()

@@ -144,7 +144,7 @@ ax.plot(10**x_log10_range_time, 10**y_log10_time_low_tau, c='k', lw=3, linestyle
 
 
 ax.set_xlabel('Sojourn time (days), ' + r'$\mathcal{T}$', fontsize=17)
-ax.set_ylabel("Sojourn trajectory area, " + r'$\mathcal{A}(\mathcal{T})$', fontsize=17)
+ax.set_ylabel("Sojourn trajectory area, " + r'$\mathcal{A}(\mathcal{T} \, )$', fontsize=17)
 ax.legend(loc='upper left', fontsize=10)
 
 ax.set_ylim([0.05, 60])
@@ -172,7 +172,7 @@ ax_sigma.plot(10**x_log10_range_sigma, 10**y_log10_sigma, c='k', lw=2.5, linesty
 
 ax_sigma.set_xlabel('Inverse environmental\nnoise, ' + r'$2\sigma^{-1} -2$', fontsize=12)
 #bbox=dict(facecolor='white', edgecolor='none')
-ax_sigma.set_ylabel(r'$\mathcal{A}(\mathcal{T})$', fontsize=12)
+ax_sigma.set_ylabel(r'$\mathcal{A}(\mathcal{T}\,)$', fontsize=12)
 
 #inset_ax.set_xlabel('Inset X-label', bbox=dict(facecolor='white', edgecolor='none'))
 

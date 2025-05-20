@@ -250,7 +250,7 @@ def plot_sojourn_time_mix_dist(plot_gamma_null=False):
     ax.set_yscale('log', base=10)
 
     ax.set_xlabel('Sojourn time (days), ' + r'$\mathcal{T}$', fontsize=17)
-    ax.set_ylabel("Probability density, " + r'$P(\mathcal{T})$', fontsize=17)
+    ax.set_ylabel("Probability density, " + r'$P(\mathcal{T} \,)$', fontsize=17)
     ax.legend(loc='upper right', fontsize=13)
 
     

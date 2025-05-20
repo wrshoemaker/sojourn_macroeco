@@ -75,6 +75,7 @@ for host in host_all:
         pred_mean_sojourn_all.append(sum(sojourn_time_ou_pdf*sojourn_time_range))
 
 
+
 def plot_cv_vs_mean_sojourn():
 
     fig, ax = plt.subplots(figsize=(6,4))
@@ -88,6 +89,9 @@ def plot_cv_vs_mean_sojourn():
     y_log10_fit_mean = (slope_mean*x_log10_range_mean + intercept_mean)
     y_log10_pred_mean = x_log10_range_mean*0 + intercept_mean
 
+    spearman_rho, p_value = stats.spearmanr(numpy.log10(cv_all), numpy.log10(obs_mean_sojourn_all))
+    ax.text(0.05, 0.73, r'$\rho_{\mathrm{Spearman}} = $' + str(round(spearman_rho, 3)), fontsize=11, transform=ax.transAxes)
+    ax.text(0.17, 0.66, r'$P < 10^{-3}$', fontsize=11, transform=ax.transAxes)
 
     #ax_mean.plot(10**x_log10_range_mean, 10**y_log10_fit_mean, c='k', lw=2.5, linestyle=':', zorder=2, label="Regression")
     #ax_mean.plot(10**x_log10_range_mean, 10**y_log10_pred_mean, c='k', lw=3, linestyle='--', zorder=2, label="Prediction")
@@ -119,10 +123,10 @@ def plot_cv_vs_mean_sojourn():
     ax.plot(10**bins_mean_all_to_keep_no_nan, 10**bins_y_no_nan, lw=3 , c='k', ls='--', label="Prediction")
 
     #ax_mean.set_xlabel("Mean relative abundance, " + r'$\bar{x}$', fontsize=14)
-    ax.set_xlabel("CV of relative abundance, " + r'$\mathrm{CV}_{x}$', fontsize=14)
+    ax.set_xlabel("CV of relative abundance (function of " + r'$\sigma$' + ')', fontsize=15)
 
     #ax_mean.set_ylabel("Mean sojourn time (days), " + r'$\left < \mathcal{T} \right>$', fontsize=14)
-    ax.set_ylabel("Mean sojourn time (days), " + r'$\left < \mathcal{T} \right>$', fontsize=14)
+    ax.set_ylabel("Mean sojourn time (days), " + r'$\left < \mathcal{T} \, \right>$', fontsize=15)
 
 
     y_lim_min = 1.3
@@ -191,7 +195,7 @@ def plot_mean_vs_mean_sojourn():
 
 
 
-#plot_cv_vs_mean_sojourn()
-plot_mean_vs_mean_sojourn()
+plot_cv_vs_mean_sojourn()
+#plot_mean_vs_mean_sojourn()
 
 

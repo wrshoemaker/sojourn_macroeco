@@ -194,6 +194,12 @@ def plot_example_fig1():
     ax.text(0.5, 0.1, r'$\sigma$', fontsize=15, color='darkred', transform=ax.transAxes)
 
 
+    ax.text(0.35, 0.9, "a", fontsize=15, fontweight='bold', transform=ax.transAxes)
+    ax.text(0.5, 0.9, "b", fontsize=15, fontweight='bold', transform=ax.transAxes)
+    ax.text(0.6, 0.9, "c", fontsize=15, fontweight='bold', transform=ax.transAxes)
+    ax.text(0.8, 0.9, "d", fontsize=15, fontweight='bold', transform=ax.transAxes)
+
+
 
 
     #fig.subplots_adjust(hspace=0.25, wspace=0.25)

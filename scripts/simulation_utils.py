@@ -1153,7 +1153,7 @@ if __name__ == "__main__":
     #simulate_sojourn_time_dist_fixed_mean_cv()
 
 
-    simulate_sojourn_time_dist_fixed_mean_cv_analytic()
+   #simulate_sojourn_time_dist_fixed_mean_cv_analytic()
 
   
 

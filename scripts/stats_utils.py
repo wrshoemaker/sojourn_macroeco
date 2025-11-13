@@ -9,7 +9,7 @@ import gzip
 from collections import Counter
 import itertools
 import scipy.stats as stats
-from scipy.special import digamma, gamma, erf, loggamma, hyperu, polygamma
+from scipy.special import digamma, gamma, erf, loggamma, hyperu, polygamma, rel_entr
 
 from scipy import integrate
 
@@ -23,6 +23,26 @@ from statsmodels.base.model import GenericLikelihoodModel
 
 numpy.random.seed(123456789)
 
+
+
+def js_div(p,q):
+
+    # symmetric and bounded
+
+    m = 0.5 * (p + q)
+    js = 0.5 * numpy.sum(rel_entr(p, m)) + 0.5 * numpy.sum(rel_entr(q, m))
+    return numpy.sqrt(js)
+
+
+
+def get_pdf_from_counts(counts):
+
+    days_run_lengths_dict = dict(Counter(counts))
+    sojourn_data_range = numpy.sort(list(days_run_lengths_dict.keys()))
+    sojourn_data_pdf = numpy.asarray([days_run_lengths_dict[s] for s in sojourn_data_range])
+    sojourn_data_pdf = sojourn_data_pdf/sum(sojourn_data_pdf)
+
+    return sojourn_data_range, sojourn_data_pdf
 
 
 def estimate_normalization_constant(range_, values_):

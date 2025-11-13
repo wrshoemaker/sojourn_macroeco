@@ -81,7 +81,7 @@ def plot_cv_vs_mean_sojourn():
     fig, ax = plt.subplots(figsize=(6,4))
 
     #ax_mean.scatter(mean_all, obs_mean_sojourn_all, lw=0.5, ls='-', s=10, alpha=0.8, color=plot_utils.dataset_color_dict[target_dataset], label='ASV ' + r'$\times$' + ' host ' + r'$\times$' + ' sojourn')
-    ax.scatter(cv_all, obs_mean_sojourn_all, lw=0.5, ls='-', s=10, alpha=0.8, color=plot_utils.dataset_color_dict[target_dataset], label='ASV ' + r'$\times$' + ' host ' + r'$\times$' + ' sojourn')
+    ax.scatter(cv_all, obs_mean_sojourn_all, lw=0.5, ls='-', s=10, alpha=0.8, color=plot_utils.dataset_color_dict[target_dataset], label='ASV ' + r'$\times$' + ' host')
 
     slope_mean, intercept_mean, r_value_mean, p_value_mean, std_err_mean = data_utils.stats.linregress(numpy.log10(mean_all), numpy.log10(obs_mean_sojourn_all))
 
@@ -123,7 +123,7 @@ def plot_cv_vs_mean_sojourn():
     ax.plot(10**bins_mean_all_to_keep_no_nan, 10**bins_y_no_nan, lw=3 , c='k', ls='--', label="Prediction")
 
     #ax_mean.set_xlabel("Mean relative abundance, " + r'$\bar{x}$', fontsize=14)
-    ax.set_xlabel("CV of relative abundance (function of " + r'$\sigma$' + ')', fontsize=15)
+    ax.set_xlabel("CV of relative abundance (function of " + r'$\sigma_{i}$' + ')', fontsize=15)
 
     #ax_mean.set_ylabel("Mean sojourn time (days), " + r'$\left < \mathcal{T} \right>$', fontsize=14)
     ax.set_ylabel("Mean sojourn time (days), " + r'$\left < \mathcal{T} \, \right>$', fontsize=15)
@@ -160,7 +160,7 @@ def plot_mean_vs_mean_sojourn():
 
     fig, ax = plt.subplots(figsize=(6,4))
 
-    ax.scatter(mean_all, obs_mean_sojourn_all, lw=0.5, ls='-', s=10, alpha=0.8, color=plot_utils.dataset_color_dict[target_dataset], label='ASV ' + r'$\times$' + ' host ' + r'$\times$' + ' sojourn')
+    ax.scatter(mean_all, obs_mean_sojourn_all, lw=0.5, ls='-', s=10, alpha=0.8, color=plot_utils.dataset_color_dict[target_dataset], label='ASV ' + r'$\times$' + ' host')
 
     slope_mean, intercept_mean, r_value_mean, p_value_mean, std_err_mean = data_utils.stats.linregress(numpy.log10(mean_all), numpy.log10(obs_mean_sojourn_all))
 

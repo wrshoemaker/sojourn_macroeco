@@ -158,6 +158,7 @@ def make_ou_sojourn_time_dist(max_sojourn_time=max_sojourn_time, tau_0=1, tau_1=
                 tau_new_all.append(tau_new)
 
 
+
     # calculate mixture
     sojourn_time_pdf_all = numpy.stack(sojourn_time_pdf_all, axis=0)
     n_obs_per_dist = numpy.asarray(n_obs_per_dist)

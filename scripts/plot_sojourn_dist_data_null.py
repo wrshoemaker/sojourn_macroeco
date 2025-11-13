@@ -16,6 +16,8 @@ from matplotlib import cm, colors
 from matplotlib.lines import Line2D
 from matplotlib.patches import Patch
 
+from scipy import stats
+
 mle_null_dict_path = '%smle_null_dict.pickle' % config.data_directory
 
 
@@ -87,17 +89,29 @@ def make_mle_null_dict(n_iter=1000):
 
             days_run_lengths_all = numpy.asarray(days_run_lengths_all)
             x_range = numpy.arange(1, max(days_run_lengths_all)+1)
-            days_survival = data_utils.make_survival_dist(days_run_lengths_all, x_range)
+            #days_survival = data_utils.make_survival_dist(days_run_lengths_all, x_range)
 
             days_run_lengths_null_all = numpy.asarray(days_run_lengths_null_all)
             x_range_null = numpy.arange(1, max(days_run_lengths_null_all)+1)
-            days_null_survival = data_utils.make_survival_dist(days_run_lengths_null_all, x_range_null)
+            #days_null_survival = data_utils.make_survival_dist(days_run_lengths_null_all, x_range_null)
 
-            mle_null_dict[dataset][host]['prob_sojourn']['x_range'] = x_range.tolist()
-            mle_null_dict[dataset][host]['prob_sojourn']['days_survival'] = days_survival.tolist()
 
-            mle_null_dict[dataset][host]['prob_sojourn']['x_range_null'] = x_range_null.tolist()
-            mle_null_dict[dataset][host]['prob_sojourn']['days_null_survival'] = days_null_survival.tolist()
+            # make PDF
+            res_days_range, res_days_pdf = stats_utils.get_pdf_from_counts(days_run_lengths_all)
+            res_days_null_range, res_days_null_pdf = stats_utils.get_pdf_from_counts(days_run_lengths_null_all)
+
+
+            #mle_null_dict[dataset][host]['prob_sojourn']['x_range'] = x_range.tolist()
+            #mle_null_dict[dataset][host]['prob_sojourn']['days_survival'] = days_survival.tolist()
+
+            mle_null_dict[dataset][host]['prob_sojourn']['x_range_pdf'] = res_days_range.tolist()
+            mle_null_dict[dataset][host]['prob_sojourn']['days_pdf'] = res_days_pdf.tolist()
+
+            #mle_null_dict[dataset][host]['prob_sojourn']['x_range_null'] = x_range_null.tolist()
+            #mle_null_dict[dataset][host]['prob_sojourn']['days_null_survival'] = days_null_survival.tolist()
+
+            mle_null_dict[dataset][host]['prob_sojourn']['x_range_pdf_null'] = res_days_null_range.tolist()
+            mle_null_dict[dataset][host]['prob_sojourn']['days_pdf_null'] = res_days_null_pdf.tolist()
 
 
     sys.stderr.write("Saving dictionary...\n")
@@ -115,6 +129,7 @@ def plot_dist_w_null():
     n_cols = 4
     fig = plt.figure(figsize = (16, 12)) #
     fig.subplots_adjust(bottom= 0.1,  wspace=0.15)
+    fig.suptitle('Sojourn time (days), ' + r'$\mathcal{T}$', fontsize=24,  fontweight='bold', y=0.95)  # adjust y to move title up/down
 
     for dataset_idx, dataset in enumerate(data_utils.dataset_all):
 
@@ -124,11 +139,11 @@ def plot_dist_w_null():
 
         for host_idx, host in enumerate(host_all):
 
-            x_range = mle_null_dict[dataset][host]['prob_sojourn']['x_range']
-            days_survival = mle_null_dict[dataset][host]['prob_sojourn']['days_survival']
+            x_range = mle_null_dict[dataset][host]['prob_sojourn']['x_range_pdf']
+            days_survival = mle_null_dict[dataset][host]['prob_sojourn']['days_pdf']
 
-            x_range_null = mle_null_dict[dataset][host]['prob_sojourn']['x_range_null']
-            days_null_survival = mle_null_dict[dataset][host]['prob_sojourn']['days_null_survival']
+            x_range_null = mle_null_dict[dataset][host]['prob_sojourn']['x_range_pdf_null']
+            days_null_survival = mle_null_dict[dataset][host]['prob_sojourn']['days_pdf_null']
 
             x_range = numpy.asarray(x_range)
             days_survival = numpy.asarray(days_survival)
@@ -148,14 +163,24 @@ def plot_dist_w_null():
             ax.set_yscale('log', base=10)
 
             if host_idx == 0:
-                ax.set_ylabel('Fraction of sojourn trajectories ' + r'$\geq \mathcal{T}$', fontsize=9)        
+                #ax.set_ylabel('Fraction of sojourn trajectories ' + r'$\geq \mathcal{T}$', fontsize=9) 
+                ax.set_ylabel("Probability density", fontsize=10)        
             
             # x-label
             if (dataset_idx == len(data_utils.dataset_all)-1) or ((host_idx >= 2) and (dataset_idx==1)):
-                ax.set_xlabel('Sojourn time (days), ' + r'$\mathcal{T}$', fontsize=9)
+                ax.set_xlabel('Sojourn time (days), ' + r'$\mathcal{T}$', fontsize=10)
 
             if dataset_idx + host_idx == 0:
                 ax.legend(loc = 'upper right')
+
+
+            # ks test
+            #common_ids = numpy.intersect1d(x_range, x_range_null)
+            #mask = numpy.isin(x_range, common_ids)
+            #mask_null = numpy.isin(x_range_null, common_ids)
+            #days_survival_shared = days_survival[mask]
+            #days_null_survival_shared = days_null_survival[mask_null]
+            #print(stats_utils.js_div(days_survival_shared, days_null_survival_shared))
 
 
 

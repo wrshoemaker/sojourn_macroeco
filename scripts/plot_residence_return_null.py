@@ -113,18 +113,68 @@ def make_res_ret_dict():
                         res_days_null.append(identify_runs(abundance_trajectory_null, days_host, residence=res_bool))
 
 
-                res_days = numpy.concatenate(res_days, axis=0)
-                res_days_range, res_days_pdf = stats_utils.get_pdf_from_counts(res_days)
+                #res_days = numpy.concatenate(res_days, axis=0)
+                #res_days_range, res_days_pdf = stats_utils.get_pdf_from_counts(res_days)
 
-                res_days_null = numpy.concatenate(res_days_null, axis=0)
-                res_days_range_null, res_days_pdf_null = stats_utils.get_pdf_from_counts(res_days_null)
+                #res_days_null = numpy.concatenate(res_days_null, axis=0)
+                #res_days_range_null, res_days_pdf_null = stats_utils.get_pdf_from_counts(res_days_null)
+
+
+                x_range, mixture_pdf, total_count = stats_utils.calculate_mixture_dist(res_days)
+                x_range_null, mixture_pdf_null, total_count_null = stats_utils.calculate_mixture_dist(res_days_null)
+
+
 
                 res_ret_dict[dataset][host][res_bool] = {}
-                res_ret_dict[dataset][host][res_bool]['x_range_pdf'] = res_days_range.tolist()
-                res_ret_dict[dataset][host][res_bool]['days_pdf'] = res_days_pdf.tolist()
+                res_ret_dict[dataset][host][res_bool]['x_range_pdf'] = x_range.tolist()
+                res_ret_dict[dataset][host][res_bool]['days_pdf'] = mixture_pdf.tolist()
                 
-                res_ret_dict[dataset][host][res_bool]['x_range_pdf_null'] = res_days_range_null.tolist()
-                res_ret_dict[dataset][host][res_bool]['days_pdf_null'] = res_days_pdf_null.tolist()
+                res_ret_dict[dataset][host][res_bool]['x_range_pdf_null'] = x_range_null.tolist()
+                res_ret_dict[dataset][host][res_bool]['days_pdf_null'] = mixture_pdf_null.tolist()
+
+                res_ret_dict[dataset][host][res_bool]['n_obs'] = len(res_days)
+                res_ret_dict[dataset][host][res_bool]['n_obs_null'] = len(res_days_null)
+
+
+    res_ret_dict['mixture'] = {}
+
+    for res_bool in [True, False]:
+
+        x_range_all = []
+        days_pdf_all = []
+        n_obs_all = []
+
+        x_range_null_all = []
+        days_pdf_null_all = []
+        n_obs_null_all = []
+
+        for dataset_idx, dataset in enumerate(data_utils.dataset_all):
+            
+            read_counts, host_status, days, asv_names = data_utils.get_dada2_data(dataset, 'gut')
+            host_all = list(set(host_status))
+            host_all.sort()
+
+            for host_idx, host in enumerate(host_all):
+
+                x_range_all.append(numpy.asarray(res_ret_dict[dataset][host][res_bool]['x_range_pdf']))
+                days_pdf_all.append(numpy.asarray(res_ret_dict[dataset][host][res_bool]['days_pdf']))
+                n_obs_all.append(numpy.asarray(res_ret_dict[dataset][host][res_bool]['n_obs']))
+
+                x_range_null_all.append(numpy.asarray(res_ret_dict[dataset][host][res_bool]['x_range_pdf_null']))
+                days_pdf_null_all.append(numpy.asarray(res_ret_dict[dataset][host][res_bool]['days_pdf_null']))
+                n_obs_null_all.append(numpy.asarray(res_ret_dict[dataset][host][res_bool]['n_obs_null']))
+
+
+        res_ret_dict['mixture'][res_bool] = {}
+
+        x_range_pdf_mix, days_pdf_mix = stats_utils.calculate_mixture_dist_pdfs(x_range_all, days_pdf_all, n_obs_all)
+        x_range_pdf_null_mix, days_pdf_null_mix = stats_utils.calculate_mixture_dist_pdfs(x_range_null_all, days_pdf_null_all, n_obs_null_all)
+
+        res_ret_dict['mixture'][res_bool]['x_range_pdf'] = x_range_pdf_mix.tolist()
+        res_ret_dict['mixture'][res_bool]['days_pdf'] = days_pdf_mix.tolist()
+                
+        res_ret_dict['mixture'][res_bool]['x_range_pdf_null'] = x_range_pdf_null_mix.tolist()
+        res_ret_dict['mixture'][res_bool]['days_pdf_null'] = days_pdf_null_mix.tolist()
 
 
 
@@ -149,8 +199,6 @@ def plot_res_ret_time(res_bool=True):
 
     #row_idx = 0
     for dataset_idx, dataset in enumerate(data_utils.dataset_all):
-
-        sys.stderr.write("Analyzing dataset %s.....\n" % dataset)
         
         read_counts, host_status, days, asv_names = data_utils.get_dada2_data(dataset, 'gut')
         host_all = list(set(host_status))
@@ -158,9 +206,9 @@ def plot_res_ret_time(res_bool=True):
 
         for host_idx, host in enumerate(host_all):
 
-            sys.stderr.write("Analyzing host %s.....\n" % host)
             ax = plt.subplot2grid((n_rows, n_cols), (dataset_idx, host_idx))
-            ax.set_title('%s, %s' % (dataset, host), fontsize=11)
+            #ax.set_title('%s, %s' % (dataset, host), fontsize=11)
+            ax.set_title(plot_utils.label_dataset_host(dataset, host), fontsize=12)
 
             x_range_pdf = numpy.asarray(res_ret_dict[dataset][host][res_bool]['x_range_pdf'])
             days_pdf = numpy.asarray(res_ret_dict[dataset][host][res_bool]['days_pdf'])
@@ -169,7 +217,7 @@ def plot_res_ret_time(res_bool=True):
             days_pdf_null = numpy.asarray(res_ret_dict[dataset][host][res_bool]['days_pdf_null'])
 
             ax.plot(x_range_pdf, days_pdf, c=plot_utils.host_color_dict[dataset][host], lw=2, ls='-', alpha=1, label='Observed')
-            ax.plot(x_range_pdf_null, days_pdf_null, c='k', lw=2, ls='-', alpha=1, label='Permutation-based null')
+            ax.plot(x_range_pdf_null, days_pdf_null, c='k', lw=2, ls='-', alpha=1, label='Time-permuted null')
 
 
             ax.set_xlim([1, max(x_range_pdf)])
@@ -205,9 +253,123 @@ def plot_res_ret_time(res_bool=True):
 
 
     fig.subplots_adjust(hspace=0.15, wspace=0.15)
-    fig_name = "%s%s_time.png" % (config.analysis_directory, str_dict[res_bool])
+    fig_name = "%s%s_dist_data_null.png" % (config.analysis_directory, str_dict[res_bool])
     fig.savefig(fig_name, format='png', bbox_inches = "tight", pad_inches = 0.3, dpi = 600)
     plt.close()
+
+
+
+
+
+def mixture_discrete_pdf(values_list, pdfs_list, counts_list):
+    # build mixture discrete PDF from
+
+    # values_list = rvs
+    # pdfs_list = all pdfs
+    # counts_list = all counts
+
+    counts = numpy.asarray(counts_list, dtype=float)
+    weights = counts / counts.sum()
+
+    all_values = numpy.unique(numpy.concatenate(values_list))
+    all_values = numpy.sort(all_values)
+
+    # mapping value to index
+    idx = {v: i for i, v in enumerate(all_values)}
+
+    mixture = numpy.zeros(len(all_values))
+
+    for vals, pdf, w in zip(values_list, pdfs_list, weights):
+        vals = numpy.asarray(vals, dtype=int)
+        pdf  = numpy.asarray(pdf, dtype=float)
+
+        pdf = pdf / pdf.sum()
+
+        for v, p in zip(vals, pdf):
+            mixture[idx[int(v)]] += w * p
+
+    # final normalization
+    mixture = mixture / mixture.sum()
+
+    return all_values, mixture
+
+
+
+def plot_res_ret_time_mixture():
+
+    res_ret_dict = pickle.load(open(res_ret_dict_path, "rb"))
+
+    fig = plt.figure(figsize = (8, 4))
+
+    for res_bool_idx, res_bool in enumerate([True, False]):
+
+        ax = plt.subplot2grid((1, 2), (0, res_bool_idx))
+
+        #x_all = []
+        #x_null_all = []
+        
+        #pdf_all = []
+        #pdf_null_all = []
+        
+        #n_all = []
+        #n_null_all = []
+
+        #for dataset_idx, dataset in enumerate(data_utils.dataset_all):
+            
+        #    read_counts, host_status, days, asv_names = data_utils.get_dada2_data(dataset, 'gut')
+        #    host_all = list(set(host_status))
+        #    host_all.sort()
+
+        #    for host_idx, host in enumerate(host_all):
+
+        #        x_all.append(res_ret_dict[dataset][host][res_bool]['x_range_pdf'])
+        #        x_null_all.append(res_ret_dict[dataset][host][res_bool]['x_range_pdf_null'])
+
+        #        pdf_all.append(res_ret_dict[dataset][host][res_bool]['days_pdf'])
+        #        pdf_null_all.append(res_ret_dict[dataset][host][res_bool]['days_pdf_null'])
+
+        #        n_all.append(res_ret_dict[dataset][host][res_bool]['n_obs'])
+        #        n_null_all.append(res_ret_dict[dataset][host][res_bool]['n_obs_null'])
+
+
+        #x_mix, pdf_mix = mixture_discrete_pdf(x_all, pdf_all, n_all)
+        #x_null_mix, pdf_null_mix = mixture_discrete_pdf(x_null_all, pdf_null_all, n_null_all)
+
+        x_mix = numpy.asarray(res_ret_dict['mixture'][res_bool]['x_range_pdf'])
+        pdf_mix = numpy.asarray(res_ret_dict['mixture'][res_bool]['days_pdf'])
+
+        x_null_mix = numpy.asarray(res_ret_dict['mixture'][res_bool]['x_range_pdf_null'])
+        pdf_null_mix = numpy.asarray(res_ret_dict['mixture'][res_bool]['days_pdf_null'])
+        
+
+
+        ax.plot(x_mix, pdf_mix, c='#eb5900', lw=1, ls='-', label='Observed', zorder=2)
+        ax.plot(x_null_mix, pdf_null_mix, c='k', lw=1, ls='-', label='Time-permuted null', zorder=1)
+
+        ax.set_xlim([1, max(x_mix)])
+        ax.set_ylim([min(pdf_mix), 1])
+
+        ax.set_xscale('log', base=10)
+        ax.set_yscale('log', base=10)
+
+        ax.xaxis.set_tick_params(labelsize=7)
+        ax.yaxis.set_tick_params(labelsize=7)
+
+        ax.set_xlabel(latex_label_dict[res_bool], fontsize=12)
+        ax.set_ylabel("Probability density", fontsize=12)     
+
+        if res_bool_idx == 0:
+            ax.legend(loc = 'upper right')
+            
+
+
+    fig.subplots_adjust(hspace=0.15, wspace=0.25)
+    fig_name = "%sresidence_return_mix.png" % (config.analysis_directory)
+    fig.savefig(fig_name, format='png', bbox_inches = "tight", pad_inches = 0.3, dpi = 600)
+    plt.close()
+
+
+
 
 
 
@@ -216,7 +378,9 @@ if __name__ == "__main__":
 
     print("Running...")
 
-    #make_res_ret_dict()
+    make_res_ret_dict()
 
     #plot_res_ret_time(res_bool=True)
-    plot_res_ret_time(res_bool=False)
+    #plot_res_ret_time(res_bool=False)
+
+    plot_res_ret_time_mixture()

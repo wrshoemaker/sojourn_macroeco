@@ -27,6 +27,8 @@ n_rows = len(data_utils.dataset_all)
 n_cols = 4
 fig = plt.figure(figsize = (16, 12)) #
 fig.subplots_adjust(bottom= 0.1,  wspace=0.15)
+fig.suptitle("Sojourn trajectories", fontsize=24,  fontweight='bold', y=0.95)  # adjust y to move title up/down
+
 
 
 for dataset_idx, dataset in enumerate(data_utils.dataset_all):
@@ -55,7 +57,8 @@ for dataset_idx, dataset in enumerate(data_utils.dataset_all):
 
 
             ax.plot(value['days'], log_rescaled_rel_abund, ls='-', lw=0.5, alpha=0.2, c=plot_utils.host_color_dict[dataset][host])
-            ax.set_title(plot_utils.host_name_dict[dataset][host], fontsize=12)
+            #ax.set_title(plot_utils.host_name_dict[dataset][host], fontsize=12)
+            ax.set_title(plot_utils.label_dataset_host(dataset, host), fontsize=12)
 
   
 

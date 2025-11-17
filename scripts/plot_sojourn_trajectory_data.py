@@ -61,8 +61,11 @@ def plot_sojourn_trajectory_data():
             run_sojourn_integral_all = []
 
             ax = plt.subplot2grid((n_rows, n_cols), (dataset_idx, host_idx))
-            ax.set_title('%s, %s' % (dataset, host), fontsize=12)
-
+            
+            
+            ax.set_title(plot_utils.label_dataset_host(dataset, host), fontsize=12)
+            
+            
             run_sojourn_all = []
 
             for asv in  mle_dict[dataset][host].keys():
@@ -250,6 +253,6 @@ def plot_mean_sojourn_trajector_data():
 
 
 
-#plot_sojourn_trajectory_data()
+plot_sojourn_trajectory_data()
 
-plot_mean_sojourn_trajector_data()
+#plot_mean_sojourn_trajector_data()

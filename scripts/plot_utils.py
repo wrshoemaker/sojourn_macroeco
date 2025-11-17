@@ -42,6 +42,10 @@ dataset_name_dict = {'david_et_al': 'David et al.', 'poyet_et_al': 'Poyet et al.
 host_name_dict = {'david_et_al': {'DonorA_post_travel': 'A, post-travel', 'DonorA_pre_travel': 'A, pre-travel', 'DonorB_post_travel': 'B, post-travel', 'DonorB_pre_travel': 'B, pre-travel'}, 'poyet_et_al': {'ae': 'ae', 'am': 'am', 'an': 'an', 'ao': 'ao'}, 'caporaso_et_al': {'F4': 'F4', 'M3': 'M3'}}
 
 
+def label_dataset_host(dataset, host):
+    y_tick_label = '%s: %s' % (dataset_name_dict[dataset], host_name_dict[dataset][host])
+    return y_tick_label
+
 
 def make_blue_cmap(n):
 

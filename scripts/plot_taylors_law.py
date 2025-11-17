@@ -26,6 +26,7 @@ mle_dict = pickle.load(open(data_utils.mle_dict_path, "rb"))
 
 fig = plt.figure(figsize = (16, 12)) #
 fig.subplots_adjust(bottom= 0.1,  wspace=0.15)
+fig.suptitle("Taylor's Law", fontsize=24,  fontweight='bold', y=0.95)  # adjust y to move title up/down
 
 
 for dataset_idx, dataset in enumerate(data_utils.dataset_all):
@@ -61,7 +62,8 @@ for dataset_idx, dataset in enumerate(data_utils.dataset_all):
             ax.set_xlabel('Mean relative abundance, ' + r'$\bar{x}_{i}$', fontsize=12)
 
 
-        ax.set_title(plot_utils.host_name_dict[dataset][host], fontsize=12)
+        #ax.set_title(plot_utils.host_name_dict[dataset][host], fontsize=12)
+        ax.set_title(plot_utils.label_dataset_host(dataset, host), fontsize=12)
         log10_x_mean_all = numpy.log10(x_mean_all)
         log10_x_var_all = numpy.log10(x_var_all)
 
@@ -72,7 +74,7 @@ for dataset_idx, dataset in enumerate(data_utils.dataset_all):
         y_fit_range = slope*x_range_ + intercept
         y_fit_range_exponent_2 = 2*x_range_ + intercept_exponent_2
 
-        ax.plot(10**x_range_, 10**y_fit_range, ls='-', lw=2.5, c='k', label='Fitted exponent = %0.2f' % slope)
+        ax.plot(10**x_range_, 10**y_fit_range, ls='-', lw=2.5, c='k', label='Fitted exponent = %0.4f' % slope)
         ax.plot(10**x_range_, 10**y_fit_range_exponent_2, ls=':', lw=2.5, c='k', label='Exponent = 2')
         #ax.set_xlim([min(x_mean_all), max(x_mean_all)])
 

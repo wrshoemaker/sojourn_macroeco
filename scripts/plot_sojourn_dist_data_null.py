@@ -69,7 +69,8 @@ def make_mle_null_dict(n_iter=1000):
                     run_values_null, run_starts_null, run_lengths_null = data_utils.find_runs((log_rescaled_rel_abundance_null - expected_value_log_gamma)>0, min_run_length=1)
                     run_values_new_null, run_starts_new_null, run_lengths_new_null, days_run_lengths_null = data_utils.run_lengths_to_days(run_values_null, run_starts_null, run_lengths_null, days)
                     mean_days_run_lengths_null_all.append(numpy.mean(days_run_lengths_null))
-                    days_run_lengths_null_all.extend(days_run_lengths_null)
+                    days_run_lengths_null_all.append(days_run_lengths_null)
+                    #n_obs_null_all.append(len(days_run_lengths_null))
 
 
                 mean_days_run_lengths_null_all = numpy.sort(mean_days_run_lengths_null_all)
@@ -84,34 +85,71 @@ def make_mle_null_dict(n_iter=1000):
 
                 mle_null_dict[dataset][host]['otu_stats'][key] = value
 
-                days_run_lengths_all.extend(days_run_lengths)
+                days_run_lengths_all.append(days_run_lengths)
 
 
-            days_run_lengths_all = numpy.asarray(days_run_lengths_all)
-            x_range = numpy.arange(1, max(days_run_lengths_all)+1)
+            #days_run_lengths_all = numpy.asarray(days_run_lengths_all)
+            #x_range = numpy.arange(1, max(days_run_lengths_all)+1)
             #days_survival = data_utils.make_survival_dist(days_run_lengths_all, x_range)
-
-            days_run_lengths_null_all = numpy.asarray(days_run_lengths_null_all)
-            x_range_null = numpy.arange(1, max(days_run_lengths_null_all)+1)
+            
+            #days_run_lengths_null_all = numpy.asarray(days_run_lengths_null_all)
+            #x_range_null = numpy.arange(1, max(days_run_lengths_null_all)+1)
             #days_null_survival = data_utils.make_survival_dist(days_run_lengths_null_all, x_range_null)
 
-
             # make PDF
-            res_days_range, res_days_pdf = stats_utils.get_pdf_from_counts(days_run_lengths_all)
-            res_days_null_range, res_days_null_pdf = stats_utils.get_pdf_from_counts(days_run_lengths_null_all)
-
+            #res_days_range, res_days_pdf = stats_utils.get_pdf_from_counts(days_run_lengths_all)
+            #res_days_null_range, res_days_null_pdf = stats_utils.get_pdf_from_counts(days_run_lengths_null_all)
+            
+            # MIXTURE. Weights
+            x_range, mixture_pdf, total_count = stats_utils.calculate_mixture_dist(days_run_lengths_all)
+            x_range_null, mixture_pdf_null, total_count_null = stats_utils.calculate_mixture_dist(days_run_lengths_null_all)
 
             #mle_null_dict[dataset][host]['prob_sojourn']['x_range'] = x_range.tolist()
             #mle_null_dict[dataset][host]['prob_sojourn']['days_survival'] = days_survival.tolist()
 
-            mle_null_dict[dataset][host]['prob_sojourn']['x_range_pdf'] = res_days_range.tolist()
-            mle_null_dict[dataset][host]['prob_sojourn']['days_pdf'] = res_days_pdf.tolist()
+            mle_null_dict[dataset][host]['prob_sojourn']['x_range_pdf'] = x_range.tolist()
+            mle_null_dict[dataset][host]['prob_sojourn']['days_pdf'] = mixture_pdf.tolist()
+            mle_null_dict[dataset][host]['prob_sojourn']['n_obs'] = total_count
+
+            print(total_count)
 
             #mle_null_dict[dataset][host]['prob_sojourn']['x_range_null'] = x_range_null.tolist()
             #mle_null_dict[dataset][host]['prob_sojourn']['days_null_survival'] = days_null_survival.tolist()
 
-            mle_null_dict[dataset][host]['prob_sojourn']['x_range_pdf_null'] = res_days_null_range.tolist()
-            mle_null_dict[dataset][host]['prob_sojourn']['days_pdf_null'] = res_days_null_pdf.tolist()
+            mle_null_dict[dataset][host]['prob_sojourn']['x_range_pdf_null'] = x_range_null.tolist()
+            mle_null_dict[dataset][host]['prob_sojourn']['days_pdf_null'] = mixture_pdf_null.tolist()
+            mle_null_dict[dataset][host]['prob_sojourn']['n_obs_null'] = total_count_null
+
+
+    # calculate the singular mixture over all hosts and datasets
+    mle_null_dict['mixture'] = {}
+    x_range_pdf_null_all = []
+    days_pdf_null_all = []
+    n_obs_null_all = []
+    for dataset_idx, dataset in enumerate(data_utils.dataset_all):
+
+        host_all = list(mle_dict[dataset].keys())
+        host_all.sort()
+
+        for host in host_all:
+
+            x_range_pdf_null_all.append(numpy.asarray(mle_null_dict[dataset][host]['prob_sojourn']['x_range_pdf_null']))
+            days_pdf_null_all.append(numpy.asarray(mle_null_dict[dataset][host]['prob_sojourn']['days_pdf_null']))
+            n_obs_null_all.append(mle_null_dict[dataset][host]['prob_sojourn']['n_obs_null'])
+
+    #x_range_pdf_null_mix = numpy.unique(numpy.concatenate(x_range_pdf_null_all))
+    #days_pdf_null_mix = numpy.zeros_like(x_range_pdf_null_mix, dtype=float)
+    #for x_vals_i, pdf_i, n_obs_i in zip(x_range_pdf_null_all, days_pdf_null_all, n_obs_null_all):
+    #    print(len(x_vals_i), len(pdf_i), n_obs_i)
+    #    idx_i = numpy.searchsorted(x_range_pdf_null_mix, x_vals_i)
+    #    days_pdf_null_mix[idx_i] += pdf_i * n_obs_i
+    #days_pdf_null_mix = days_pdf_null_mix/sum(days_pdf_null_mix)
+
+    x_range_pdf_null_mix, days_pdf_null_mix = stats_utils.calculate_mixture_dist_pdfs(x_range_pdf_null_all, days_pdf_null_all, n_obs_null_all)
+
+
+    mle_null_dict['mixture']['x_range_pdf_null'] = x_range_pdf_null_mix.tolist()
+    mle_null_dict['mixture']['days_pdf_null'] = days_pdf_null_mix.tolist()
 
 
     sys.stderr.write("Saving dictionary...\n")
@@ -152,10 +190,11 @@ def plot_dist_w_null():
             days_null_survival = numpy.asarray(days_null_survival)
 
             ax = plt.subplot2grid((n_rows, n_cols), (dataset_idx, host_idx))
-            ax.set_title('%s, %s' % (dataset, host), fontsize=11)
+            #ax.set_title('%s, %s' % (dataset, host), fontsize=11)
+            ax.set_title(plot_utils.label_dataset_host(dataset, host), fontsize=12)
             
             ax.plot(x_range, days_survival, c=plot_utils.host_color_dict[dataset][host], lw=3, linestyle='-', zorder=2, label='Observed')
-            ax.plot(x_range_null, days_null_survival, c='k', lw=3, linestyle='-', zorder=2, label='Permutation-based null')
+            ax.plot(x_range_null, days_null_survival, c='k', lw=3, linestyle='-', zorder=2, label='Time-permuted null')
 
             ax.set_xlim([1, max(x_range)+1])
             ax.set_ylim([min(days_survival), 1])
@@ -267,5 +306,5 @@ if __name__ == "__main__":
 
     print("Running...")
 
-    #make_mle_null_dict()
-    plot_dist_w_null()
+    make_mle_null_dict()
+    #plot_dist_w_null()

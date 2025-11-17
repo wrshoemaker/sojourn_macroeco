@@ -26,6 +26,8 @@ mle_dict = pickle.load(open(data_utils.mle_dict_path, "rb"))
 fig = plt.figure(figsize = (16, 12)) #
 fig.subplots_adjust(bottom= 0.1,  wspace=0.15)
 
+fig.suptitle("Abundance Fluctuation Distribution (AFD)", fontsize=24,  fontweight='bold', y=0.95)  # adjust y to move title up/down
+
 
 for dataset_idx, dataset in enumerate(data_utils.dataset_all):
 
@@ -51,7 +53,8 @@ for dataset_idx, dataset in enumerate(data_utils.dataset_all):
             hist, bins = data_utils.get_hist_and_bins(rescaled_log_rel_abundance_all, n_bins=10)
 
             ax.plot(bins, hist, ls='-', lw=0.5, alpha=0.2, c=plot_utils.host_color_dict[dataset][host])
-            ax.set_title(plot_utils.host_name_dict[dataset][host], fontsize=12)
+            #ax.set_title(plot_utils.host_name_dict[dataset][host], fontsize=12)
+            ax.set_title(plot_utils.label_dataset_host(dataset, host), fontsize=12)
 
             hist_all.append(hist)
   

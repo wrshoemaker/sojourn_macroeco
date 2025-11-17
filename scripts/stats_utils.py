@@ -9,7 +9,7 @@ import gzip
 from collections import Counter
 import itertools
 import scipy.stats as stats
-from scipy.special import digamma, gamma, erf, loggamma, hyperu, polygamma, rel_entr
+from scipy.special import digamma, gamma, erf, loggamma, hyperu, polygamma, rel_entr, psi
 
 from scipy import integrate
 
@@ -95,12 +95,47 @@ def expected_value_log_gamma(x_bar, cv):
 
 
 
+def expected_value_rescaled_log_gamma(cv):
+
+    beta = (cv)**(-2)
+
+    return digamma(beta) - numpy.log(beta) 
+
+
+
+
 
 def expected_value_square_root_gamma(x_bar, cv):
 
     beta = (1/cv)**2
 
     return (gamma(beta+0.5)/gamma(beta))*numpy.sqrt(x_bar/beta)
+
+
+
+
+
+def right_tail_log_rescaled_gamma(x_mean, x_cv):
+    
+    k = 1.0 / (x_cv**2)
+    theta = x_mean / k
+
+    y_mean = psi(k) + numpy.log(theta) - numpy.log(x_mean)
+
+    #def f_Y(y):
+    #    x = x_mean * numpy.exp(y)
+    #    return stats.gamma.pdf(x, a=k, scale=theta) * x
+
+    #val, _ = integrate.quad(lambda y: f_Y(y), y_mean, numpy.inf)
+
+    x_threshold = x_mean * numpy.exp(y_mean)
+
+    val = 1.0 - stats.gamma.cdf(x_threshold, a=k, scale=theta)
+
+    return val, y_mean, k, theta
+
+
+
 
 
 def _ll_gamma_sampling(n, N, x_mean, x_std):
@@ -246,6 +281,43 @@ def autocorrelation(x):
     autocorr /= autocorr[0]  # Normalize to have value 1 at lag 0
     
     return autocorr
+
+
+
+def calculate_mixture_dist(list_of_arrays):
+
+    '''List of numpy arrays containing discrete RVs'''
+
+    x_range = numpy.sort(numpy.unique(numpy.concatenate(list_of_arrays)))
+
+    mixture_pdf = numpy.zeros_like(x_range, dtype=float)
+    total_count = sum(len(arr) for arr in list_of_arrays)
+    for arr in list_of_arrays:
+        unique, counts = numpy.unique(arr, return_counts=True)
+        pdf = counts / sum(counts)
+        indices = numpy.searchsorted(x_range, unique)
+        mixture_pdf[indices] += len(arr) * pdf
+    mixture_pdf /= mixture_pdf.sum()
+
+    return x_range, mixture_pdf, total_count
+
+
+
+def calculate_mixture_dist_pdfs(x_range_all, pdf_all, n_obs_all):
+
+    '''List of numpy arrays containing discrete RVs'''
+
+    x_range_mix = numpy.unique(numpy.concatenate(x_range_all))
+    days_pdf_null_mix = numpy.zeros_like(x_range_mix, dtype=float)
+    #total_count = sum(len(arr) for arr in list_of_arrays)
+    for x_vals_i, pdf_i, n_obs_i in zip(x_range_all, pdf_all, n_obs_all):
+        idx_i = numpy.searchsorted(x_range_mix, x_vals_i)
+        days_pdf_null_mix[idx_i] += pdf_i * n_obs_i
+
+    days_pdf_null_mix = days_pdf_null_mix/sum(days_pdf_null_mix)
+
+    return x_range_mix, days_pdf_null_mix
+
 
 
 if __name__ == "__main__":

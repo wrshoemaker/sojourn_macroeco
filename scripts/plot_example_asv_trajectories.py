@@ -193,6 +193,10 @@ def plot_example_fig1():
     ax.text(0.3, 0.1, r'$>$', fontsize=15, color='k', transform=ax.transAxes)
     ax.text(0.5, 0.1, r'$\sigma$', fontsize=15, color='darkred', transform=ax.transAxes)
 
+    ax.text(0.01, 0.2, r'$K$', fontsize=15, color=target_asv_color, transform=ax.transAxes)
+    ax.text(0.3, 0.2, r'$=$', fontsize=15, color='k', transform=ax.transAxes)
+    ax.text(0.5, 0.2, r'$K$', fontsize=15, color='darkred', transform=ax.transAxes)
+
 
     ax.text(0.35, 0.9, "a", fontsize=15, fontweight='bold', transform=ax.transAxes)
     ax.text(0.5, 0.9, "b", fontsize=15, fontweight='bold', transform=ax.transAxes)
@@ -251,5 +255,7 @@ def plot_example_fig2():
 
 
 
+
+#make_example_asv_trajectory_dict()
 plot_example_fig1()
 #plot_example_fig2()

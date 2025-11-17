@@ -142,10 +142,7 @@ def plot_cv_vs_mean_sojourn():
 
     #ax_mean.set_yscale('log', base=10)
     ax.set_yscale('log', base=10)
-
-
     ax.legend(loc = 'upper left', fontsize=11)
-
 
     fig.subplots_adjust(hspace=0.25, wspace=0.25)
     fig_name = "%scv_vs_mean_sojourn_time.png" % (config.analysis_directory)
@@ -170,12 +167,11 @@ def plot_mean_vs_mean_sojourn():
 
 
     #ax.plot(10**x_log10_range_mean, 10**y_log10_fit_mean, c='k', lw=2.5, linestyle=':', zorder=2, label="Regression")
-    ax.plot(10**x_log10_range_mean, 10**y_log10_pred_mean, c='k', lw=3, linestyle='--', zorder=2, label="Prediction")
+    #ax.plot(10**x_log10_range_mean, 10**y_log10_pred_mean, c='k', lw=3, linestyle='--', zorder=2, label="Prediction")
 
-
-
-    ax.set_xlabel("Mean relative abundance, " + r'$\bar{x}$', fontsize=14)
-    ax.set_ylabel("Mean sojourn time (days), " + r'$\left < \mathcal{T} \right>$', fontsize=14)
+    #ax.set_xlabel("Mean relative abundance, " + r'$\bar{x}$', fontsize=15)
+    ax.set_xlabel("Mean relative abundance (function of " + r'$K_{i}$' + ' and ' + r'$\sigma_{i}$' +  ')', fontsize=15)
+    ax.set_ylabel("Mean sojourn time (days), " + r'$\left < \mathcal{T} \, \right>$', fontsize=15)
 
     #y_lim_min = 1.3
     #y_lim_max = 14
@@ -186,6 +182,18 @@ def plot_mean_vs_mean_sojourn():
     ax.set_yscale('log', base=10)
     ax.legend(loc = 'upper left', fontsize=11)
 
+    spearman_rho, p_value = stats.spearmanr(numpy.log10(mean_all), numpy.log10(obs_mean_sojourn_all))
+    #print(p_value)
+    print(spearman_rho)
+    #ax.text(0.05, 0.73, r'$\rho_{\mathrm{Spearman}} = $' + str(round(spearman_rho, 3)), fontsize=11, transform=ax.transAxes)
+    ax.text(0.05, 0.73, r'$\rho_{\mathrm{Spearman}} = 0.0975$', fontsize=11, transform=ax.transAxes)
+    ax.text(0.17, 0.66, r'$P = 0.132$', fontsize=11, transform=ax.transAxes)
+
+
+    y_lim_min = 1.3
+    y_lim_max = 14
+    ax.set_ylim([y_lim_min, y_lim_max])
+
 
     fig.subplots_adjust(hspace=0.25, wspace=0.25)
     fig_name = "%smean_vs_mean_sojourn_time.png" % (config.analysis_directory)
@@ -195,7 +203,11 @@ def plot_mean_vs_mean_sojourn():
 
 
 
-plot_cv_vs_mean_sojourn()
-#plot_mean_vs_mean_sojourn()
+if __name__ == "__main__":
+
+    print("Running...")
+
+    #plot_cv_vs_mean_sojourn()
+    plot_mean_vs_mean_sojourn()
 
 

@@ -10,6 +10,8 @@ import gzip
 from collections import Counter
 import itertools
 import scipy.stats as stats
+from statsmodels.tsa.stattools import adfuller
+
 
 
 import stats_utils
@@ -21,7 +23,10 @@ mle_dict_path = '%smle_dict.pickle' %config.data_directory
 
 
 dataset_all = ['david_et_al', 'poyet_et_al', 'caporaso_et_al']
-poyet_hosts = ['ae', 'am', 'an', 'ao']
+#poyet_hosts = ['ae', 'am', 'an', 'ao']
+poyet_hosts = ['ao', 'am']
+
+
 
 n_fna_characters = 80
 alpha = 0.05
@@ -448,6 +453,9 @@ def get_dada2_data(dataset, environment):
             collection_date = line_split[8]
             host = line_split[-4].split('-')[0]
 
+            # poyet_et_al criteria for rare (but annoying) long sampling intervals
+
+
             # skip hosts we dont care about
             if host not in poyet_hosts:
                 continue
@@ -487,6 +495,8 @@ def get_dada2_data(dataset, environment):
             # get start date
             #start_collection_date = min(host_dict[s]['collection_date'] for s in host_dict.keys())
 
+            print(host)
+
             # get number of days
             for host_sample in host_dict.keys():
 
@@ -495,6 +505,14 @@ def get_dada2_data(dataset, environment):
                         continue
 
                 days = host_dict[host_sample]['collection_date'] - start_collection_date
+
+                if (dataset == 'poyet_et_al'):
+                    if host == 'am':
+                        #### removing excess sampling interval regions
+                        # [150, 455]
+                        if (days.days < 150) or (days.days > 455):
+                            continue
+
                 sample_to_metadata_dict[host_sample] = {}
                 sample_to_metadata_dict[host_sample]['days'] = days.days
                 sample_to_metadata_dict[host_sample]['host'] = host
@@ -579,6 +597,14 @@ def get_dada2_data(dataset, environment):
     #        days, days_counts = numpy.unique(days_all_sort_filter[(host_all_sort_filter==host)], return_counts=True)
     #        days_with_duplicates = days[days_counts==2]
     #        samples_to_remove.extend([numpy.where(((host_all_sort_filter==host) & (days_all_sort_filter==d)) == True)[0][0] for d in days_with_duplicates])
+    
+
+    # isolate poyet_et_al host am sub-timeseries with sufficient number of samples without reasonable samping intervals
+    #print(host)
+    #if (dataset == 'poyet_et_al') and (host == 'am'):
+
+    #    print(days_all_sort_filter)  
+
 
 
     # remove redundant objects from list
@@ -1121,10 +1147,20 @@ def make_mle_dict(epsilon_fract=epsilon_fract_data, min_run_length_data=min_run_
                 mle_dict[dataset][host][asv_names_host_subset_i]['x_mean'] = x_mean
                 mle_dict[dataset][host][asv_names_host_subset_i]['x_std'] = x_std
                 mle_dict[dataset][host][asv_names_host_subset_i]['run_starts'] = run_starts_new.tolist()
+                mle_dict[dataset][host][asv_names_host_subset_i]['run_lengths'] = run_lengths_new.tolist()
                 mle_dict[dataset][host][asv_names_host_subset_i]['days_run_lengths'] = days_run_lengths
                 mle_dict[dataset][host][asv_names_host_subset_i]['days_run_values'] = run_values_new.tolist()
                 run_dict = calculate_deviation_pattern_data(log_rescaled_rel_abundance_trajectory, expected_value_log_gamma, days_host, min_run_length=min_run_length_data, epsilon=epsilon_fract_data, return_array=False)
                 
+
+                # run dickey-fuller test on log_rescaled_rel_abundance_trajectory
+                #dickey_fuller_ = adfuller(rel_abundance_trajectory)
+                ##mle_dict[dataset][host][asv_names_host_subset_i]['dickey_fuller_stat'] = dickey_fuller_[0]
+                #mle_dict[dataset][host][asv_names_host_subset_i]['dickey_fuller_p_value'] = dickey_fuller_[1]
+
+                #print(log_rescaled_rel_abundance_trajectory)
+                #print(dickey_fuller_[1])
+
                 # max possible sojourn time
                 mle_dict[dataset][host][asv_names_host_subset_i]['max_possible_sojourn_time'] = max(days_host) - min(days_host)
 

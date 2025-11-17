@@ -103,8 +103,10 @@ for dataset_idx, dataset in enumerate(data_utils.dataset_all):
 
 
         y_ax_count += 1
-        y_tick_labels.append(host)
 
+
+        y_tick_label = '%s: %s' % (plot_utils.dataset_name_dict[dataset], plot_utils.host_name_dict[dataset][host])
+        y_tick_labels.append(y_tick_label)
 
 
 for measure in measure_all:
@@ -114,17 +116,17 @@ for measure in measure_all:
 
 ax.set_xlabel("Jensen–Shannon divergence\nb/w observed and time-permuted PDFs", fontsize=12)
 ax.set_yticks(list(range(len(y_tick_labels))))
-ax.set_yticklabels(y_tick_labels, fontsize=10)
+ax.set_yticklabels(y_tick_labels, fontsize=10, rotation=45)
 #ax.legend(handles=legend_elements, loc='center')
 
 
 ax.legend(
     handles=legend_elements,
-    loc='upper center',           # position relative to Axes
-    bbox_to_anchor=(0.5, 1.07),   # x, y offset from Axes
-    ncol=3,                       # number of legend columns
+    loc='upper center',           
+    bbox_to_anchor=(0.5, 1.07),   
+    ncol=3,                       
     fontsize=13,
-    frameon=False                 # optional: remove box
+    frameon=False                 
 )
 
 fig.subplots_adjust(hspace=0.25, wspace=0.25)

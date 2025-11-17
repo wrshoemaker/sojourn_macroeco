@@ -495,7 +495,7 @@ def get_dada2_data(dataset, environment):
             # get start date
             #start_collection_date = min(host_dict[s]['collection_date'] for s in host_dict.keys())
 
-            print(host)
+            #print(host)
 
             # get number of days
             for host_sample in host_dict.keys():
@@ -509,10 +509,10 @@ def get_dada2_data(dataset, environment):
                 if (dataset == 'poyet_et_al'):
                     if host == 'am':
                         #### removing excess sampling interval regions
-                        # [150, 455]
-                        if (days.days < 150) or (days.days > 455):
+                        # [104, 406]
+                        if (days.days < 104) or (days.days > 406): 
                             continue
-
+                
                 sample_to_metadata_dict[host_sample] = {}
                 sample_to_metadata_dict[host_sample]['days'] = days.days
                 sample_to_metadata_dict[host_sample]['host'] = host
@@ -1107,6 +1107,10 @@ def make_mle_dict(epsilon_fract=epsilon_fract_data, min_run_length_data=min_run_
 
             # function subsets ASVs that are actually present
             read_counts_host, days_host, asv_names_host = subset_s_by_s_by_host(read_counts, host_status, days, asv_names, host)
+
+            #if host == 'am':
+            #    print(days_host)
+
             rel_read_counts_host = (read_counts_host/read_counts_host.sum(axis=0))
             total_abundance = numpy.sum(read_counts_host, axis=0)
 

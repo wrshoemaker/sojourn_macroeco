@@ -207,7 +207,7 @@ if __name__ == "__main__":
 
     print("Running...")
 
-    #plot_cv_vs_mean_sojourn()
-    plot_mean_vs_mean_sojourn()
+    plot_cv_vs_mean_sojourn()
+    #plot_mean_vs_mean_sojourn()
 
 

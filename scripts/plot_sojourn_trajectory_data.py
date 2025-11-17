@@ -253,6 +253,6 @@ def plot_mean_sojourn_trajector_data():
 
 
 
-plot_sojourn_trajectory_data()
+#plot_sojourn_trajectory_data()
 
-#plot_mean_sojourn_trajector_data()
+plot_mean_sojourn_trajector_data()

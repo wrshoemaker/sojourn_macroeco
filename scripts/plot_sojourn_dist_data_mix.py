@@ -205,9 +205,10 @@ def make_ou_sojourn_time_dist(max_sojourn_time=max_sojourn_time, tau_0=1, tau_1=
                 #expected_log_recaled_x = stats_utils.expected_value_log_gamma(1, x_cv)
 
                 tau_new = tau_0 + tau_1*sigma
-                tau_new = 10
-                sojourn_time_pdf = theory_utils.predict_sojourn_dist_ou(max_sojourn_time, sigma, tau_new, y_0)
+                #sojourn_time_pdf = theory_utils.predict_sojourn_dist_ou(max_sojourn_time, sigma, tau_new, y_0)
 
+                t_all, sojourn_time_pdf = theory_utils.predict_sojourn_dist_ou_discretized(max_sojourn_time, sigma, tau_new, y_0)
+                
                 sojourn_time_pdf_all.append(sojourn_time_pdf)
                 n_obs_per_dist.append(len(days_run_lengths))
 
@@ -220,6 +221,8 @@ def make_ou_sojourn_time_dist(max_sojourn_time=max_sojourn_time, tau_0=1, tau_1=
     n_obs_per_dist = numpy.asarray(n_obs_per_dist)
     weights_per_dist = n_obs_per_dist/sum(n_obs_per_dist)
     mixture_dist = numpy.sum(sojourn_time_pdf_all * weights_per_dist[:, numpy.newaxis], axis=0)
+
+    #print(mixture_dist)
 
     if normalize == True:
         mixture_dist = mixture_dist/sum(mixture_dist)
@@ -304,7 +307,6 @@ def plot_sojourn_time_mix_dist(plot_gamma_null=False):
     fig, ax = plt.subplots(figsize=(5,4))
 
     sojourn_data_range, sojourn_data_pdf, sojourn_null_range, sojourn_null_pdf = make_null_gamma_sojourn_time_dist()
-    #sojourn_perm_range, sojourn_perm_pdf = make_null_perm_sojourn_time_dist()
 
     mle_null_dict_path = '%smle_null_dict.pickle' % config.data_directory
     mle_null_dict = pickle.load(open(mle_null_dict_path, "rb"))
@@ -314,26 +316,26 @@ def plot_sojourn_time_mix_dist(plot_gamma_null=False):
 
     # mean sigma = 0.6033768396901017
     # = 0.6033768396901017
-    tau_3 = 3
+    tau_3 = 0.5
     #tau_2 = 2
     #tau_1 = tau_0/mean_sigma
     
     #target_asv_color = '#eb5900'
     # 87CEEB
-    #ax.plot(sojourn_data_range, sojourn_data_pdf, c='#eb5900', lw=4, ls='-', label='Data')
-    ax.plot(sojourn_data_range, 1-numpy.cumsum(sojourn_data_pdf), c='#eb5900', lw=4, ls='-', label='Data')
+    ax.plot(sojourn_data_range, sojourn_data_pdf, c='#eb5900', lw=4, ls='-', label='Data')
+    #ax.plot(sojourn_data_range, 1-numpy.cumsum(sojourn_data_pdf), c='#eb5900', lw=4, ls='-', label='Data')
 
     #if plot_gamma_null == True:
     # analytic gamma null
-    #ax.plot(sojourn_null_range, sojourn_null_pdf, c='k', lw=4, ls=':', label=r'$\tau \ll \delta t $' + ' (gamma)')
-    ax.plot(sojourn_null_range, 1-numpy.cumsum(sojourn_null_pdf), c='k', lw=4, ls=':', label=r'$\tau \ll \delta t $' + ' (gamma)')
+    ax.plot(sojourn_null_range, sojourn_null_pdf, c='k', lw=4, ls=':', label=r'$\tau \ll \delta t $' + ' (gamma)')
+    #ax.plot(sojourn_null_range, 1-numpy.cumsum(sojourn_null_pdf), c='k', lw=4, ls=':', label=r'$\tau \ll \delta t $' + ' (gamma)')
     sojourn_prediction_label = r'$\tau \sim \mathcal{O}(\delta t)$'
     plot_gamma_null_label = '_w_gamma'
 
     # permutation-based null
-    #ax.plot(sojourn_perm_range, sojourn_perm_pdf, c='k', lw=4, ls='--', label="Time-permuted null")
-    ax.plot(sojourn_perm_range, 1-numpy.cumsum(sojourn_perm_pdf), c='k', lw=4, ls='--', label="Time-permuted null")
-    sojourn_prediction_label = r'$\tau \sim \mathcal{O}(\delta t)$'
+    ax.plot(sojourn_perm_range, sojourn_perm_pdf, c='k', lw=4, ls='--', label="Time-permuted null")
+    #ax.plot(sojourn_perm_range, 1-numpy.cumsum(sojourn_perm_pdf), c='k', lw=4, ls='--', label="Time-permuted null")
+    sojourn_prediction_label = r'$\tau \sim \mathcal{O}(\delta t)$' + ' (SLM)'
 
     
 
@@ -353,9 +355,9 @@ def plot_sojourn_time_mix_dist(plot_gamma_null=False):
     #sojourn_time_range_tau_2, mixture_dist_tau_2 = make_ou_sojourn_time_dist(tau_0=tau_3, tau_1=0, normalize=True)
     #ax.plot(sojourn_time_range_tau_2, mixture_dist_tau_2, c='k', lw=4, ls=':', label=r'$\tau = $' + str(tau_2))
 
-    sojourn_time_range_tau_2, mixture_dist_tau_2 = make_ou_sojourn_time_dist(tau_0=tau_3, tau_1=0, normalize=True)
-    #ax.plot(sojourn_time_range_tau_2, mixture_dist_tau_2, c='k', lw=4, ls='-', label=sojourn_prediction_label)
-    ax.plot(sojourn_time_range_tau_2, 1-numpy.cumsum(mixture_dist_tau_2), c='k', lw=4, ls='-', label=sojourn_prediction_label)
+    sojourn_time_range_tau_2, mixture_dist_tau_2 = make_ou_sojourn_time_dist(tau_0=4, tau_1=0, normalize=True)
+    ax.plot(sojourn_time_range_tau_2, mixture_dist_tau_2, c='k', lw=4, ls='-', label=sojourn_prediction_label)
+    #ax.plot(sojourn_time_range_tau_2, 1-numpy.cumsum(mixture_dist_tau_2), c='k', lw=4, ls='-', label=sojourn_prediction_label)
 
 
     #sojourn_time_range_tau_3, mixture_dist_tau_3 = make_ou_sojourn_time_dist(tau_0=tau_2, tau_1=0, normalize=True)
@@ -388,5 +390,7 @@ def plot_sojourn_time_mix_dist(plot_gamma_null=False):
 #plot_sojourn_time_mix_dist(plot_gamma_null=False)
 plot_sojourn_time_mix_dist(plot_gamma_null=True)
 #make_ou_sojourn_time_dist(max_sojourn_time=100, tau=1)
+
+
 
 

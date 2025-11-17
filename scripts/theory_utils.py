@@ -2,6 +2,7 @@
 
 import numpy
 from scipy.special import gamma
+from scipy.integrate import quad
 
 
 max_sojourn_time = 1000
@@ -42,6 +43,8 @@ def predict_sojourn_dist_ou_limit(t_max, sigma, tau, y_0):
 
 
 
+
+
 def predict_sojourn_dist_ou(t_max, sigma, tau, y_0, normalize=False):
 
     alpha = y_0*numpy.sqrt((2/sigma) - 1)
@@ -60,6 +63,58 @@ def predict_sojourn_dist_ou(t_max, sigma, tau, y_0, normalize=False):
         prob_t = prob_t/sum(prob_t)
 
     return prob_t
+
+
+def predict_sojourn_dist_ou_single_t(t, sigma, tau, y_0, normalize=False):
+
+    # domain [1, infinity)
+
+    alpha = y_0*numpy.sqrt((2/sigma) - 1)
+    tilde_tau = tau*((1 - sigma/2)**-1)
+
+    # rescale
+    rescaled_t = t/tilde_tau
+    prob_t = numpy.sqrt(2/numpy.pi)*alpha*numpy.exp(-1*rescaled_t) / ((1 - numpy.exp(-2*rescaled_t))**(3/2))
+    prob_t *= numpy.exp((-1*(alpha**2) * numpy.exp(-2*rescaled_t)) / (2 * (1 - numpy.exp(-2*rescaled_t))) )
+
+    # normalize to sum to one
+    #prob_t = prob_t/sum(prob_t)
+
+    #if normalize == True:
+    #    prob_t = prob_t/sum(prob_t)
+
+    return prob_t
+
+
+def predict_sojourn_dist_ou_discretized(t_max, sigma, tau, y_0):
+
+    # domain [1, infinity)
+
+    t_all = numpy.arange(1, t_max+1)
+
+    alpha = y_0*numpy.sqrt((2/sigma) - 1)
+    tilde_tau = tau*((1 - sigma/2)**-1)
+
+    def predict_sojourn_dist_ou_(t):
+        rescaled_t = t/tilde_tau
+        prob_t = numpy.sqrt(2/numpy.pi)*alpha*numpy.exp(-1*rescaled_t) / ((1 - numpy.exp(-2*rescaled_t))**(3/2))
+        prob_t *= numpy.exp((-1*(alpha**2) * numpy.exp(-2*rescaled_t)) / (2 * (1 - numpy.exp(-2*rescaled_t))) )
+        return prob_t
+
+
+    # rescale
+    #rescaled_t = t_all/tilde_tau
+
+    #prob_t = numpy.sqrt(2/numpy.pi)*alpha*numpy.exp(-1*rescaled_t) / ((1 - numpy.exp(-2*rescaled_t))**(3/2))
+    #prob_t *= numpy.exp((-1*(alpha**2) * numpy.exp(-2*rescaled_t)) / (2 * (1 - numpy.exp(-2*rescaled_t))) )
+
+    #print(predict_sojourn_dist_ou_single_t(1000, sigma, tau, y_0))
+
+    prob_t_discrete = numpy.array([quad(predict_sojourn_dist_ou_, t, t+1)[0] for t in t_all])
+    prob_t_discrete /= prob_t_discrete.sum() 
+
+    return t_all, prob_t_discrete
+
 
 
 

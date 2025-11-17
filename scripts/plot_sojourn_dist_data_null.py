@@ -111,8 +111,6 @@ def make_mle_null_dict(n_iter=1000):
             mle_null_dict[dataset][host]['prob_sojourn']['days_pdf'] = mixture_pdf.tolist()
             mle_null_dict[dataset][host]['prob_sojourn']['n_obs'] = total_count
 
-            print(total_count)
-
             #mle_null_dict[dataset][host]['prob_sojourn']['x_range_null'] = x_range_null.tolist()
             #mle_null_dict[dataset][host]['prob_sojourn']['days_null_survival'] = days_null_survival.tolist()
 
@@ -307,4 +305,4 @@ if __name__ == "__main__":
     print("Running...")
 
     make_mle_null_dict()
-    #plot_dist_w_null()
+    plot_dist_w_null()

@@ -114,7 +114,7 @@ for measure in measure_all:
 
 
 
-ax.set_xlabel("Jensen–Shannon divergence\nb/w observed and time-permuted PDFs", fontsize=12)
+ax.set_xlabel("Jensen–Shannon divergence\nb/w observed and time-permuted null PDFs", fontsize=12)
 ax.set_yticks(list(range(len(y_tick_labels))))
 ax.set_yticklabels(y_tick_labels, fontsize=10, rotation=45)
 #ax.legend(handles=legend_elements, loc='center')

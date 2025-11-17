@@ -216,7 +216,7 @@ def plot_res_ret_time(res_bool=True):
             x_range_pdf_null = numpy.asarray(res_ret_dict[dataset][host][res_bool]['x_range_pdf_null'])
             days_pdf_null = numpy.asarray(res_ret_dict[dataset][host][res_bool]['days_pdf_null'])
 
-            ax.plot(x_range_pdf, days_pdf, c=plot_utils.host_color_dict[dataset][host], lw=2, ls='-', alpha=1, label='Observed')
+            ax.plot(x_range_pdf, days_pdf, c=plot_utils.host_color_dict[dataset][host], lw=2, ls='-', alpha=1, label='Data')
             ax.plot(x_range_pdf_null, days_pdf_null, c='k', lw=2, ls='-', alpha=1, label='Time-permuted null')
 
 
@@ -343,7 +343,7 @@ def plot_res_ret_time_mixture():
         
 
 
-        ax.plot(x_mix, pdf_mix, c='#eb5900', lw=1, ls='-', label='Observed', zorder=2)
+        ax.plot(x_mix, pdf_mix, c='#eb5900', lw=1, ls='-', label='Data', zorder=2)
         ax.plot(x_null_mix, pdf_null_mix, c='k', lw=1, ls='-', label='Time-permuted null', zorder=1)
 
         ax.set_xlim([1, max(x_mix)])
@@ -378,7 +378,7 @@ if __name__ == "__main__":
 
     print("Running...")
 
-    make_res_ret_dict()
+    #make_res_ret_dict()
 
     plot_res_ret_time(res_bool=True)
     plot_res_ret_time(res_bool=False)

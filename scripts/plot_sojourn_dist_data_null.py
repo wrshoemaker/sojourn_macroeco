@@ -191,7 +191,7 @@ def plot_dist_w_null():
             #ax.set_title('%s, %s' % (dataset, host), fontsize=11)
             ax.set_title(plot_utils.label_dataset_host(dataset, host), fontsize=12)
             
-            ax.plot(x_range, days_survival, c=plot_utils.host_color_dict[dataset][host], lw=3, linestyle='-', zorder=2, label='Observed')
+            ax.plot(x_range, days_survival, c=plot_utils.host_color_dict[dataset][host], lw=3, linestyle='-', zorder=2, label='Data')
             ax.plot(x_range_null, days_null_survival, c='k', lw=3, linestyle='-', zorder=2, label='Time-permuted null')
 
             ax.set_xlim([1, max(x_range)+1])
@@ -304,5 +304,5 @@ if __name__ == "__main__":
 
     print("Running...")
 
-    make_mle_null_dict()
+    #make_mle_null_dict()
     plot_dist_w_null()

@@ -128,20 +128,58 @@ def old_test():
         
 
 
+def print_table():
 
-for dataset_idx, dataset in enumerate(data_utils.dataset_all):
+    for dataset_idx, dataset in enumerate(data_utils.dataset_all):
 
-    #sys.stderr.write("Analyzing dataset %s.....\n" % dataset)
-    host_all = list(mle_dict[dataset].keys())
-    host_all.sort()
+        #sys.stderr.write("Analyzing dataset %s.....\n" % dataset)
+        host_all = list(mle_dict[dataset].keys())
+        host_all.sort()
 
-    for host in host_all:
+        for host in host_all:
 
-        asv_all = list(mle_dict[dataset][host].keys())
-        days = numpy.asarray(mle_dict[dataset][host][asv_all[0]]['days'])
-        n_samples = len(days)
-        n_days = days[-1] - days[0]
-        mean_days_bw_samples = numpy.mean(days[1:] - days[:-1])
-        n_asvs = len(asv_all)
+            asv_all = list(mle_dict[dataset][host].keys())
+            days = numpy.asarray(mle_dict[dataset][host][asv_all[0]]['days'])
+            n_samples = len(days)
+            n_days = days[-1] - days[0]
+            mean_days_bw_samples = numpy.mean(days[1:] - days[:-1])
+            n_asvs = len(asv_all)
 
-        print(dataset, host, n_samples, n_days, mean_days_bw_samples, n_asvs)
+            print(dataset, host, n_samples, n_days, mean_days_bw_samples, n_asvs)
+
+
+
+def calculate_weighted_delta_t():
+
+    mean_days_bw_samples_all = []
+    n_samples_all = []
+    n_asv_all = []
+
+    for dataset_idx, dataset in enumerate(data_utils.dataset_all):
+
+        #sys.stderr.write("Analyzing dataset %s.....\n" % dataset)
+        host_all = list(mle_dict[dataset].keys())
+        host_all.sort()
+
+        for host in host_all:
+
+            asv_all = list(mle_dict[dataset][host].keys())
+            days = numpy.asarray(mle_dict[dataset][host][asv_all[0]]['days'])
+            n_samples = len(days)
+            n_days = days[-1] - days[0]
+            mean_days_bw_samples = numpy.mean(days[1:] - days[:-1])
+
+            mean_days_bw_samples_all.append(mean_days_bw_samples)
+            n_samples_all.append(n_samples)
+            n_asv_all.append(len(n_asv_all))
+
+
+
+    mean_days_bw_samples_all = numpy.asarray(mean_days_bw_samples_all)
+    n_samples_all = numpy.asarray(n_samples_all)
+    n_asv_all = numpy.asarray(n_asv_all)
+
+    print(sum(mean_days_bw_samples_all*n_samples_all*n_asv_all)/sum(n_samples_all*n_asv_all))
+
+
+calculate_weighted_delta_t()

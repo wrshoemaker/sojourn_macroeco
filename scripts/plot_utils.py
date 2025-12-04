@@ -2,7 +2,7 @@ import numpy
 from matplotlib import cm
 import matplotlib as mpl
 from matplotlib import colors
-
+from math import log10, floor
 
 
 # taxonomic hierarchy colors
@@ -342,3 +342,11 @@ def get_bin_mean_x_y(x, y, bins=20, min_n_bin=5):
     bins_y_no_nan = 10**bins_y_no_nan
 
     return bins_x_to_keep_no_nan, bins_y_no_nan
+
+
+
+def round_sig(x, sig=3):
+    if x == 0:
+        return 0
+    
+    return round(x, sig - 1 - floor(log10(abs(x))))

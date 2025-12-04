@@ -385,11 +385,13 @@ def plot_sojourn_time_mix_dist(plot_gamma_null=False):
 
 
 
-#make_null_gamma_sojourn_time_dist()
-#identify_ml_tau()
-#plot_sojourn_time_mix_dist(plot_gamma_null=False)
-plot_sojourn_time_mix_dist(plot_gamma_null=True)
-#make_ou_sojourn_time_dist(max_sojourn_time=100, tau=1)
+if __name__ == "__main__":
+
+    #make_null_gamma_sojourn_time_dist()
+    #identify_ml_tau()
+    #plot_sojourn_time_mix_dist(plot_gamma_null=False)
+    plot_sojourn_time_mix_dist(plot_gamma_null=True)
+    #make_ou_sojourn_time_dist(max_sojourn_time=100, tau=1)
 
 
 

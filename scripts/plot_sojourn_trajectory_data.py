@@ -213,7 +213,7 @@ def plot_mean_sojourn_trajector_data():
 
     #print(numpy.mean(predicted_sojourn))
 
-    cmap = cm.ScalarMappable(norm = colors.Normalize(1, max(run_length_final)+1), cmap = plt.get_cmap('Blues'))
+    cmap = cm.ScalarMappable(norm = colors.Normalize(1, max(run_length_final)+1), cmap = plt.get_cmap('Oranges'))
     fig, ax = plt.subplots(figsize=(5,4))
 
     run_sojourn_merged_final_flat = []

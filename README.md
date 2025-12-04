@@ -1,5 +1,5 @@
 [![DOI:10.1101/2023.03.02.530804](http://img.shields.io/badge/DOI-10.1101/2023.03.02.530804-B31B1B.svg)](https://www.biorxiv.org/content/10.1101/2023.03.02.530804v1)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15754231.svg)](https://doi.org/10.5281/zenodo.15754231)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17809697.svg)](https://doi.org/10.5281/zenodo.17809697)
 
 
 # sojourn_macroeco

@@ -982,7 +982,7 @@ def calculate_deviation_pattern_data(x_trajectory, x_0, days_array, min_run_leng
     # at least min_run_length observations
     run_values, run_starts, run_lengths = find_runs(x_deviation>0, min_run_length=min_run_length)
     # get days
-    run_values_new, run_starts_new, run_lengths_new, days_run_lengths = run_lengths_to_days(run_values, run_starts, run_lengths, days_array)
+    run_values_new, run_starts_new, run_lengths_new, days_run_lengths, days_run_starts = run_lengths_to_days(run_values, run_starts, run_lengths, days_array)
     run_dict = {}
 
     for run_j_idx in range(len(run_values_new)):
@@ -1051,6 +1051,7 @@ def get_hist_and_bins(flat_array, n_bins=20, min_n_points=3):
 
 def run_lengths_to_days(run_values, run_starts, run_lengths, days_array):
 
+    days_run_starts = []
     days_run_lengths = []
     # skip first and last since we do not know when sojourns end
     for run_j_idx in range(1, len(run_values)-1):
@@ -1067,14 +1068,16 @@ def run_lengths_to_days(run_values, run_starts, run_lengths, days_array):
         #if len(days_run_j) == 1:
         #    continue
 
+        days_run_starts.append(days_array[run_start_j])
         days_run_lengths.append(int(days_run_j[-1] - days_run_j[0]))
 
     run_values_new = run_values[1:-1]
     run_starts_new = run_starts[1:-1]
     run_lengths_new = run_lengths[1:-1]
+    days_run_starts = days_run_starts[1:-1]
 
 
-    return run_values_new, run_starts_new, run_lengths_new, days_run_lengths
+    return run_values_new, run_starts_new, run_lengths_new, days_run_lengths, days_run_starts
 
 
 
@@ -1140,13 +1143,15 @@ def make_mle_dict(epsilon_fract=epsilon_fract_data, min_run_length_data=min_run_
                 expected_value_log_gamma = stats_utils.expected_value_log_gamma(1, cv_asv)
                 run_values, run_starts, run_lengths = find_runs((log_rescaled_rel_abundance_trajectory - expected_value_log_gamma)>0, min_run_length=1)
 
-                run_values_new, run_starts_new, run_lengths_new, days_run_lengths = run_lengths_to_days(run_values, run_starts, run_lengths, days_host)  
+                run_values_new, run_starts_new, run_lengths_new, days_run_lengths, days_run_starts = run_lengths_to_days(run_values, run_starts, run_lengths, days_host)  
 
                 if len(days_run_lengths) == 0:
                     continue
 
                 mle_dict[dataset][host][asv_names_host_subset_i] = {}
                 mle_dict[dataset][host][asv_names_host_subset_i]['rel_abundance'] = rel_abundance_trajectory.tolist()
+                mle_dict[dataset][host][asv_names_host_subset_i]['abundance'] = abundance_trajectory.tolist()
+                mle_dict[dataset][host][asv_names_host_subset_i]['total_abundance'] = total_abundance.tolist()
                 mle_dict[dataset][host][asv_names_host_subset_i]['days'] = days_host.tolist()
                 mle_dict[dataset][host][asv_names_host_subset_i]['x_mean'] = x_mean
                 mle_dict[dataset][host][asv_names_host_subset_i]['x_std'] = x_std
@@ -1154,6 +1159,7 @@ def make_mle_dict(epsilon_fract=epsilon_fract_data, min_run_length_data=min_run_
                 mle_dict[dataset][host][asv_names_host_subset_i]['run_lengths'] = run_lengths_new.tolist()
                 mle_dict[dataset][host][asv_names_host_subset_i]['days_run_lengths'] = days_run_lengths
                 mle_dict[dataset][host][asv_names_host_subset_i]['days_run_values'] = run_values_new.tolist()
+                mle_dict[dataset][host][asv_names_host_subset_i]['days_run_starts'] = days_run_starts
                 run_dict = calculate_deviation_pattern_data(log_rescaled_rel_abundance_trajectory, expected_value_log_gamma, days_host, min_run_length=min_run_length_data, epsilon=epsilon_fract_data, return_array=False)
                 
 
@@ -1242,6 +1248,11 @@ def calculate_metadata_stats():
 
             #print(n_days, n_days_per_sample, n_asvs, n_reads_per_sample)
 
+
+
+
+def chunk_list(flat_list, chunk_size):
+    return [flat_list[i:i + chunk_size] for i in range(0, len(flat_list), chunk_size)]
 
 
 

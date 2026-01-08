@@ -1256,10 +1256,39 @@ def chunk_list(flat_list, chunk_size):
 
 
 
+def save_target_as_dict():
+
+    target_dataset = 'caporaso_et_al'
+
+    read_counts_all_sort_filter, host_all_sort_filter, days_all_sort_filter, asv_all_sort = get_dada2_data(target_dataset, 'gut')
+    total_reads = numpy.sum(read_counts_all_sort_filter, axis=0)
+    dict_ = {}
+    dict_['total_reads'] = total_reads.tolist()
+    dict_['host'] = host_all_sort_filter.tolist()
+    dict_['days'] = days_all_sort_filter.tolist()
+    dict_['asv'] = {}
+
+    caporaso_et_al_path = '%scaporaso_et_al_dict.pickle' %config.data_directory
+
+
+    for asv_idx, asv in enumerate(asv_all_sort):
+
+        afd = read_counts_all_sort_filter[asv_idx,:]
+        dict_['asv'][asv] = afd.tolist()
+
+    sys.stderr.write("Saving dictionary...\n")
+    with open(caporaso_et_al_path, 'wb') as outfile:
+        pickle.dump(dict_, outfile, protocol=pickle.HIGHEST_PROTOCOL)
+    sys.stderr.write("Done!\n")
+
+
+
 if __name__ == "__main__":
 
     print("Running...")
 
-    make_mle_dict()
+    save_target_as_dict()
+
+    #make_mle_dict()
 
     #calculate_metadata_stats()

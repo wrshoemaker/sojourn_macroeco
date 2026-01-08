@@ -185,7 +185,8 @@ def plot_example_fig1():
     fig, ax = plt.subplots(figsize=(7.5,3))
 
 
-    ax.text(0.05, 0.7, "Sojourn trajectory area, " +  r'$\mathcal{A}(\mathcal{T}\, ) \equiv \int_{0}^{1} \left [ y(s \cdot \mathcal{T} \, ) - \bar{y} \right ] \, ds$', fontsize=15, transform=ax.transAxes)
+    #ax.text(0.05, 0.7, "Sojourn trajectory area, " +  r'$\mathcal{A}(\mathcal{T}\, ) \equiv \int_{0}^{1} \left [ y(s \cdot \mathcal{T} \, ) - \bar{y} \right ] \, ds$', fontsize=15, transform=ax.transAxes)
+    ax.text(0.05, 0.7, "Sojourn trajectory height, " +  r'$\mathcal{H}(\mathcal{T}\, ) \equiv \int_{0}^{1} \left [ y(s \cdot \mathcal{T} \, ) - \bar{y} \right ] \, ds$', fontsize=15, transform=ax.transAxes)
     ax.text(0.05, 0.5, "Sojourn time, " +  r'$\mathcal{T}$', fontsize=15, transform=ax.transAxes)
     ax.text(0.01, 0.3, "Typical deviation within sojourn trajectory, " +  r'$\left < y(t) - \bar{y} \right >_{\mathcal{T}}$', fontsize=15, transform=ax.transAxes)
 

@@ -9,11 +9,9 @@ Repository for code associated with the preprint: "The macroecological dynamics 
 
 
 
-
-
 ### Setting up your environment
 
-You should be able to create a conda environment using a `environment.yml` file.
+You should be able to create a conda environment using the `environment.yml` file.
 
 ```bash
 conda env create -f environment.yml
@@ -23,14 +21,12 @@ conda env create -f environment.yml
 Alternatively, the code is written in Python 3.8 and requires the following packages: scipy, numpy, matplotlib, and statsmodels.
 
 
-
-
 ### Processing the data
 
 ```bash
-R ~/GitHub/macroeco_phylo/scripts/dada2/dada2_caporaso_gut.T.py
-R ~/GitHub/macroeco_phylo/scripts/dada2/dada2_david_gut.T.py
-R ~/GitHub/macroeco_phylo/scripts/dada2/dada2_poyet_gut.T.py
+R ~/GitHub/macroeco_phylo/scripts/dada2/dada2_caporaso_gut.R
+R ~/GitHub/macroeco_phylo/scripts/dada2/dada2_david_gut.R
+R ~/GitHub/macroeco_phylo/scripts/dada2/dada2_poyet_gut.R
 ```
 
 

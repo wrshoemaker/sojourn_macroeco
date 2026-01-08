@@ -380,7 +380,7 @@ if __name__ == "__main__":
 
     #make_res_ret_dict()
 
-    plot_res_ret_time(res_bool=True)
-    plot_res_ret_time(res_bool=False)
+    #plot_res_ret_time(res_bool=True)
+    #plot_res_ret_time(res_bool=False)
 
-    plot_res_ret_time_mixture()
+    #plot_res_ret_time_mixture()

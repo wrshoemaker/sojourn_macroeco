@@ -55,26 +55,26 @@ for dataset_idx, dataset in enumerate(data_utils.dataset_all):
         delay_days_all_all = []
         autocorr_all_all = []
 
+        n_asvs = 0
         for key, value in mle_dict[dataset][host].items():
             
             x_mean = value['x_mean']
             rel_abundance = numpy.asarray(value['rel_abundance'])
             ln_rescaled_rel_abundance = numpy.log(rel_abundance/x_mean)
             days = numpy.asarray(value['days'])
-
-
-
             delay_days_all, autocorr_all = stats_utils.autocorrelation_by_days(ln_rescaled_rel_abundance, days, min_n_autocorr_values=5)
 
             delay_days_all = numpy.asarray(delay_days_all)
             autocorr_all = numpy.asarray(autocorr_all)
 
-            autocorr_pos_idx = (autocorr_all > 0 ) & (delay_days_all < 7)
+            autocorr_pos_idx = (autocorr_all > 0 ) #& (delay_days_all < 7)
 
             delay_days_all = delay_days_all[autocorr_pos_idx]
             autocorr_all = autocorr_all[autocorr_pos_idx]
 
-            autocorr_all = numpy.log(autocorr_all)
+            #print(max(delay_days_all))
+
+            #autocorr_all = numpy.log(autocorr_all)
 
             if len(autocorr_all) < 4:
                 continue
@@ -84,28 +84,34 @@ for dataset_idx, dataset in enumerate(data_utils.dataset_all):
             delay_days_all_all.extend(delay_days_all.tolist())
             autocorr_all_all.extend(autocorr_all.tolist())
 
+            n_asvs += 1
             #or
 
+
+        #print(n_asvs)
 
         # remove frame if nothing was plotted 
         if len(delay_days_all_all) == 0:
             ax.set_axis_off()
             continue
 
+
+        #print(len(numpy.asarray(value['days'])))
+
         delay_days_all_all = numpy.asarray(delay_days_all_all)
         autocorr_all_all = numpy.asarray(autocorr_all_all)
-
+ 
         # plot example
-        if len(delay_days_all_all) != 0:
-            continue
-            days_delay_range_ou = numpy.arange(0, max(delay_days_all_all)+1)
-            #autocorr_ou = numpy.exp(-days_delay_range_ou/1)
-            ax.plot(days_delay_range_ou, numpy.exp(-days_delay_range_ou/2), lw=2, ls='-', c='k', alpha=1, label='OU, ' + r'$\tau = 2$')
-            ax.plot(days_delay_range_ou, numpy.exp(-days_delay_range_ou/1), lw=2, ls='--', c='k', alpha=1, label='OU, ' + r'$\tau = 1$')
-            ax.plot(days_delay_range_ou, numpy.exp(-days_delay_range_ou/0.5), lw=2, ls='dashdot', c='k', alpha=1, label='OU, ' + r'$\tau = 0.5$')
+        #if len(delay_days_all_all) != 0:
+        #    continue
+        #    days_delay_range_ou = numpy.arange(0, max(delay_days_all_all)+1)
+        #    #autocorr_ou = numpy.exp(-days_delay_range_ou/1)
+        #    ax.plot(days_delay_range_ou, numpy.exp(-days_delay_range_ou/2), lw=2, ls='-', c='k', alpha=1, label='OU, ' + r'$\tau = 2$')
+        #    ax.plot(days_delay_range_ou, numpy.exp(-days_delay_range_ou/1), lw=2, ls='--', c='k', alpha=1, label='OU, ' + r'$\tau = 1$')
+        #    ax.plot(days_delay_range_ou, numpy.exp(-days_delay_range_ou/0.5), lw=2, ls='dashdot', c='k', alpha=1, label='OU, ' + r'$\tau = 0.5$')
 
-            ax.set_ylim([min(autocorr_all_all), 1])
-            ax.set_xlim([0, max(delay_days_all_all)])
+        #    ax.set_ylim([min(autocorr_all_all), 1])
+        #    ax.set_xlim([0, max(delay_days_all_all)])
             #ax.legend(loc='lower left')
 
 
@@ -118,15 +124,17 @@ for dataset_idx, dataset in enumerate(data_utils.dataset_all):
         
         
 
-        #ax.set_xlim([0,6])
-        #ax.set_ylim([-1,1])
+        ax.set_xlim([0,27])
+        ax.set_ylim([0.0004,1])
+        ax.set_yscale('log', base=10)
 
-        ax.axhline(y=0 , ls=':', lw=2, c='k', zorder=2, label=r'$\rho=0$')
+        #ax.axhline(y=0 , ls=':', lw=2, c='k', zorder=2, label=r'$\rho=0$')
 
-        if host_idx + dataset_idx == 0:
-            ax.legend(loc='lower left')
+        #if host_idx + dataset_idx == 0:
+        #    ax.legend(loc='lower left')
 
 
+        #print(len(delay_days_all_all))
         if (host_idx == 0) and (len(delay_days_all_all)!=0):
             ax.set_ylabel("Autocorrelation, " + r'$\rho(\delta t)$', fontsize=10) 
             

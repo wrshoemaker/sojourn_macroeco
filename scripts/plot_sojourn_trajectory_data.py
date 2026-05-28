@@ -219,7 +219,7 @@ def plot_mean_sojourn_trajector_data():
     run_sojourn_merged_final_flat = []
     for r_idx, r in enumerate(run_length_final):
         run_sojourn_merged_final_flat.extend(run_sojourn_merged_final[r_idx])
-        ax.plot(numpy.linspace(0, 1, num=len(run_sojourn_merged_final[r_idx]), endpoint=True), run_sojourn_merged_final[r_idx], lw=1, alpha=1, c=cmap.to_rgba(r), ls='-')
+        ax.plot(numpy.linspace(0, 1, num=len(run_sojourn_merged_final[r_idx]), endpoint=True), run_sojourn_merged_final[r_idx], lw=2, alpha=1, c=cmap.to_rgba(r), ls='-')
 
     ax.set_xlim([0,1])
     ax.set_ylim([0,max(run_sojourn_merged_final_flat)*1.1])

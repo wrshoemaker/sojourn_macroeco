@@ -29,7 +29,7 @@ mle_null_dict = pickle.load(open(mle_null_dict_path, "rb"))
 res_ret_dict = pickle.load(open(res_ret_dict_path, "rb"))
 
 
-colors_dict = {'sojourn':'#87CEEB', 'residence': '#FFA500', 'return':'#FF6347'}
+colors_dict = {'sojourn':'#EB5900', 'residence': '#5AAA46', 'return':'#317EC2'}
 
 
 legend_elements = [Line2D([0], [0], marker='o', color='w', markerfacecolor=colors_dict['residence'], label=r'$t_{\mathrm{res}}$', markersize=15),
@@ -96,7 +96,7 @@ for dataset_idx, dataset in enumerate(data_utils.dataset_all):
             pdf_shared = pdf[mask]
             range_null_shared = pdf_null[mask_null]
             js_div = stats_utils.js_div(pdf_shared, range_null_shared)
-            ax.scatter(js_div, y_ax_count,  color=colors_dict[measure], alpha=1, s=70, zorder=2)
+            ax.scatter(js_div, y_ax_count,  color=colors_dict[measure], alpha=1, s=100, zorder=2)
 
             x_y_all_dict[measure]['x'].append(js_div)
             x_y_all_dict[measure]['y'].append(y_ax_count)
@@ -106,11 +106,11 @@ for dataset_idx, dataset in enumerate(data_utils.dataset_all):
 
 
         y_tick_label = '%s: %s' % (plot_utils.dataset_name_dict[dataset], plot_utils.host_name_dict[dataset][host])
-        y_tick_labels.append(y_tick_label)
+        y_tick_labels.append('')
 
 
-for measure in measure_all:
-    ax.plot(x_y_all_dict[measure]['x'], x_y_all_dict[measure]['y'],  color=colors_dict[measure], lw=2, zorder=1)
+#for measure in measure_all:
+#    ax.plot(x_y_all_dict[measure]['x'], x_y_all_dict[measure]['y'],  color=colors_dict[measure], lw=2, zorder=1)
 
 
 

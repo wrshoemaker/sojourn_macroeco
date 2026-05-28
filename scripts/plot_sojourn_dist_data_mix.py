@@ -327,13 +327,13 @@ def plot_sojourn_time_mix_dist(plot_gamma_null=False):
 
     #if plot_gamma_null == True:
     # analytic gamma null
-    ax.plot(sojourn_null_range, sojourn_null_pdf, c='k', lw=4, ls=':', label=r'$\tau \ll \delta t $' + ' (gamma)')
+    #ax.plot(sojourn_null_range, sojourn_null_pdf, c='k', lw=4, ls=':', label=r'$\tau \ll \delta t $' + ' (gamma)')
     #ax.plot(sojourn_null_range, 1-numpy.cumsum(sojourn_null_pdf), c='k', lw=4, ls=':', label=r'$\tau \ll \delta t $' + ' (gamma)')
     sojourn_prediction_label = r'$\tau \sim \mathcal{O}(\delta t)$'
     plot_gamma_null_label = '_w_gamma'
 
     # permutation-based null
-    ax.plot(sojourn_perm_range, sojourn_perm_pdf, c='k', lw=4, ls='--', label="Time-permuted null")
+    #ax.plot(sojourn_perm_range, sojourn_perm_pdf, c='k', lw=4, ls='--', label="Time-permuted null")
     #ax.plot(sojourn_perm_range, 1-numpy.cumsum(sojourn_perm_pdf), c='k', lw=4, ls='--', label="Time-permuted null")
     sojourn_prediction_label = r'$\tau \sim \mathcal{O}(\delta t)$' + ' (SLM)'
 
@@ -356,7 +356,7 @@ def plot_sojourn_time_mix_dist(plot_gamma_null=False):
     #ax.plot(sojourn_time_range_tau_2, mixture_dist_tau_2, c='k', lw=4, ls=':', label=r'$\tau = $' + str(tau_2))
 
     sojourn_time_range_tau_2, mixture_dist_tau_2 = make_ou_sojourn_time_dist(tau_0=4, tau_1=0, normalize=True)
-    ax.plot(sojourn_time_range_tau_2, mixture_dist_tau_2, c='k', lw=4, ls='-', label=sojourn_prediction_label)
+    #ax.plot(sojourn_time_range_tau_2, mixture_dist_tau_2, c='k', lw=4, ls='-', label=sojourn_prediction_label)
     #ax.plot(sojourn_time_range_tau_2, 1-numpy.cumsum(mixture_dist_tau_2), c='k', lw=4, ls='-', label=sojourn_prediction_label)
 
 
@@ -390,7 +390,7 @@ if __name__ == "__main__":
     #make_null_gamma_sojourn_time_dist()
     #identify_ml_tau()
     #plot_sojourn_time_mix_dist(plot_gamma_null=False)
-    plot_sojourn_time_mix_dist(plot_gamma_null=True)
+    plot_sojourn_time_mix_dist(plot_gamma_null=False)
     #make_ou_sojourn_time_dist(max_sojourn_time=100, tau=1)
 
 
